@@ -1,0 +1,366 @@
+package UserInterface;
+
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import entities.Account;
+import entities.Bank;
+import entities.CreditCard;
+import entities.FixedDeposit;
+import entities.Loan;
+import entities.RecurringDeposit;
+import entities.UserLogin;
+import services.BankMain;
+import services.UserLoginServices;
+import services.utils;
+
+public class UtilsUI {
+    static Scanner sc = new Scanner(System.in);
+    static int ref = 0;
+    static Console c = System.console();
+
+    // this function is used to validate user details
+    public static Boolean validateLogin(long mobileNo, String password) {
+        UserLoginServices uls = new UserLoginServices();
+        UserLogin acc = uls.validateMoblieNo(mobileNo);
+        if (acc != null) {
+            Boolean bool = uls.validatePassword(acc, password);
+            if (bool) {
+                if (acc.getCIFno() == 0) {
+                    acc.setCIFno(AccountCreationUI.createCIF(mobileNo));
+                    AccountCreationUI.createAccountUI(acc.getCIFno(), mobileNo);
+                    System.out.println("Account created successfully");
+                }
+                return true;
+            } else {
+                System.out.println("\nInvalid Password");
+                return false;
+            }
+        }
+        System.out.println("\nInvalid Mobile Number");
+        return false;
+    }
+
+    // this function is used to validate Payee account number
+    public static Account getPayeeAccNumber() {
+        long accountNumber = getAccNumber();
+        return utils.searchAccount(accountNumber);
+    }
+
+    // this function is used to get number
+    public static long getNo(String name, int numberLength) {
+        long number;
+        do {
+            do {
+                try {
+                    System.out.print("Enter the " + name + " number : ");
+                    number = Long.parseLong(sc.next());
+                } catch (NumberFormatException e) {
+                    System.out.println("Entered " + name + " number is not a valid integer number..");
+                    number = 0;
+                }
+            } while (number == 0);
+            if (Math.floor(Math.log10(number) + 1) == numberLength)
+                ref = 1;
+            else
+                System.out.println("Enter the valid " + numberLength + " digit " + name + " number:");
+        } while (ref == 0);
+        ref = 0;
+        return number;
+    }
+
+    // this function is used to get account number from user
+    public static long getAccNumber() {
+        long accountNumber = getNo("Account", 10);
+        return accountNumber;
+    }
+
+    // this function is used to get adhar number from user
+    public static long getAadharno() {
+        long aadharno = getNo("Aadhar ", 12);
+        return aadharno;
+    }
+
+    // this function is used to get mobileno from user
+    public static long getMobileNo() {
+        long mobileno = getNo("Mobile", 10);
+        return mobileno;
+    }
+
+    // this function is used to get cheque number from user
+    public static long getChequeNo() {
+        long chequeNo = getNo("Cheque", 10);
+        return chequeNo;
+    }
+
+    // this function is used to get pincode
+    public static int getPincode() {
+        int Pincode = (int) getNo("Pincode", 6);
+        return Pincode;
+    }
+
+    // this function is used to get amount from user
+    public static double getAmount() {
+        double amount;
+        do {
+            try {
+                System.out.print("\nEnter Amount : ");
+                amount = Double.parseDouble(sc.next());
+                if (amount <= 0) {
+                    System.out.println("Please enter greater than zero...");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entered Amount is not a valid integer number..\nplease enter Amount: ");
+                amount = 0;
+            }
+        } while (amount <= 0);
+        return amount;
+    }
+
+    static Bank ba = Bank.getInstance();
+    static UserLoginServices uls = new UserLoginServices();
+
+    // this function is used for forgotten password
+    public static void forgotPassword() {
+        long mobileNo = getMobileNo();
+        UserLogin acc = uls.validateMoblieNo(mobileNo);
+        if (acc != null) {
+            String pass = acc.getPassword(mobileNo);
+            if (pass != null)
+                System.out.println("Password : " + pass);
+        } else {
+            System.out.println("Invalid mobile number");
+        }
+    }
+
+    // this function is used to display loan account numbers
+    public static Loan displayLoanAccountNumber(long mobileNo) {
+        ArrayList<Loan> arrList = utils.getLoanAccNumbers(mobileNo);
+        if (arrList == null) {
+            System.out.println("No Loan accounts Exist with this Number : " + mobileNo);
+            return null;
+        }
+        int i, x;
+        do {
+            i = 0;
+            System.out.println("\n Choose Loan Account Number ");
+            for (Loan arr : arrList) {
+                i++;
+                System.out.println(i + " " + arr.getLoanAccNo()+"    "+arr.getLoanType());
+            }
+            System.out.print("Enter choice : ");
+            x = sc.nextInt();
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+        } while (x < 1 || x > i);
+        return arrList.get(--x);
+
+    }
+
+    // this function is used to display account numbers
+    public static Account displayAccountNumber(long mobileNo) {
+        ArrayList<Account> arrList = utils.getAccNumbers(mobileNo);
+        if (arrList == null)
+            return null;
+        int i, x;
+        do {
+            i = 0;
+            System.out.println("\n Choose Account Number \n");
+            for (Account obj : arrList) {
+                i++;
+                System.out
+                        .println(i + " " + obj.getAccNo() + "  " + obj.getAccountType() + "  " + obj.getBalanceType());
+            }
+            System.out.print("Enter choice : ");
+            x = sc.nextInt();
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+        } while (x < 1 || x > i);
+        return arrList.get(--x);
+
+    }
+
+    // this function is used forgotten mobile no
+    public static void forgotMobileNo() {
+        long aadharNo = getAadharno();
+        BankMain bm = new BankMain();
+        long mobileNo = bm.validateAdharNumber(aadharNo);
+        if (mobileNo != 0) {
+            System.out.println("\nMobile Number : " + mobileNo);
+        } else {
+            System.out.println("\nInvalid Aadhar Number");
+        }
+    }
+
+    // this function is used to display FD account numbers
+    public static CreditCard displayCredtCardNo(long mobileNo) {
+        ArrayList<CreditCard> arrList = utils.getCreditCardS(mobileNo);
+        if (arrList == null) {
+            System.out.println("\nNo Credit cards Exist with this Number : " + mobileNo);
+            return null;
+        }
+        int i, x;
+        do {
+            i = 0;
+            System.out.println("\n Choose Credit Card ");
+            for (CreditCard arr : arrList) {
+                i++;
+                System.out.println(i + " " + arr.getCardNo());
+            }
+            System.out.print("Enter choice : ");
+            x = sc.nextInt();
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+        } while (x < 1 || x > i);
+        return arrList.get(--x);
+    }
+
+    // this function is used to display FD account numbers
+    public static FixedDeposit displayFDAccNumbers(long mobileNo) {
+        ArrayList<FixedDeposit> arrList = utils.getFDAccNumbers(mobileNo);
+        if (arrList == null) {
+            System.out.println("\nNo FD accounts Exist with this Number : " + mobileNo);
+            return null;
+        }
+        int i, x;
+        do {
+            i = 0;
+            System.out.println("\n Choose FD Account Number ");
+            for (FixedDeposit arr : arrList) {
+                i++;
+                System.out.println(i + " " + arr.getFDAccNo());
+            }
+            System.out.print("Enter choice : ");
+            x = sc.nextInt();
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+        } while (x < 1 || x > i);
+        return arrList.get(--x);
+    }
+
+    // this function is used to display RD account numbers
+    public static RecurringDeposit displayRDAccNumbers(long mobileNo) {
+        ArrayList<RecurringDeposit> arrList = utils.getRDAccNumbers(mobileNo);
+        if (arrList == null) {
+            System.out.println("\nNo RD accounts Exist with this Account Number : " + mobileNo);
+            return null;
+        }
+        int i, x;
+        do {
+            i = 0;
+            System.out.println("\n Choose RD Account Number ");
+            for (RecurringDeposit arr : arrList) {
+                i++;
+                System.out.println(i + " " + arr.getRDID()+"    RD Amount : "+arr.getRDAmount());
+            }
+            System.out.print("Enter choice : ");
+            x = sc.nextInt();
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+        } while (x < 1 || x > i);
+        return arrList.get(--x);
+    }
+
+    public static void displayAccountsSummary(long mobileNo) {
+        ArrayList<Loan> loanList = null;
+        ArrayList<FixedDeposit> FDList = null;
+        ArrayList<RecurringDeposit> RDList = null;
+        ArrayList<Account> accList = utils.getAccNumbers(mobileNo);
+        loanList = utils.getUserAllLoanAcc(mobileNo);
+        FDList = utils.getUserAllFDAcc(mobileNo);
+        RDList = utils.getUserAllRDAcc(mobileNo);
+        System.out.println("\033[H\033[2J");
+        System.out.println(
+                "\n   --    Accounts Summary   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "AccountNumber", "CIF no",
+                "AccountType",
+                "BalanceType", "AccountOpenDate", "AccountBalance");
+        System.out.println(
+                "-------------------------------------------------------------------------------------------------------------------------------------------");
+
+        for (Account acc : accList) {
+            if (acc != null) {
+                System.out.println(acc.toString("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n"));
+            }
+        }
+        System.out.println(
+                "-------------------------------------------------------------------------------------------------------------------------------------------");
+        if (loanList != null) {
+            System.out.println(
+                    "\n  --   Loan Accounts  --\n-------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "LoanAccountNumber", "LoanAmount",
+                    "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoanAppliedDate");
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+            for (Loan loan : loanList) {
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", loan.getLoanAccNo(),
+                        loan.getLoanAmount(),
+                        loan.getInterestRate(), loan.getnoofMonths(), loan.getMonthsRemain(),
+                        loan.getLoanDate());
+            }
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+
+        }
+        if (FDList != null) {
+            System.out.println(
+                    "\n   --    FD Accounts    --\n-------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", "FDAccountNumber", "FD Amount",
+                    "FD Interest Rate",
+                    "FD Depositdate", "FD duration(mons)");
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+            for (FixedDeposit fd : FDList) {
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", fd.getFDAccNo(),
+                        fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
+                        fd.getFDMonths());
+            }
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+
+        }
+        if (RDList != null) {
+            System.out.println(
+                    "\n  --   RD Accounts  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "RDAccountNumber",
+                    "RDAmount", "RDInterestRate", "RDDurationMonths", "RDMonthsRemain",
+                    "RDAppliedDate");
+            System.out.println(
+                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            for (RecurringDeposit rd : RDList) {
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", rd.getRDID(),
+                        rd.getRDAmount(),
+                        rd.getRDInterestRate(), rd.getRDTenure(), rd.getRDRemainingMonths(),
+                        rd.getRDOpenDate());
+            }
+            System.out.println(
+                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        }
+        CreditCardServicesUI.CCNotification(mobileNo);
+        System.out.print("Press any key : ");
+        sc.next();
+    }
+
+    public static int getCardPin(String name, int length) {
+        int number;
+        do {
+            do {
+                try {
+                    System.out.print("Enter Your " + name + " : ");
+                    number = Integer.parseInt(sc.next());
+                } catch (NumberFormatException e) {
+                    System.out.println("Entered " + name + " number is not a valid integer number..");
+                    number = 0;
+                }
+            } while (number == 0);
+            if (Math.floor(Math.log10(number) + 1) == length)
+                ref = 1;
+            else
+                System.out.println("Enter the valid " + length + " digit " + name + " number:");
+        } while (ref == 0);
+        ref = 0;
+        return number;
+    }
+}
