@@ -137,15 +137,17 @@ public class ATMTransactionsUI {
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Transactions tlist : alist) {
             if (tlist.getTransactionDate().compareTo(date) >= 0) {
-                if(tlist.getAccountNumber()/1000000000!=8)
-                System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
-                        tlist.getTransactionID(),
-                        tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
-                        tlist.getFee(), tlist.getBalance());
+                if (tlist.getAccountNumber() / 1000000000 != 8)
+                    System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
+                            tlist.getTransactionID(),
+                            tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
+                            tlist.getFee(), tlist.getBalance());
             }
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.print("Press any key : ");
+        sc.next();
     }
 
     // this function is used to withdraw amount

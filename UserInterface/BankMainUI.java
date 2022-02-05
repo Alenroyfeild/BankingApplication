@@ -36,7 +36,7 @@ public class BankMainUI {
 
         int choice = 0;
         do {
-            //System.out.println("\033[H\033[2J");
+            System.out.println("\033[H\033[2J");
             System.out.println("\n\n\n---------------------------------------------------------------------");
             System.out.println("        --- Welcome to Zoho Bank ---");
             System.out.println("\nChoose the Options : ");
@@ -59,7 +59,8 @@ public class BankMainUI {
     public static int adminHomePage() {
         int choice = 0;
         do {
-            System.out.println("\n\n\n--------------------------------------------------------------------------------------------\n");
+            System.out.println(
+                    "\n\n\n--------------------------------------------------------------------------------------------\n");
             System.out.println("        --- Welcome to Zoho Bank ---\n   ~ Admin Page ~\n");
             System.out.println("Choose the Options : ");
             System.out.println(" 1.CIF services");
@@ -85,7 +86,8 @@ public class BankMainUI {
     public static int adminHomesubPage() {
         int choice = 0;
         do {
-            System.out.println("\n--------------------------------------------------------------------------------------------");
+            System.out.println(
+                    "\n--------------------------------------------------------------------------------------------");
             System.out.println("Choose the Options : ");
             System.out.println("1.Custom Account");
             System.out.println("2.All Accounts");
@@ -118,7 +120,8 @@ public class BankMainUI {
     public static int userEntrancePage() {
         int choice = 0;
         do {
-            System.out.println("\n\n\n--------------------------------------------------------------------------------------------");
+            System.out.println(
+                    "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Entrance Page ---");
             System.out.println("Choose the Options : ");
             System.out.println(" 1.User Signin");
@@ -141,7 +144,8 @@ public class BankMainUI {
         int choice = 0;
         do {
             System.out.println("\033[H\033[2J");
-            System.out.println("\n\n\n--------------------------------------------------------------------------------------------");
+            System.out.println(
+                    "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Bank Menu Page ---");
             System.out.println("\nChoose the Options : ");
             System.out.println(" 1.Accounts(Savings\\Current)");
@@ -260,7 +264,8 @@ public class BankMainUI {
             System.out.println("\nChoose the Options : ");
             System.out.println(" 1.Accounts Summary");
             System.out.println(" 2.Passbook");
-            System.out.println(" 3.Quit");
+            System.out.println(" 3.Account statements");
+            System.out.println(" 4.Quit");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -268,7 +273,7 @@ public class BankMainUI {
                 System.out.println("You have entered wrong choice.\nPlease again Enter : ");
                 choice = 0;
             }
-        } while (choice < 1 || choice > 3);
+        } while (choice < 1 || choice > 4);
         return choice;
     }
 
@@ -279,7 +284,7 @@ public class BankMainUI {
         ba.cifList.add(new CIF(1603202101l, "Balaji", 9701660809l, 622988081663l, 626126, 21));
         ba.userLogins.add(new UserLogin(9701660808l, "l"));
         ba.userLogins.get(1).setCIFno(1603202102l);
-        ba.cifList.add(new CIF(1603202102l, "Balaji", 9701660808l, 622988081664l, 626126, 21));
+        ba.cifList.add(new CIF(1603202102l, "Royal", 9701660808l, 622988081664l, 626126, 21));
         ba.accountsList
                 .add(new SavingsAccount(9701660809l, 2603202101l, 1603202101l, "SavingsAccount",
                         "MinimumBalanceAccount", 300000));
@@ -371,7 +376,7 @@ public class BankMainUI {
                                     do {
                                         if (acc == null) {
                                             long cifno = utils.getCIF(mobileNo);
-                                            acc=AccountCreationUI.createAccountUI(cifno, mobileNo);
+                                            acc = AccountCreationUI.createAccountUI(cifno, mobileNo);
                                         }
                                         button3 = userBankMenuPage(acc);
                                         if (button3 == 1) {
@@ -379,11 +384,13 @@ public class BankMainUI {
                                         } else if (button3 == 2) {
                                             System.out.println("\033[H\033[2J");
                                             displayPassbookUI(mobileNo, acc);
-                                        } else {
+                                        } else if(button3==3){
+                                            ATMTransactionsUI.doMiniStatementsUI(acc);
+                                        }else {
                                             System.out.println("Back to Entrance Page");
                                             x = 1;
                                         }
-                                    } while (button3 < 1 || button3 > 3 || button3 != 3);
+                                    } while (button3 < 1 || button3 > 4 || button3 != 4);
                                 } else if (button5 == 2) {
                                     LoanServicesUI.LoanUI(mobileNo);
                                 } else if (button5 == 3) {
