@@ -58,8 +58,8 @@ public class BankMain {
     }
 
     // this function is used to return particular details of user
-    public String getDetails(Account acc) {
-        CIF cif = (CIF) utils.search(ba.cifList, value -> ((CIF) value).getCIFno() == acc.getCIFNumber());
+    public String getUsername(long mobileNo) {
+        CIF cif = (CIF) utils.search(ba.cifList, value -> ((CIF) value).getMobileNo() == mobileNo);
         if (cif != null) {
             return cif.getUsername();
         }

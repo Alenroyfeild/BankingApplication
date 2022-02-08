@@ -124,7 +124,7 @@ public class BankMainUI {
                     "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Entrance Page ---");
             System.out.println("Choose the Options : ");
-            System.out.println(" 1.User Signin");
+            System.out.println(" 1.User Signup");
             System.out.println(" 2.User Login ");
             System.out.println(" 3.forgotten Password");
             System.out.println(" 4.forgotten Mobile Number");
@@ -140,13 +140,14 @@ public class BankMainUI {
         return choice;
     }
 
-    public static int userAccEntrancePage() {
+    public static int userAccEntrancePage(long mobileNo) {
         int choice = 0;
         do {
             System.out.println("\033[H\033[2J");
             System.out.println(
                     "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Bank Menu Page ---");
+            System.out.println("\n  Hi :) "+bm.getUsername(mobileNo));
             System.out.println("\nChoose the Options : ");
             System.out.println(" 1.Accounts(Savings\\Current)");
             System.out.println(" 2.Loans");
@@ -240,20 +241,18 @@ public class BankMainUI {
             }
             System.out.println(
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
-
         }
         x = 0;
     }
 
     // this function is used to display Bank menu list
     public static int userBankMenuPage(Account acc) {
-        String details = bm.getDetails(acc);
+        String details = bm.getUsername(acc.getMobileNo());
         String ac = acc.getAccNo() + "";
         int choice = 0;
         do {
             System.out.println(
                     "\n\n-------------------------------------------------------------------------------------------------------------------------------------------");
-
             System.out.println("                --- Welcome to Zoho Bank ---\n");
             System.out.println("     -- My Accounts Page  --");
             System.out.println("Hi " + details + " :)\n");
@@ -368,7 +367,7 @@ public class BankMainUI {
                             UtilsUI.displayAccountsSummary(mobileNo);
                             int button5;
                             do {
-                                button5 = userAccEntrancePage();
+                                button5 = userAccEntrancePage(mobileNo);
                                 if (button5 == 1) {
                                     int button3 = 0;
                                     Account acc = displayAccounts(mobileNo);

@@ -49,12 +49,12 @@ public class CreditCardServicesUI {
         System.out.println("\033[H\033[2J");
         CCNotification(mobileNo);
         Account acc = null;
+        CreditCard cc = null;
         int x = 0;
         do {
             choice = creditCardPage();
             if (choice == 1)
                 acc = UtilsUI.displayAccountNumber(mobileNo);
-            CreditCard cc = null;
             if (choice != 1 && choice != 7 && x == 0) {
                 cc = UtilsUI.displayCredtCardNo(mobileNo);
                 if (cc.getCardStatus().equals("Block")) {
@@ -74,14 +74,18 @@ public class CreditCardServicesUI {
             } else if (choice == 5) {
                 updatePin(cc);
             } else if (choice == 6) {
-                updateCardStatus(cc);
+                updateCardStatus(cc,mobileNo);
+                //break;
             } else {
                 System.out.println("\nBack to Home Page");
             }
         } while (choice < 1 || choice > 7 || choice != 7);
     }
 
-    private static void updateCardStatus(CreditCard cc) {
+    private static void updateCardStatus(CreditCard cc,long mobileNo) {
+        if (cc == null) {
+            return;
+        }
         if (cc.getCardStatus().equals("active")) {
             System.out.print("Enter 1 to Block Card : ");
             int x = sc.nextInt();
@@ -124,6 +128,8 @@ public class CreditCardServicesUI {
     }
 
     private static void updatePin(CreditCard cc) {
+        if (cc == null)
+            return;
         int cvvCode = UtilsUI.getCardPin("CVV code ", 3);
         int newCardPin = UtilsUI.getCardPin("New Card Pin", 4);
         Boolean status = ccs.updateCVV(cc, cvvCode, newCardPin);
@@ -190,7 +196,7 @@ public class CreditCardServicesUI {
         System.out.println(" CC Expiry Date   : " + cc.getCardExpiryDate());
         System.out.println(" CC CVV code      : " + cc.getCvvCode());
         System.out.println(" CC Balance Limit : " + cc.getBalanceLimit());
-        System.out.println(" CC statue        : " + cc.getCardStatus());
+        System.out.println(" CC status        : " + cc.getCardStatus());
     }
 
     public static void ccWithdraw(Account acc) {
