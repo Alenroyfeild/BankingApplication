@@ -202,13 +202,13 @@ public class RDServicesUI {
     private static void createRDAccount(long mobileNo, Account acc) {
         System.out.println("\nProvide details for RD Account :");
         System.out.println("\n---------------------------------------------------------------------\n");
-        CIF cif = getNomineeAadharNo(acc);
+        CIF cif = UtilsUI.getNomineeAadharNo();
         if (cif == null) {
             System.out.println("Create Account for Nominee ");
             return;
         }
         System.out.println(" Nominee Name : " + cif.getUsername());
-        System.out.print("Enter 1 to continue : ");
+        System.out.print("Enter 1 to continue or any number to exit : ");
         int x = sc.nextInt();
         if (x != 1)
             return;
@@ -232,20 +232,7 @@ public class RDServicesUI {
         System.out.println(" RD Acc Opendate    : " + rd.getRDOpenDate());
     }
 
-    // this function is used to get aadhar number
-    private static CIF getNomineeAadharNo(Account acc) {
-        CIF acc1 = null;
-        long aadharNo = 0;
-        do {
-            aadharNo = UtilsUI.getAadharno();
-            acc1 = utils.validateAadhar(aadharNo);
-            if (acc1 == null) {
-                System.out.println("No account exist with this Aadhar No : " + aadharNo);
-                break;
-            }
-        } while (aadharNo == 0);
-        return acc1;
-    }
+    
 
     // this function is used get amount
     public static double getAmount(Account acc) {

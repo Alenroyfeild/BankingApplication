@@ -15,7 +15,7 @@ public class FDServices {
     Bank ba = Bank.getInstance();
 
     // this function is used to create FD Account
-    public FixedDeposit createFD(long mobileNo, long accountNumber, double FDAmount, int FDMonths) {
+    public FixedDeposit createFD(long nomineeAadhar,long mobileNo, long accountNumber, double FDAmount, int FDMonths) {
         long FDAccNo = utils.generateFDAccNo();
         Account acc = utils.searchAccount(accountNumber);
         double balance = acc.getAccountBalance();
@@ -37,7 +37,7 @@ public class FDServices {
                     acc.getAccountBalance()));
             ba.transactions.put(accountNumber, trans);
         }
-        FixedDeposit acc1 = new FixedDeposit(mobileNo,accountNumber, FDAccNo, LocalDate.now(), interestRate, FDAmount, FDMonths,
+        FixedDeposit acc1 = new FixedDeposit(nomineeAadhar,mobileNo, FDAccNo, LocalDate.now(), interestRate, FDAmount, FDMonths,
                 true);
         if (ba.FDList.containsKey(mobileNo)) {
             ba.FDList.get(mobileNo).add(acc1);

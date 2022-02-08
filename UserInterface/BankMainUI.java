@@ -10,6 +10,7 @@ import entities.Bank;
 import entities.CIF;
 import entities.CreditCard;
 import entities.CurrentAccount;
+import entities.FixedDeposit;
 import entities.Loan;
 import entities.RecurringDeposit;
 import entities.SavingsAccount;
@@ -143,7 +144,7 @@ public class BankMainUI {
     public static int userAccEntrancePage(long mobileNo) {
         int choice = 0;
         do {
-            System.out.println("\033[H\033[2J");
+            //System.out.println("\033[H\033[2J");
             System.out.println(
                     "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Bank Menu Page ---");
@@ -294,10 +295,15 @@ public class BankMainUI {
                 .add(new SavingsAccount(9701660808l, 2603202103l, 1603202102l, "SavingsAccount",
                         "MinimumBalanceAccount", 300000));
         ArrayList<Loan> arr = new ArrayList<>();
-        arr.add(new Loan(9701660809l, 2603202101l, 5603202101l, "PersonalLoan", LocalDate.of(2021, 01, 01), 100000, 8.5,
-                14, 14,
+        arr.add(new Loan(9701660809l, 2603202101l, 5603202101l, "PersonalLoan", LocalDate.of(2022, 01, 01), 100000, 8.5,
+                5, 5,
                 true));
         ba.loanList.put(9701660809l, arr);
+        FixedDeposit acc1 = new FixedDeposit(622988081664l,9701660809l,6603202101l , LocalDate.now(), 5.5, 100000, 12,
+                true);
+                ArrayList<FixedDeposit> arr1 = new ArrayList<>();
+                arr1.add(acc1);
+                ba.FDList.put(9701660809l, arr1);
         ArrayList<RecurringDeposit> ar = new ArrayList<>();
         ar.add(new RecurringDeposit(9701660809l, 2603202101l, 7603202101l, 1000, 0.055, 622988081664l,
                 LocalDate.of(2021, 01, 01),
@@ -315,7 +321,7 @@ public class BankMainUI {
         Console c = System.console();
         int button = 0;
         do {
-            button = loginPage();
+            button = 2;//loginPage();
             if (button == 1) {
                 int button4 = 0;
                 if (BankAdminServiceUI.login()) {
@@ -356,15 +362,15 @@ public class BankMainUI {
             } else if (button == 2) {
                 int button2;
                 do {
-                    button2 = userEntrancePage();
+                    button2 =2;//= userEntrancePage();
                     if (button2 == 1) {
                         AccountCreationUI.userSingin();
                     } else if (button2 == 2) {
-                        long mobileNo = UtilsUI.getMobileNo();
-                        char[] pass = c.readPassword("Enter your password : ");
-                        String password = new String(pass);
+                        long mobileNo = 9701660809l;//UtilsUI.getMobileNo();
+                        //char[] pass = c.readPassword("Enter your password : ");
+                        String password = new String("l");
                         if (UtilsUI.validateLogin(mobileNo, password)) {
-                            UtilsUI.displayAccountsSummary(mobileNo);
+                            //UtilsUI.displayAccountsSummary(mobileNo);
                             int button5;
                             do {
                                 button5 = userAccEntrancePage(mobileNo);

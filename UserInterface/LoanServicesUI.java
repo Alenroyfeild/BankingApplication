@@ -23,13 +23,14 @@ public class LoanServicesUI {
 
         int choice = 0;
         do {
-            System.out.println("\n\n\n--------------------------------------------------------------------------------------------");
+            System.out.println(
+                    "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("\n        ---  Loan Services Page  ---");
             System.out.println("\nChoose the Options : ");
             System.out.println(" 1.Apply loan ");
-            System.out.println(" 2.Pay loan Amount");
-            System.out.println(" 3.Loan Accounts Summary");
-            System.out.println(" 4.Loan Account Passbook");
+            System.out.println(" 2.Contribute loan EMI Amount");
+            System.out.println(" 3.Loans Summary");
+            System.out.println(" 4.Loan Passbook");
             System.out.println(" 5.Loan Statements");
             System.out.println(" 6.Quit");
             try {
@@ -49,27 +50,25 @@ public class LoanServicesUI {
         int choice;
         System.out.println("\033[H\033[2J");
         loanNotifications(mobileNo);
-        Loan loan=null;
-        int x=0;
+        Loan loan = null;
         do {
             choice = loanPage();
-            if(choice!=1&&x==0)
-            loan = UtilsUI.displayLoanAccountNumber(mobileNo);
-            x=1;
             Account acc = null;
             if (choice == 1) {
                 acc = UtilsUI.displayAccountNumber(mobileNo);
                 createLoanAccount(acc, mobileNo);
-                x=0;
             } else if (choice == 2) {
-                payLoanAmount(loan);
+                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
+                payLoanAmount(loan, mobileNo);
             } else if (choice == 4) {
+                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 System.out.println("\033[H\033[2J");
                 displayLoanDetails(loan);
             } else if (choice == 3) {
                 System.out.println("\033[H\033[2J");
                 displayLoanDetailsUI(mobileNo);
             } else if (choice == 5) {
+                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 System.out.println("\033[H\033[2J");
                 displayLoanStatments(loan);
             } else {
@@ -106,13 +105,14 @@ public class LoanServicesUI {
         System.out.println("\n  Account No : 2*****" + accNo.substring(6));
         System.out.println(
                 "\n  --   Loan Details  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s%7$-20s\n", "LoanAccountNumber", "LoanAccountType",
-                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoanAppliedDate");
+        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber", "LoanAccountType",
+                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate","LoanEMIAmount");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s%7$-20s\n", loan.getLoanAccNo(),
+                double EMI=ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(),loan.getLoanAmount());
+                System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
                 loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                loan.getMonthsRemain(), loan.getLoanDate());
+                loan.getMonthsRemain(),utils.getLoanDueDate(loan),Math.round(EMI));
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
@@ -120,7 +120,7 @@ public class LoanServicesUI {
                 "\n   --   Loan Statement   --\n--------------------------------------------------------------------------------------------------------");
         System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s\n", "Transaction ID",
                 "Transaction Mode",
-                "TransactionType", "Date", "Balance");
+                "TransactionDescription", "Date", "Balance");
         System.out.println(
                 "--------------------------------------------------------------------------------------------------------");
         if (arrList != null)
@@ -148,14 +148,15 @@ public class LoanServicesUI {
             return;
         System.out.println(
                 "\n  --  All Loan Details  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s%7$-20s\n", "LoanAccountNumber", "LoanAccountType",
-                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoanAppliedDate");
+        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber", "LoanAccountType",
+                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate","LoanEMIAmount");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Loan loan : arr) {
-            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s%7$-20s\n", loan.getLoanAccNo(),
+            double EMI=ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(),loan.getLoanAmount());
+            System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
                     loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                    loan.getMonthsRemain(), loan.getLoanDate());
+                    loan.getMonthsRemain(), utils.getLoanDueDate(loan),Math.round(EMI));
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -181,15 +182,13 @@ public class LoanServicesUI {
     }
 
     // this function is used to pay loan amount
-    private static void payLoanAmount(Loan loan) {
+    private static void payLoanAmount(Loan loan, long mobileNo) {
         int choice;
         do {
             choice = payLoanAmountPage();
-            Account acc = utils.getRefAccount(loan.getAccNo());
             if (loan != null) {
-                double balance = acc.getAccountBalance();
                 if (choice == 1) {
-                    double amount = ls.getEMIAmount(acc, loan);
+                    double amount = ls.getEMIAmount(loan);
                     if (amount == -1 || amount == -2) {
                         System.out.println("\nYou have already cleared loan Amount");
                         return;
@@ -198,30 +197,35 @@ public class LoanServicesUI {
                         System.out.println("\nInvalid Loan AccountNumber");
                         return;
                     }
-                    if (amount <= balance) {
-                        System.out.println("\nEMI amount to pay : " + amount);
-                        System.out.print("Enter 1 to continue : ");
-                        int x = sc.nextInt();
-                        if (x == 1) {
+                    System.out.println("\nEMI amount to pay : " + amount);
+                    System.out.print("Enter 1 to continue or any number to exit : ");
+                    int x = sc.nextInt();
+                    if (x == 1) {
+                        Account acc = UtilsUI.displayAccountNumber(mobileNo);
+                        double balance = acc.getAccountBalance();
+                        if (amount <= balance) {
                             int monsRemain = ls.payEMI(acc, loan, amount);
                             if (monsRemain >= 0) {
                                 System.out.println("\nTransaction Successful");
                                 System.out.println("Remaining EMIs : " + monsRemain);
+                                System.out.println("Next due date  : " + utils.getLoanDueDate(loan));
                             } else if (monsRemain == -1) {
                                 System.out.println("\nYou have already paid this month EMI");
                             } else if (monsRemain == -2) {
                                 System.out.println("\nToday only you have created Loan Account");
                             }
                         } else {
-                            System.out.println("\nBack to LoanServices Page");
-                            choice = 3;
+                            System.out
+                                    .println("\nInsufficient Balance\nAvailable Balance : " + acc.getAccountBalance());
                         }
                     } else {
-                        System.out.println("\nInsufficient Balance\nAvailable Balance : " + acc.getAccountBalance());
+                        System.out.println("\nBack to LoanServices Page");
+                        choice = 3;
                     }
+
                 } else if (choice == 2) {
                     double arr[] = new double[2];
-                    arr = ls.getTotalLoanAmount(acc, loan);
+                    arr = ls.getTotalLoanAmount(mobileNo, loan);
                     double amount = arr[0];
                     double interestAmount = arr[1];
                     if (amount == -1 || amount == -2) {
@@ -233,20 +237,23 @@ public class LoanServicesUI {
                         return;
                     }
                     System.out.println("\nTotal amount to pay : " + amount);
-                    if (amount <= balance) {
-                        System.out.print("Enter 1 to continue : ");
-                        int x = sc.nextInt();
-                        if (x == 1) {
+                    System.out.print("Enter 1 to continue : ");
+                    int x = sc.nextInt();
+                    if (x == 1) {
+                        Account acc = UtilsUI.displayAccountNumber(mobileNo);
+                        double balance = acc.getAccountBalance();
+                        if (amount <= balance) {
                             ls.payTotalLoanAmount(acc, loan, amount);
                             System.out.println("\nTransaction Succesfull");
                             System.out.println("You save upto : " + interestAmount);
                         } else {
-                            System.out.println("\nBack to Home Page");
-                            choice = 3;
+                            System.out.println("\nBack to Home page");
                         }
                     } else {
-                        System.out.println("\nBack to Home page");
+                        System.out.println("\nBack to Home Page");
+                        choice = 3;
                     }
+
                 } else {
                     System.out.println("\nInsufficient Balance");
                 }
@@ -273,9 +280,8 @@ public class LoanServicesUI {
     // this function is used to display loan passbook details
     public static void displayLoanPassbookDetailsUI(Loan acc) {
         if (acc != null) {
-            System.out.println("\n ---  Loan Account Details  ---");
+            System.out.println("\n ---  Loan Account Passbook  ---");
             System.out.println("Loan Account Number        : " + acc.getLoanAccNo());
-            System.out.println("Loan Linked Account Number : " + acc.getAccNo());
             System.out.println("Loan Account Type          : " + acc.getLoanType());
             System.out.println("Loan Amount                : " + acc.getLoanAmount());
             System.out.println("Loan InterestRate          : " + acc.getInterestRate());

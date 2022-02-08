@@ -194,7 +194,7 @@ public class LoanServices {
     }
 
     // this function is used to return EMI amount
-    public double getEMIAmount(Account acc, Loan loan) {
+    public double getEMIAmount(Loan loan) {
         if (loan.getAccountStatus()) {
             if (loan.getMonthsRemain() >= 1) {
                 double EMI = calculateEMI(loan.getnoofMonths(), loan.getInterestRate(),
@@ -210,7 +210,7 @@ public class LoanServices {
     }
 
     // this function is used to calculate EMI amount
-    private double calculateEMI(int noofMonths, double interestRate, double loanAmount) {
+    public double calculateEMI(int noofMonths, double interestRate, double loanAmount) {
         double amt, intamt = (noofMonths * loanAmount * interestRate) / (1200);
         amt = (loanAmount + intamt) / noofMonths;
         return amt;
@@ -228,9 +228,9 @@ public class LoanServices {
     }
 
     // this function is used to return total loan amount
-    public double[] getTotalLoanAmount(Account acc, Loan loan) {
+    public double[] getTotalLoanAmount(long mobileNo, Loan loan) {
         double arr[] = new double[2];
-        if (ba.loanList.containsKey(acc.getMobileNo())) {
+        if (ba.loanList.containsKey(mobileNo)) {
             if (loan.getAccountStatus()) {
                 if (loan.getMonthsRemain() >= 1) {
                     arr = getLoanBalance(loan.getMonthsRemain(), loan.getnoofMonths(), loan.getInterestRate(),

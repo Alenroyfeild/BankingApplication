@@ -11,7 +11,7 @@ public class utils {
     static int loanGenarateCode = 2;
     static int accGenarateCode = 4;
     static int ccGenarateCode = 2;
-    static int FDGenarateCode = 1;
+    static int FDGenarateCode = 2;
     static int RDGenarateCode = 2;
     static int transactionID = 1;
     static Bank ba = Bank.getInstance();
@@ -159,8 +159,10 @@ public class utils {
         if (ba.FDList.containsKey(mobileNo)) {
             ArrayList<FixedDeposit> arrList = new ArrayList<>();
             for (FixedDeposit acc : ba.FDList.get(mobileNo)) {
-                arrList.add(acc);
+                if (acc.getStatus())
+                    arrList.add(acc);
             }
+            if(arrList.size()>0)
             return arrList;
         }
         return null;
@@ -217,12 +219,6 @@ public class utils {
         return cif;
     }
 
-    // public static Account getAccount(long mobileNo) {
-    // Account acc = (Account) search(ba.accountsList, value -> ((Account)
-    // value).getMobileNo() == mobileNo);
-    // return acc;
-    // }
-
     // this function is used to return all RD account numbers
     public static ArrayList<RecurringDeposit> getRDAccNumbers(long mobileNo) {
         if (ba.RDList.containsKey(mobileNo)) {
@@ -253,6 +249,12 @@ public class utils {
             return FDList;
         else
             return null;
+    }
+
+    // this function is used to return user name
+    public static String getname(long aadharNo) {
+        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber() == aadharNo);
+        return cif.getUsername();
     }
 
     public static ArrayList<RecurringDeposit> getUserAllRDAcc(long mobileNo) {
@@ -317,7 +319,7 @@ public class utils {
 
     public static LocalDate getLoanDueDate(Loan loan) {
         LocalDate date;
-        date = loan.getLoanDate().plusMonths(loan.getnoofMonths() - loan.getMonthsRemain());
+        date = loan.getLoanDate().plusMonths(loan.getnoofMonths() - loan.getMonthsRemain() + 1);
         return date;
     }
 
@@ -329,13 +331,9 @@ public class utils {
     }
 
     public static LocalDate getFDMatureDate(FixedDeposit fd) {
-        LocalDate date, date1;
+        LocalDate date;
         date = fd.getFDDepositDate().plusMonths(fd.getFDMonths());
-        date1 = fd.getFDDepositDate().plusMonths(fd.getFDMonths() - 1);
-        if (date1.compareTo(date) >= 0)
-            return date;
-        else
-            return null;
+        return date;
     }
 
     public static CIF getCIFAccount(long mobileNo) {

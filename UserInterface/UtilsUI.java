@@ -6,12 +6,14 @@ import java.util.Scanner;
 
 import entities.Account;
 import entities.Bank;
+import entities.CIF;
 import entities.CreditCard;
 import entities.FixedDeposit;
 import entities.Loan;
 import entities.RecurringDeposit;
 import entities.UserLogin;
 import services.BankMain;
+import services.LoanServices;
 import services.UserLoginServices;
 import services.utils;
 
@@ -138,16 +140,25 @@ public class UtilsUI {
     public static Loan displayLoanAccountNumber(long mobileNo) {
         ArrayList<Loan> arrList = utils.getLoanAccNumbers(mobileNo);
         if (arrList == null) {
-            System.out.println("No Loan accounts Exist with this Number : " + mobileNo);
+            System.out.println("No Loan accounts Exist");
             return null;
         }
+        for (int i = 0; i < arrList.size(); i++) {
+            if (!arrList.get(i).getAccountStatus()) {
+                arrList.remove(i);
+            }
+        }
+        if (arrList.size() == 1)
+            return arrList.get(0);
         int i, x;
         do {
             i = 0;
             System.out.println("\n Choose Loan Account Number ");
             for (Loan arr : arrList) {
-                i++;
-                System.out.println(i + " " + arr.getLoanAccNo()+"    "+arr.getLoanType());
+                if (arr.getAccountStatus()) {
+                    i++;
+                    System.out.println(i + " " + arr.getLoanAccNo() + "    " + arr.getLoanType());
+                }
             }
             System.out.print("Enter choice : ");
             x = sc.nextInt();
@@ -163,6 +174,8 @@ public class UtilsUI {
         ArrayList<Account> arrList = utils.getAccNumbers(mobileNo);
         if (arrList == null)
             return null;
+        if (arrList.size() == 1)
+            return arrList.get(0);
         int i, x;
         do {
             i = 0;
@@ -170,7 +183,8 @@ public class UtilsUI {
             for (Account obj : arrList) {
                 i++;
                 System.out
-                        .println(i + " " + obj.getAccNo() + "  " + obj.getAccountType() + "  " + obj.getBalanceType());
+                        .println(i + " " + obj.getAccNo() + "  " + obj.getAccountType() + "  "
+                                + obj.getAccountBalance());
             }
             System.out.print("Enter choice : ");
             x = sc.nextInt();
@@ -197,9 +211,11 @@ public class UtilsUI {
     public static CreditCard displayCredtCardNo(long mobileNo) {
         ArrayList<CreditCard> arrList = utils.getCreditCardS(mobileNo);
         if (arrList == null) {
-            System.out.println("\nNo Credit cards Exist with this Number : " + mobileNo);
+            System.out.println("\nNo Credit cards Exist");
             return null;
         }
+        if (arrList.size() == 1)
+            return arrList.get(0);
         int i, x;
         do {
             i = 0;
@@ -220,16 +236,18 @@ public class UtilsUI {
     public static FixedDeposit displayFDAccNumbers(long mobileNo) {
         ArrayList<FixedDeposit> arrList = utils.getFDAccNumbers(mobileNo);
         if (arrList == null) {
-            System.out.println("\nNo FD accounts Exist with this Number : " + mobileNo);
+            System.out.println("\nNo FD accounts Exist");
             return null;
         }
+        if (arrList.size() == 1)
+            return arrList.get(0);
         int i, x;
         do {
             i = 0;
             System.out.println("\n Choose FD Account Number ");
             for (FixedDeposit arr : arrList) {
                 i++;
-                System.out.println(i + " " + arr.getFDAccNo());
+                System.out.println(i + " " + arr.getFDAccNo()+"  "+arr.getFDAmount()+"  "+arr.getFDDepositDate());
             }
             System.out.print("Enter choice : ");
             x = sc.nextInt();
@@ -243,16 +261,18 @@ public class UtilsUI {
     public static RecurringDeposit displayRDAccNumbers(long mobileNo) {
         ArrayList<RecurringDeposit> arrList = utils.getRDAccNumbers(mobileNo);
         if (arrList == null) {
-            System.out.println("\nNo RD accounts Exist with this Account Number : " + mobileNo);
+            System.out.println("\nNo RD accounts Exist");
             return null;
         }
+        if (arrList.size() == 1)
+            return arrList.get(0);
         int i, x;
         do {
             i = 0;
             System.out.println("\n Choose RD Account Number ");
             for (RecurringDeposit arr : arrList) {
                 i++;
-                System.out.println(i + " " + arr.getRDID()+"    RD Amount : "+arr.getRDAmount());
+                System.out.println(i + " " + arr.getRDID() + "    RD Amount : " + arr.getRDAmount());
             }
             System.out.print("Enter choice : ");
             x = sc.nextInt();
@@ -261,6 +281,23 @@ public class UtilsUI {
         } while (x < 1 || x > i);
         return arrList.get(--x);
     }
+
+    // this function is used to get aadhar number
+    public static CIF getNomineeAadharNo() {
+        CIF acc1 = null;
+        long aadharNo = 0;
+        do {
+            System.out.println("Enter Nominee Details : ");
+            aadharNo =getAadharno();
+            acc1 = utils.validateAadhar(aadharNo);
+            if (acc1 == null) {
+                System.out.println("No account exist with this Aadhar No : " + aadharNo);
+                break;
+            }
+        } while (aadharNo == 0);
+        return acc1;
+    }
+    static LoanServices ls = new LoanServices();
 
     public static void displayAccountsSummary(long mobileNo) {
         ArrayList<Loan> loanList = null;
@@ -288,20 +325,21 @@ public class UtilsUI {
                 "-------------------------------------------------------------------------------------------------------------------------------------------");
         if (loanList != null) {
             System.out.println(
-                    "\n  --   Loan Accounts  --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "LoanAccountNumber", "LoanAmount",
-                    "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoanAppliedDate");
+                    "\n  --  All Loan Details  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber",
+                    "LoanAccountType",
+                    "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate",
+                    "LoanEMIAmount");
             System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (Loan loan : loanList) {
-                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", loan.getLoanAccNo(),
-                        loan.getLoanAmount(),
-                        loan.getInterestRate(), loan.getnoofMonths(), loan.getMonthsRemain(),
-                        loan.getLoanDate());
+                double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
+                System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
+                        loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
+                        loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI));
             }
             System.out.println(
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
-
         }
         if (FDList != null) {
             System.out.println(

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import entities.Account;
+import entities.CIF;
 import entities.FixedDeposit;
 import services.FDServices;
 import services.utils;
@@ -19,11 +20,11 @@ public class FDServicesUI {
         do {
             System.out.println(
                     "\n\n-------------------------------------------------------------------------------------------------------------------------------------------");
-                    System.out.println("\n        --- Fixed Deposit Services page ---");
-                    System.out.println("\nChoose the Options : ");
-            System.out.println(" 1.Apply FD Account");
+            System.out.println("\n        --- Fixed Deposit Services page ---");
+            System.out.println("\nChoose the Options : ");
+            System.out.println(" 1.Create FD");
             System.out.println(" 2.WithDraw FD Account");
-            System.out.println(" 3.FD Account Summary");
+            System.out.println(" 3.FD's Summary");
             System.out.println(" 4.FD Interest Details");
             System.out.println(" 5.Exit");
             try {
@@ -47,12 +48,12 @@ public class FDServicesUI {
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("  --  Notifications  -- \n");
             for (FixedDeposit fd : FDList) {
-                Account acc = utils.getRefAccount(fd.getAccountNumber());
                 LocalDate date = utils.getFDMatureDate(fd);
-                if (date != null && date.compareTo(LocalDate.now()) >= 0)
-                    fds.autoCreditFDAmount(acc, fd);
-                else if (date != null)
-                    System.out.println("FD Acc no :(" + fd.getFDAccNo() + ")    FD Mature Date : " + date + "\n");
+                fds.getTotalInterestAmt(fd);
+                if (date != null)
+                    System.out.println(
+                            "FD Acc no :(" + fd.getFDAccNo() + ")    FD Mature Date : " + date + "    FD Amount : "
+                                    + fd.getFDAmount() + "   FD Interest : " + (fd.getFDInterestAmount()) + "\n");
             }
             System.out.println(
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -65,22 +66,18 @@ public class FDServicesUI {
         int choice = 0;
         System.out.println("\033[H\033[2J");
         FDNotification(mobileNo);
-        FixedDeposit fdAcc=null;
-        int x=0;
+        FixedDeposit fdAcc = null;
         do {
             choice = FDServicesPage();
-            if(choice!=1&&x==0){
-                fdAcc = UtilsUI.displayFDAccNumbers(mobileNo);
-                x=1;
-            }
             if (choice == 1) {
+                System.out.println("\nSelect the account to withdraw for FD deposit : ");
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 createFDAccount(mobileNo, acc);
-                x=0;
             } else if (choice == 2) {
-                withdrawFD(fdAcc);
+                fdAcc = UtilsUI.displayFDAccNumbers(mobileNo);
+                withdrawFD(fdAcc, mobileNo);
             } else if (choice == 3) {
-                displayFDAccountDetails(fdAcc);
+                displayFDSummary(mobileNo);
             } else if (choice == 4) {
                 System.out.println("\033[H\033[2J");
                 displayFDInterestDetails();
@@ -90,20 +87,49 @@ public class FDServicesUI {
         } while (choice < 1 || choice > 5 || choice != 5);
     }
 
+    private static void displayFDSummary(long mobileNo) {
+        ArrayList<FixedDeposit> FDList = null;
+        FDList = utils.getUserAllFDAcc(mobileNo);
+        if (FDList != null) {
+            System.out.println(
+                    "\n   --    FD Accounts    --\n-------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", "FDAccountNumber", "FD Amount",
+                    "FD Interest Rate",
+                    "FD Depositdate", "FD Mature Date", "FD Interest", "FD Status");
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+            for (FixedDeposit fd : FDList) {
+                fds.getTotalInterestAmt(fd);
+                String status;
+                if (fd.getStatus()) {
+                    status = "Active";
+                } else {
+                    status = "Closed";
+                }
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", fd.getFDAccNo(),
+                        fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
+                        utils.getFDMatureDate(fd), fd.getFDInterestAmount(), status);
+            }
+            System.out.println(
+                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+    }
+
     // this function is used to withdraw FD amount
-    private static void withdrawFD(FixedDeposit fdAcc) {
+    private static void withdrawFD(FixedDeposit fdAcc, long mobileNo) {
         if (fdAcc == null)
             return;
-        Account acc = utils.getRefAccount(fdAcc.getAccountNumber());
+        System.out.println("\nSelect the Account for FD amount Deposit :");
+        Account acc = UtilsUI.displayAccountNumber(mobileNo);
         double amount = fds.doFDWithdraw(acc, fdAcc);
         if (amount >= 0) {
             System.out.println("\nTransaction Successfull....");
-            System.out.println("FD Amount is added to your linked account");
+            System.out.println("FD Amount : " + fdAcc.getFDAmount() + " is added to selected account");
             System.out.println("Interest Amount : " + amount + "is also added");
         } else if (amount == -1) {
             System.out.println("\nToday only you have applied FD");
             System.out.println("Transaction Successfull....");
-            System.out.println("FD Amount is added to your linked account");
+            System.out.println("FD Amount : " + fdAcc.getFDAmount() + " is added to selected account");
         } else if (amount == -2) {
             System.out.println("\nThis FD account is already closed");
         }
@@ -115,7 +141,17 @@ public class FDServicesUI {
         System.out.println("\n---------------------------------------------------------------------\n");
         double amount = getAmount(acc);
         int mons = getMonths();
-        FixedDeposit acc1 = fds.createFD(mobileNo, acc.getAccNo(), amount, mons);
+        CIF cif = UtilsUI.getNomineeAadharNo();
+        if (cif == null) {
+            System.out.println("Create Account for Nominee ");
+            return;
+        }
+        System.out.println(" Nominee Name : " + cif.getUsername());
+        System.out.print("Enter 1 to continue or any number to exit : ");
+        int x = sc.nextInt();
+        if (x != 1)
+            return;
+        FixedDeposit acc1 = fds.createFD(cif.getAadharNumber(), mobileNo, acc.getAccNo(), amount, mons);
         displayFDAccountDetails(acc1);
     }
 
@@ -125,7 +161,8 @@ public class FDServicesUI {
             return;
         System.out.println("\n  --  Fixed Deposit Passbook  -- ");
         System.out.println(" FD Account No        : " + fd.getFDAccNo());
-        System.out.println(" FD Linked Account No : " + fd.getAccountNumber());
+        System.out.println(" FD Nominee Aadhar No : " + fd.getNomineeAadhar());
+        System.out.println(" Nominee Aadhar Name  : " + utils.getname(fd.getNomineeAadhar()));
         System.out.println(" FD Amount            : " + fd.getFDAmount());
         System.out.println(" FD Interest Rate     : " + fd.getFDinterestRate());
         System.out.println(" FD Duration in months: " + fd.getFDMonths());
