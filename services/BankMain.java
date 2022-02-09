@@ -21,11 +21,11 @@ public class BankMain {
     }
 
     // this function is used to create CIF
-    public CIF createCIF(String username, long aadharNumber, long mobileNo, int age, int pincode) {
+    public CIF createCIF(String username, long aadharNumber, long mobileNo, int age, String[] address) {
         CIF cif = null;
         long cifno = utils.generateCIFno();
-        cif = new CIF(cifno, username, mobileNo, aadharNumber, pincode, age);
-        ba.cifList.add(new CIF(cifno, username, mobileNo, aadharNumber, pincode, age));
+        cif = new CIF(cifno, username, mobileNo, aadharNumber, address, age);
+        ba.cifList.add(new CIF(cifno, username, mobileNo, aadharNumber, address, age));
         return cif;
     }
 
@@ -37,19 +37,19 @@ public class BankMain {
             if (cif.getCIFno() == cifno) {
                 if (accountType.equals("SavingsAccount")) {
                     if (balanceType.equals("ZeroBalanceAccount")) {
-                        acc = new SavingsAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 0);
-                        ba.accountsList.add(new SavingsAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 0));
+                        acc = new SavingsAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 0,true);
+                        ba.accountsList.add(acc);
                     } else {
-                        acc = new SavingsAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 2000);
-                        ba.accountsList.add(new SavingsAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 2000));
+                        acc = new SavingsAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 2000,true);
+                        ba.accountsList.add(acc);
                     }
                 } else {
                     if (balanceType.equals("ZeroBalanceAccount")) {
-                        acc = new CurrentAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 0);
-                        ba.accountsList.add(new CurrentAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 0));
+                        acc = new CurrentAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 0,true);
+                        ba.accountsList.add(acc);
                     } else {
-                        acc = new CurrentAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 5000);
-                        ba.accountsList.add(new CurrentAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 5000));
+                        acc = new CurrentAccount(mobileNo,accountNumber, cifno, accountType, balanceType, 5000,true);
+                        ba.accountsList.add(acc);
                     }
                 }
             }
@@ -64,6 +64,10 @@ public class BankMain {
             return cif.getUsername();
         }
         return null;
+    }
+
+    public void closeAccount(Account ac) {
+
     }
 
 }

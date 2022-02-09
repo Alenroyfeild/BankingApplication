@@ -12,9 +12,11 @@ public abstract class Account {
     private double accountBalance;
     private LocalDate lastwithdrawDate;
     private long mobileNo;
+    private Boolean accStatus;
     public ArrayList<Transactions> transactionlist = new ArrayList<>(1000);
 
-    public Account(long mobileNo,long accountNumber, long CIFNumber, String accountType, String balanceType, double balance) {
+    public Account(long mobileNo, long accountNumber, long CIFNumber, String accountType, String balanceType,
+            double balance, Boolean status) {
         this.accountNumber = accountNumber;
         this.CIFNumber = CIFNumber;
         this.accountType = accountType;
@@ -22,13 +24,22 @@ public abstract class Account {
         this.accountBalance = balance;
         this.accOpenDate = LocalDate.now();// LocalDate.of(2021,01,01);
         this.lastwithdrawDate = LocalDate.now();// LocalDate.of(2021,01,01);
-        this.mobileNo=mobileNo;
+        this.mobileNo = mobileNo;
+        this.accStatus = status;
     }
 
-    public long getMobileNo(){
+    public void setAccStatus(Boolean status) {
+        this.accStatus = status;
+    }
+
+    public Boolean getAccStatus() {
+        return this.accStatus;
+    }
+
+    public long getMobileNo() {
         return this.mobileNo;
     }
-    
+
     public void setLastWithdrawDate() {
         this.lastwithdrawDate = LocalDate.now();
     }
@@ -66,8 +77,7 @@ public abstract class Account {
     }
 
     public String toString(String format) {
-        return String.format(format, accountNumber, CIFNumber, accountType, balanceType, accOpenDate,
-                Math.round(accountBalance));
+        return String.format(format, accountNumber, accountType,Math.round(accountBalance));
 
     }
 

@@ -35,15 +35,14 @@ public class BankAdminServiceUI {
 
                 System.out.println(
                                 "\n   --    CIF List   --\n--------------------------------------------------------------------------------------------------------------------");
-                System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s\n", "CIFNo", "UserName", "AadharNumber",
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n", "CIFNo", "UserName", "AadharNumber",
                                 "MobileNumber",
-                                "Pincode", "Age");
+                                "Age");
                 System.out.println(
                                 "-------------------------------------------------------------------------------------------------------------------");
                 for (CIF cif : cifList) {
-                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s\n",
+                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n",
                                         cif.getCIFno(), cif.getUsername(), cif.getAadharNumber(), cif.getMobileNo(),
-                                        cif.getPincode(),
                                         cif.getAge());
                 }
                 System.out.println(
@@ -57,13 +56,12 @@ public class BankAdminServiceUI {
                 accList = bas.displayAccDetails();
                 System.out.println(
                                 "\n   --    Accounts List   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "AccountNumber", "CIF no",
-                                "AccountType",
-                                "BalanceType", "AccountOpenDate", "AccountBalance");
+                System.out.format("%1$-30s%2$-25s%3$-20s\n", "AccountNumber",
+                                "AccountType", "AccountBalance");
                 System.out.println(
                                 "-------------------------------------------------------------------------------------------------------------------------------------------");
                 for (Account acc : accList) {
-                        System.out.println(acc.toString("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n"));
+                        System.out.println(acc.toString("%1$-30s%2$-25s%3$-20s\n"));
                 }
                 System.out.println(
                                 "-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -119,14 +117,13 @@ public class BankAdminServiceUI {
                 if (cif != null) {
                         System.out.println(
                                         "\n   --    CIF Details   --\n--------------------------------------------------------------------------------------------------------------------");
-                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s\n", "CIFNo", "UserName",
+                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n", "CIFNo", "UserName",
                                         "AadharNumber", "MobileNumber",
-                                        "Pincode", "Age");
+                                        "Age");
                         System.out.println(
                                         "-------------------------------------------------------------------------------------------------------------------");
-                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s\n",
+                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n",
                                         cif.getCIFno(), cif.getUsername(), cif.getAadharNumber(), cif.getMobileNo(),
-                                        cif.getPincode(),
                                         cif.getAge());
                         System.out.println(
                                         "--------------------------------------------------------------------------------------------------------------------");
@@ -144,12 +141,11 @@ public class BankAdminServiceUI {
                 if (acc != null) {
                         System.out.println(
                                         "\n   --    Accounts List   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "AccountNumber", "CIF no",
-                                        "AccountType",
-                                        "BalanceType", "AccountOpenDate", "AccountBalance");
+                        System.out.format("%1$-30s%2$-25s%3$-20s\n", "AccountNumber",
+                                        "AccountType", "AccountBalance");
                         System.out.println(
                                         "-------------------------------------------------------------------------------------------------------------------------------------------");
-                        System.out.println(acc.toString("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n"));
+                        System.out.println(acc.toString("%1$-30s%2$-25s%3$-20s\n"));
                         System.out.println(
                                         "-------------------------------------------------------------------------------------------------------------------------------------------");
 
@@ -168,7 +164,7 @@ public class BankAdminServiceUI {
         // this function is used display selected loan account details
         public static void displaySelectedLoanAccountsDetails() {
                 long accNo = UtilsUI.getAccNumber();
-                //LoanServicesUI.displayLoanDetailsUI(accNo);
+                // LoanServicesUI.displayLoanDetailsUI(accNo);
                 Loan loan = bas.getLoanAccDetails(accNo);
                 if (loan != null) {
                         System.out.println(
@@ -194,20 +190,20 @@ public class BankAdminServiceUI {
         // this function is used display FD account details
         public static void displayFDDetails() {
                 ArrayList<FixedDeposit> acc = bas.getFDDetails();
-                        System.out.println(
-                                        "\n   --    Accounts List   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", "FDAccountNumber", "FD Amount",
-                                        "FD Interest Rate",
-                                        "FD Depositdate", "FD duration(mons)");
-                        System.out.println(
-                                        "-------------------------------------------------------------------------------------------------------------------------------------------");
-                        for (FixedDeposit fd : acc) {
-                                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", fd.getFDAccNo(),
-                                                fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
-                                                fd.getFDMonths());
-                        }
-                        System.out.println(
-                                        "-------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(
+                                "\n   --    Accounts List   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", "FDAccountNumber", "FD Amount",
+                                "FD Interest Rate",
+                                "FD Depositdate", "FD duration(mons)");
+                System.out.println(
+                                "-------------------------------------------------------------------------------------------------------------------------------------------");
+                for (FixedDeposit fd : acc) {
+                        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", fd.getFDAccNo(),
+                                        fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
+                                        fd.getFDMonths());
+                }
+                System.out.println(
+                                "-------------------------------------------------------------------------------------------------------------------------------------------");
 
         }
 
@@ -230,7 +226,7 @@ public class BankAdminServiceUI {
                                         "-------------------------------------------------------------------------------------------------------------------------------------------");
 
                 } else {
-                        System.out.println("FD Account is not Existed with this number : "+accNo);
+                        System.out.println("FD Account is not Existed with this number : " + accNo);
                 }
         }
 
@@ -253,8 +249,8 @@ public class BankAdminServiceUI {
                         System.out.println(
                                         "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-                }else{
-                        System.out.println("FD Account is not Existed with this number : "+accNo);
+                } else {
+                        System.out.println("FD Account is not Existed with this number : " + accNo);
                 }
         }
 

@@ -174,8 +174,10 @@ public class UtilsUI {
         ArrayList<Account> arrList = utils.getAccNumbers(mobileNo);
         if (arrList == null)
             return null;
-        if (arrList.size() == 1)
+        if (arrList.size() == 1) {
+            System.out.println("Only one Account is available.So,");
             return arrList.get(0);
+        }
         int i, x;
         do {
             i = 0;
@@ -247,7 +249,8 @@ public class UtilsUI {
             System.out.println("\n Choose FD Account Number ");
             for (FixedDeposit arr : arrList) {
                 i++;
-                System.out.println(i + " " + arr.getFDAccNo()+"  "+arr.getFDAmount()+"  "+arr.getFDDepositDate());
+                System.out
+                        .println(i + " " + arr.getFDAccNo() + "  " + arr.getFDAmount() + "  " + arr.getFDDepositDate());
             }
             System.out.print("Enter choice : ");
             x = sc.nextInt();
@@ -282,13 +285,26 @@ public class UtilsUI {
         return arrList.get(--x);
     }
 
+    public static String[] getAddress() {
+        String[] address = new String[5];
+        System.out.print("Enter Do.No/Street name : ");
+        address[0] = sc.nextLine();
+        System.out.print("Enter Village Name : ");
+        address[1] = sc.nextLine();
+        System.out.println("Enter State Name : ");
+        address[2] = sc.nextLine();
+        int pincode = getPincode();
+        address[3] = pincode + "";
+        return address;
+    }
+
     // this function is used to get aadhar number
     public static CIF getNomineeAadharNo() {
         CIF acc1 = null;
         long aadharNo = 0;
         do {
             System.out.println("Enter Nominee Details : ");
-            aadharNo =getAadharno();
+            aadharNo = getAadharno();
             acc1 = utils.validateAadhar(aadharNo);
             if (acc1 == null) {
                 System.out.println("No account exist with this Aadhar No : " + aadharNo);
@@ -297,6 +313,7 @@ public class UtilsUI {
         } while (aadharNo == 0);
         return acc1;
     }
+
     static LoanServices ls = new LoanServices();
 
     public static void displayAccountsSummary(long mobileNo) {
@@ -310,15 +327,14 @@ public class UtilsUI {
         System.out.println("\033[H\033[2J");
         System.out.println(
                 "\n   --    Accounts Summary   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "AccountNumber", "CIF no",
-                "AccountType",
-                "BalanceType", "AccountOpenDate", "AccountBalance");
+        System.out.format("%1$-30s%2$-25s%3$-20s\n", "AccountNumber",
+                "AccountType", "AccountBalance");
         System.out.println(
                 "-------------------------------------------------------------------------------------------------------------------------------------------");
 
         for (Account acc : accList) {
             if (acc != null) {
-                System.out.println(acc.toString("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n"));
+                System.out.println(acc.toString("%1$-30s%2$-25s%3$-20s\n"));
             }
         }
         System.out.println(

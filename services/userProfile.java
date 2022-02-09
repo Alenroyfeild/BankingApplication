@@ -21,10 +21,10 @@ public class userProfile {
     }
 
     // this funtion is used to update pincode
-    public Boolean updatePincode(long mobileNo, int pincode) {
+    public Boolean updateAddress(long mobileNo, String[] address) {
         CIF cif = utils.searchCIF(mobileNo);
         if (cif != null) {
-            cif.setPincode(pincode);
+            cif.setAddress(address);;
             return true;
         }
         return false;

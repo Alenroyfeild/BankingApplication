@@ -129,11 +129,17 @@ public class utils {
     // this function is used to return all account numbers
     public static ArrayList<Account> getAccNumbers(long mobileNo) {
         ArrayList<Account> arrList = new ArrayList<>();
+        int x = 0;
         for (Account acc : ba.accountsList) {
-            if (acc.getMobileNo() == mobileNo)
+            if (acc.getMobileNo() == mobileNo && acc.getAccStatus()) {
                 arrList.add(acc);
+                x = 1;
+            }
         }
-        return arrList;
+        if (x == 1)
+            return arrList;
+        else
+            return null;
     }
 
     // this function is used to return CIF no
@@ -162,8 +168,8 @@ public class utils {
                 if (acc.getStatus())
                     arrList.add(acc);
             }
-            if(arrList.size()>0)
-            return arrList;
+            if (arrList.size() > 0)
+                return arrList;
         }
         return null;
     }
@@ -257,6 +263,10 @@ public class utils {
         return cif.getUsername();
     }
 
+    public static Account getAccount(long mobileNo) {
+        Account acc = (Account) search(ba.accountsList, value -> ((Account) value).getMobileNo() == mobileNo&&((Account) value).getAccStatus());
+        return acc;
+    }
     public static ArrayList<RecurringDeposit> getUserAllRDAcc(long mobileNo) {
         ArrayList<RecurringDeposit> RDList = new ArrayList<>();
         int x = 0;

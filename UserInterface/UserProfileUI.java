@@ -49,11 +49,11 @@ public class UserProfileUI {
         CIF cifList = bas.getUserCIFDetails(mobileNo);
         System.out.println("\n\n-----------------------------------------------------------");
         System.out.println("\n  -- User Profile Info --");
-        System.out.println("User Name          : " + cifList.getUsername());
+        System.out.println("Customer Name      : " + cifList.getUsername());
         System.out.println("Age                : " + cifList.getAge());
         System.out.println("Aadhar Number      : " + cifList.getAadharNumber());
         System.out.println("Mobile number      : " + cifList.getMobileNo());
-        System.out.println("Pincode            : " + cifList.getPincode());
+        System.out.println("Address            : " + cifList.getAddress());
     }
 
     // this function is used to display Profile update menu and its methods
@@ -62,9 +62,9 @@ public class UserProfileUI {
         do {
             System.out.println("\n\n-----------------------------------------------------------");
             System.out.println("\n    ----   Profile Update page   ----");
-            System.out.println(" 1.UserName");
+            System.out.println(" 1.CustomerName");
             System.out.println(" 2.Password");
-            System.out.println(" 3.pincode");
+            System.out.println(" 3.Address");
             System.out.println(" 4.Quit");
             try {
                 System.out.print("Enter choice : ");
@@ -73,13 +73,13 @@ public class UserProfileUI {
                 System.out.println(y + " is not a valid integer number");
             }
             if (y == 1) {
-                System.out.print("\nEnter New Username : ");
+                System.out.print("\nEnter New Customername : ");
                 String name = sc.next();
                 Boolean bool = up.updateUsername(mobileno, name);
                 if (bool)
-                    System.out.println("\nSuccessfully Username updated...\n");
+                    System.out.println("\nSuccessfully Customername updated...\n");
                 else
-                    System.out.println("\nUsername not updated\n");
+                    System.out.println("\nCustomername not updated\n");
             } else if (y == 2) {
                 boolean noMatch;
                 do {
@@ -99,9 +99,9 @@ public class UserProfileUI {
                     }
                 } while (noMatch);
             } else if (y == 3) {
-                System.out.println("\nUpdate Pincode ");
-                int pincode = UtilsUI.getPincode();
-                Boolean bool = up.updatePincode(mobileno, pincode);
+                System.out.print("\nEnter New  Address : ");
+                String[] address=UtilsUI.getAddress();
+                Boolean bool = up.updateAddress(mobileno, address);
                 if (bool)
                     System.out.println("\nSuccessfully Pincode updated...\n");
                 else

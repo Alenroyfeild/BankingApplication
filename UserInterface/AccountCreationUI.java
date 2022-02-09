@@ -55,9 +55,9 @@ public class AccountCreationUI {
         String username = sc.next();
         long aadharNumber = UtilsUI.getAadharno();
         int age = getUserAge();
-        System.out.print("Enter pincode            : ");
-        int pincode = sc.nextInt();
-        CIF ci = bm.createCIF(username, aadharNumber, mobileNo, age, pincode);
+        System.out.print("Enter Address : ");
+        String[] address=UtilsUI.getAddress();
+        CIF ci = bm.createCIF(username, aadharNumber, mobileNo, age, address);
         return ci.getCIFno();
     }
 

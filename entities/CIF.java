@@ -7,19 +7,24 @@ public class CIF {
     private String username;
     private LocalDate dateofBirth;
     private long aadharNumber;
-    private int pincode;
     private int age;
     private long mobileNo;
-
-    public CIF(long cifNumber, String username,long mobileNo, long aadharNumber, int pincode, int age) {
+    private String[] address=new String[5];
+    public CIF(long cifNumber, String username,long mobileNo, long aadharNumber, String[] address, int age) {
         this.cifNumber = cifNumber;
         this.aadharNumber = aadharNumber;
         this.username = username;
         this.mobileNo=mobileNo;
-        this.pincode = pincode;
+        this.address=address;
         this.age = age;
     }
 
+    public void setAddress(String[] address){
+        this.address=address;
+    }
+    public String[] getAddress(){
+        return this.address;
+    }
     public long getMobileNo(){
         return this.mobileNo;
     }
@@ -43,14 +48,6 @@ public class CIF {
 
     public long getAadharNumber() {
         return this.aadharNumber;
-    }
-
-    public int getPincode() {
-        return this.pincode;
-    }
-
-    public void setPincode(int pincode) {
-        this.pincode = pincode;
     }
 
     public int getAge() {
