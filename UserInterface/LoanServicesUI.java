@@ -66,7 +66,7 @@ public class LoanServicesUI {
                 displayLoanDetails(loan);
             } else if (choice == 3) {
                 System.out.println("\033[H\033[2J");
-                displayLoanDetailsUI(mobileNo);
+                displayLoanSummary(mobileNo);
             } else if (choice == 5) {
                 loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 System.out.println("\033[H\033[2J");
@@ -105,14 +105,16 @@ public class LoanServicesUI {
         System.out.println("\n  Account No : 2*****" + accNo.substring(6));
         System.out.println(
                 "\n  --   Loan Details  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber", "LoanAccountType",
-                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate","LoanEMIAmount");
+        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber",
+                "LoanAccountType",
+                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate",
+                "LoanEMIAmount");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-                double EMI=ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(),loan.getLoanAmount());
-                System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
+        double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
+        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
                 loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                loan.getMonthsRemain(),utils.getLoanDueDate(loan),Math.round(EMI));
+                loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI));
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
@@ -141,22 +143,24 @@ public class LoanServicesUI {
         displayLoanPassbookDetailsUI(loan);
     }
 
-    // this function is used to display loan passbook details
-    public static void displayLoanDetailsUI(long mobileNo) {
+    // this function is used to display loan summary details
+    public static void displayLoanSummary(long mobileNo) {
         ArrayList<Loan> arr = ls.displayLoanDetails(mobileNo);
         if (arr == null)
             return;
         System.out.println(
-                "\n  --  All Loan Details  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber", "LoanAccountType",
-                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate","LoanEMIAmount");
+                "\n  --   Loan Accounts  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber",
+                "LoanAccountType",
+                "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate",
+                "LoanEMIAmount");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Loan loan : arr) {
-            double EMI=ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(),loan.getLoanAmount());
+            double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
             System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
                     loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                    loan.getMonthsRemain(), utils.getLoanDueDate(loan),Math.round(EMI));
+                    loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI));
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");

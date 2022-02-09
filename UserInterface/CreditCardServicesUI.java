@@ -74,15 +74,15 @@ public class CreditCardServicesUI {
             } else if (choice == 5) {
                 updatePin(cc);
             } else if (choice == 6) {
-                updateCardStatus(cc,mobileNo);
-                //break;
+                updateCardStatus(cc, mobileNo);
+                // break;
             } else {
                 System.out.println("\nBack to Home Page");
             }
         } while (choice < 1 || choice > 7 || choice != 7);
     }
 
-    private static void updateCardStatus(CreditCard cc,long mobileNo) {
+    private static void updateCardStatus(CreditCard cc, long mobileNo) {
         if (cc == null) {
             return;
         }
@@ -113,15 +113,21 @@ public class CreditCardServicesUI {
             return;
         System.out.println(
                 "\n   --   Credit Card Details   --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s\n",
-                "Credit Card No",
-                "Account No", "Balance Limit", "Used Balance", "Available Balance", "CC Bill due Date");
+        System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n",
+                "Credit Card No", "Balance Limit", "Used Balance", "Available Balance", "CC Bill due Date",
+                "LastCardBillAmount", "BillPaidStatus");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (CreditCard cc : ccList) {
-            System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s\n", cc.getCardNo(), cc.getAccNo(),
+            String status;
+            if (cc.getCardBillStatus())
+                status = "Paid";
+            else
+                status = "UnPaid";
+            System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", cc.getCardNo(),
                     cc.getBalanceLimit(), Math.round(cc.getUsedBalance()),
-                    Math.round(cc.getBalanceLimit() - cc.getUsedBalance()), cc.getFirstUsedDate().plusDays(43));
+                    Math.round(cc.getBalanceLimit() - cc.getUsedBalance()), cc.getFirstUsedDate().plusDays(43),
+                    cc.getLastCardBillAmt(), status);
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");

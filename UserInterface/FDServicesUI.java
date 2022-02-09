@@ -70,9 +70,7 @@ public class FDServicesUI {
         do {
             choice = FDServicesPage();
             if (choice == 1) {
-                System.out.println("\nSelect the account to withdraw for FD deposit : ");
-                Account acc = UtilsUI.displayAccountNumber(mobileNo);
-                createFDAccount(mobileNo, acc);
+                createFDAccount(mobileNo);
             } else if (choice == 2) {
                 fdAcc = UtilsUI.displayFDAccNumbers(mobileNo);
                 withdrawFD(fdAcc, mobileNo);
@@ -87,7 +85,7 @@ public class FDServicesUI {
         } while (choice < 1 || choice > 5 || choice != 5);
     }
 
-    private static void displayFDSummary(long mobileNo) {
+    public static void displayFDSummary(long mobileNo) {
         ArrayList<FixedDeposit> FDList = null;
         FDList = utils.getUserAllFDAcc(mobileNo);
         if (FDList != null) {
@@ -136,10 +134,9 @@ public class FDServicesUI {
     }
 
     // this function is used to create FD account
-    private static void createFDAccount(long mobileNo, Account acc) {
-        System.out.println("\nProvide details for RD Account :");
+    private static void createFDAccount(long mobileNo) {
+        System.out.println("\nProvide details for FD Account :");
         System.out.println("\n---------------------------------------------------------------------\n");
-        double amount = getAmount(acc);
         int mons = getMonths();
         CIF cif = UtilsUI.getNomineeAadharNo();
         if (cif == null) {
@@ -151,6 +148,9 @@ public class FDServicesUI {
         int x = sc.nextInt();
         if (x != 1)
             return;
+        System.out.println("Select the account to withdraw for FD deposit : ");
+        Account acc = UtilsUI.displayAccountNumber(mobileNo);
+        double amount = getAmount(acc);
         FixedDeposit acc1 = fds.createFD(cif.getAadharNumber(), mobileNo, acc.getAccNo(), amount, mons);
         displayFDAccountDetails(acc1);
     }
@@ -175,7 +175,7 @@ public class FDServicesUI {
         boolean bool = false;
         do {
             amount = UtilsUI.getAmount();
-            if (amount >= 1000) {
+            if (amount >= 100) {
                 bool = utils.validBalance(acc, amount);
                 if (!bool) {
                     System.out.println("\nInsufficient Balance");
@@ -193,9 +193,9 @@ public class FDServicesUI {
     public static void displayFDInterestDetails() {
         System.out.println("\nFixed Deposit interest is based on duration ");
         System.out.println("    Months         interest rate ");
-        System.out.println("   1  to  6           6.5%      ");
-        System.out.println("   6  to  12          7.50%   ");
-        System.out.println("   12 to  24          8.25%   ");
+        System.out.println("   1  to  5           6.5%      ");
+        System.out.println("   6  to  11          7.50%   ");
+        System.out.println("   12 to  23          8.25%   ");
         System.out.println("   above 24           8.50%      ");
     }
 

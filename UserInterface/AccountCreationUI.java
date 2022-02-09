@@ -159,5 +159,7 @@ public class AccountCreationUI {
         System.out.println(" Balance Type    : " + acc.getBalanceType());
         System.out.println(" Mobile Number   : " + cif.getMobileNo());
         System.out.println(" Account opened on " + acc.getAccOpenDate());
+        String[] address=cif.getAddress();
+        System.out.println(" Address         : "+address[0]+","+address[1]+","+address[2]+","+address[3]+"-"+address[4]+".");
     }
 }

@@ -53,17 +53,13 @@ public class FDServices {
     // this function is used to return interest rate based on amount
     public double getInterestRate(double mons) {
         if (mons < 6 && mons >= 1) {
-            float ir = 6.5f;
-            return ir;
+            return 6.5;
         } else if (mons >= 6 && mons < 12) {
-            float ir = 7.5f;
-            return ir;
+            return 7.5;
         } else if (mons >= 12 && mons < 24) {
-            float ir = 8.25f;
-            return ir;
+            return 8.25;
         } else if (mons >= 24) {
-            float ir = 8.5f;
-            return ir;
+            return 8.5;
         }
         return 0;
     }

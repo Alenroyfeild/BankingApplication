@@ -183,7 +183,8 @@ public class BankMainUI {
         System.out.println("Age                : " + cifList.getAge());
         System.out.println("Mobile number      : " + cifList.getMobileNo());
         System.out.println("Account opened Date: " + acc.getAccOpenDate());
-        System.out.println("Address            : " + cifList.getAddress());
+        String[] address=cifList.getAddress();
+        System.out.println("Address            : "+address[0]+","+address[1]+","+address[2]+","+address[3]+"-"+address[4]+".");
     }
 
     // this function is used to display notifications
@@ -318,13 +319,13 @@ public class BankMainUI {
                 5, 5,
                 true));
         ba.loanList.put(9701660809l, arr);
-        FixedDeposit acc1 = new FixedDeposit(622988081664l, 9701660809l, 6603202101l, LocalDate.now(), 5.5, 100000, 12,
+        FixedDeposit acc1 = new FixedDeposit(622988081664l, 9701660809l, 6603202101l, LocalDate.of(2021, 01, 01), 7.5, 100000, 12,
                 true);
         ArrayList<FixedDeposit> arr1 = new ArrayList<>();
         arr1.add(acc1);
         ba.FDList.put(9701660809l, arr1);
         ArrayList<RecurringDeposit> ar = new ArrayList<>();
-        ar.add(new RecurringDeposit(9701660809l, 2603202101l, 7603202101l, 1000, 0.055, 622988081664l,
+        ar.add(new RecurringDeposit(9701660809l, 2603202101l, 7603202101l, 1000, 5.25, 622988081664l,
                 LocalDate.of(2021, 01, 01),
                 14, 14, true));
         ba.RDList.put(9701660809l, ar);
@@ -389,10 +390,10 @@ public class BankMainUI {
                         // char[] pass = c.readPassword("Enter your password : ");
                         String password = new String("l");
                         if (UtilsUI.validateLogin(mobileNo, password)) {
-                            // UtilsUI.displayAccountsSummary(mobileNo);
+                            UtilsUI.displayAccountsSummary(mobileNo);
                             int button5;
                             do {
-                                button5 = userAccEntrancePage(mobileNo);
+                                button5 = 3;//userAccEntrancePage(mobileNo);
                                 if (button5 == 1) {
                                     int button3 = 0;
                                     System.out.println("\033[H\033[2J");
@@ -421,7 +422,7 @@ public class BankMainUI {
                                 } else if (button5 == 3) {
                                     int button6 = 0;
                                     do {
-                                        button6 = depositSelectionPage();
+                                        button6 = 2;//depositSelectionPage();
                                         if (button6 == 1) {
                                             FDServicesUI.FDServiceUI(mobileNo);
                                         } else if (button6 == 2) {
@@ -433,8 +434,7 @@ public class BankMainUI {
                                 } else if (button5 == 4) {
                                     CreditCardServicesUI.CreditCardUI(mobileNo);
                                 } else if (button5 == 5) {
-                                    Account acc = UtilsUI.displayAccountNumber(mobileNo);
-                                    ATMTransactionsUI.fundServices(acc);
+                                    ATMTransactionsUI.fundServices(mobileNo);
                                 } else if (button5 == 6) {
                                     CheckServicesUI.doChequeBook(mobileNo);
                                 } else if (button5 == 7) {

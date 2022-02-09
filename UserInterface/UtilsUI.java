@@ -181,7 +181,7 @@ public class UtilsUI {
         int i, x;
         do {
             i = 0;
-            System.out.println("\n Choose Account Number \n");
+            System.out.println("\n Choose Source Account Number \n");
             for (Account obj : arrList) {
                 i++;
                 System.out
@@ -289,12 +289,14 @@ public class UtilsUI {
         String[] address = new String[5];
         System.out.print("Enter Do.No/Street name : ");
         address[0] = sc.nextLine();
-        System.out.print("Enter Village Name : ");
+        System.out.print("Enter Village Name      : ");
         address[1] = sc.nextLine();
-        System.out.println("Enter State Name : ");
+        System.out.print("Enter District Name     :");
         address[2] = sc.nextLine();
+        System.out.print("Enter State Name        : ");
+        address[3] = sc.nextLine();
         int pincode = getPincode();
-        address[3] = pincode + "";
+        address[4] = pincode + "";
         return address;
     }
 
@@ -317,13 +319,7 @@ public class UtilsUI {
     static LoanServices ls = new LoanServices();
 
     public static void displayAccountsSummary(long mobileNo) {
-        ArrayList<Loan> loanList = null;
-        ArrayList<FixedDeposit> FDList = null;
-        ArrayList<RecurringDeposit> RDList = null;
         ArrayList<Account> accList = utils.getAccNumbers(mobileNo);
-        loanList = utils.getUserAllLoanAcc(mobileNo);
-        FDList = utils.getUserAllFDAcc(mobileNo);
-        RDList = utils.getUserAllRDAcc(mobileNo);
         System.out.println("\033[H\033[2J");
         System.out.println(
                 "\n   --    Accounts Summary   --\n-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -339,59 +335,9 @@ public class UtilsUI {
         }
         System.out.println(
                 "-------------------------------------------------------------------------------------------------------------------------------------------");
-        if (loanList != null) {
-            System.out.println(
-                    "\n  --  All Loan Details  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", "LoanAccountNumber",
-                    "LoanAccountType",
-                    "LoanAmount", "LoanInterestRate", "LoanDurationMonths", "LoanMonthsRemain", "LoandueDate",
-                    "LoanEMIAmount");
-            System.out.println(
-                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            for (Loan loan : loanList) {
-                double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
-                System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
-                        loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                        loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI));
-            }
-            System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------------------------");
-        }
-        if (FDList != null) {
-            System.out.println(
-                    "\n   --    FD Accounts    --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", "FDAccountNumber", "FD Amount",
-                    "FD Interest Rate",
-                    "FD Depositdate", "FD duration(mons)");
-            System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------------------------");
-            for (FixedDeposit fd : FDList) {
-                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s\n", fd.getFDAccNo(),
-                        fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
-                        fd.getFDMonths());
-            }
-            System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------------------------");
-
-        }
-        if (RDList != null) {
-            System.out.println(
-                    "\n  --   RD Accounts  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", "RDAccountNumber",
-                    "RDAmount", "RDInterestRate", "RDDurationMonths", "RDMonthsRemain",
-                    "RDAppliedDate");
-            System.out.println(
-                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            for (RecurringDeposit rd : RDList) {
-                System.out.format("%1$-30s%2$-20s%3$-20s%4$-30s%5$-20s%6$-20s\n", rd.getRDID(),
-                        rd.getRDAmount(),
-                        rd.getRDInterestRate(), rd.getRDTenure(), rd.getRDRemainingMonths(),
-                        rd.getRDOpenDate());
-            }
-            System.out.println(
-                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
-        }
+        LoanServicesUI.displayLoanSummary(mobileNo);
+        FDServicesUI.displayFDSummary(mobileNo);
+        RDServicesUI.displayRDSummary(mobileNo);
         CreditCardServicesUI.CCNotification(mobileNo);
         System.out.print("Press any key : ");
         sc.next();

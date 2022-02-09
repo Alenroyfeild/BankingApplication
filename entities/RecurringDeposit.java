@@ -7,7 +7,7 @@ public class RecurringDeposit {
     private final double rdAmount;
     private double totalRDAmount;
     private long accountNumber;
-    private double interestRate = 5.5;
+    private double interestRate;
     private long nomineeAadhar;
     private LocalDate rdOpenDate;
     private int rdTenure;

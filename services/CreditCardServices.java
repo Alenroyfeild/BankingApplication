@@ -90,6 +90,8 @@ public class CreditCardServices {
             if (transList == null)
                 return;
             double amount = calcBillAmount(transList);
+            cc.setLastCardBillAmt(amount);
+            cc.setCardBillStatus(true);
             payCreditCardBill(cc, amount);
         }
     }
@@ -124,6 +126,8 @@ public class CreditCardServices {
                             LocalDate.now(), amount, utils.generateTransactionID(), 0,
                             0));
             cc.setUsedBalanceZero();
+            cc.setCardBillStatus(true);
+            cc.setLastCardBillAmt(amount);
             cc.setFirstUsedDate(LocalDate.now());
             if (cc.getBalanceLimit() <= 100000)
                 cc.setBalanceLimit(1000);

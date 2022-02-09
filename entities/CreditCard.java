@@ -14,8 +14,11 @@ public class CreditCard {
     private double interestRate = 3.5;
     private LocalDate cardExpiryDate;
     private int cvvCode;
+    private Boolean CardBillStatus;
+    private double lastCardBillAmt;
 
-    public CreditCard(long accountNumber, long cardNo, int cardPin, double balanceLimit, LocalDate cardExpiryDate,int cvvCode,
+    public CreditCard(long accountNumber, long cardNo, int cardPin, double balanceLimit, LocalDate cardExpiryDate,
+            int cvvCode,
             String cardStatus, boolean b) {
         this.accountNumber = accountNumber;
         this.cardNo = cardNo;
@@ -23,22 +26,41 @@ public class CreditCard {
         this.balanceLimit = balanceLimit;
         this.cardExpiryDate = cardExpiryDate;
         this.cardStatus = cardStatus;
-        this.cardDate=LocalDate.now();
-        this.cvvCode=cvvCode;
+        this.cardDate = LocalDate.now();
+        this.cvvCode = cvvCode;
     }
 
-    public Boolean validateCVV(int CVV){
-        if(this.cvvCode==CVV)
-        return true;
-        else
-        return false;
+    public double getLastCardBillAmt() {
+        return this.lastCardBillAmt;
     }
-    public int getCvvCode(){
+
+    public void setLastCardBillAmt(double amount) {
+        this.lastCardBillAmt = amount;
+    }
+
+    public void setCardBillStatus(Boolean status) {
+        this.CardBillStatus = status;
+    }
+
+    public Boolean getCardBillStatus() {
+        return this.CardBillStatus;
+    }
+
+    public Boolean validateCVV(int CVV) {
+        if (this.cvvCode == CVV)
+            return true;
+        else
+            return false;
+    }
+
+    public int getCvvCode() {
         return this.cvvCode;
     }
-    public LocalDate getCardExpiryDate(){
+
+    public LocalDate getCardExpiryDate() {
         return this.cardExpiryDate;
     }
+
     public void setBalanceLimit(double d) {
         this.balanceLimit += d;
     }
@@ -52,10 +74,10 @@ public class CreditCard {
     }
 
     public LocalDate getFirstUsedDate() {
-        if(this.usedBalance==0)
-        return LocalDate.now();
+        if (this.usedBalance == 0)
+            return LocalDate.now();
         else
-        return this.firstUsedDate;
+            return this.firstUsedDate;
     }
 
     public Boolean validateBalance(double balance) {
@@ -69,9 +91,10 @@ public class CreditCard {
         this.usedBalance += balance;
     }
 
-    public void setUsedBalanceZero(){
-        this.usedBalance=0;
+    public void setUsedBalanceZero() {
+        this.usedBalance = 0;
     }
+
     public void setCardStatus(String status) {
         this.cardStatus = status;
     }
@@ -100,9 +123,10 @@ public class CreditCard {
         return this.cardNo;
     }
 
-    public void setPin(int pin){
-        this.cardPin=pin;
+    public void setPin(int pin) {
+        this.cardPin = pin;
     }
+
     public Boolean validatePin(int pin) {
         if (this.cardPin == pin)
             return true;

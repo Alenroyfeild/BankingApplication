@@ -26,7 +26,7 @@ public class ATMTransactionsUI {
             System.out.println(" 3.Deposit");
             System.out.println(" 4.Balance Enquiry");
             System.out.println(" 5.Amount Transfer");
-            System.out.println(" 6.Account Statements");
+            System.out.println(" 6.Mini Statements");
             System.out.println(" 7.Back to Home");
             try {
                 System.out.print("Enter choice : ");
@@ -41,22 +41,27 @@ public class ATMTransactionsUI {
 
     // this function is used to call particualr function based on the selection of
     // fund service
-    public static void fundServices(Account acc) {
+    public static void fundServices(long mobileNo) {
         int choice;
         System.out.println("\033[H\033[2J");
         do {
             choice = fundServicesPage();
             if (choice == 1) {
+                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doWithdrawUI(acc);
             } else if (choice == 2) {
+                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 CreditCardServicesUI.ccWithdraw(acc);
             } else if (choice == 3) {
+                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doDepositUI(acc);
             } else if (choice == 4) {
+                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doBalanceEnquiry(acc);
             } else if (choice == 5) {
-                doAmountTransferUI(acc);
+                doAmountTransferUI(mobileNo);
             } else if (choice == 6) {
+                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doMiniStatementsUI(acc);
             } else {
                 System.out.println("\nBack to Home Page");
@@ -67,6 +72,7 @@ public class ATMTransactionsUI {
     // this function is used to deposit amount
     public static void doDepositUI(Account acc) {
         double bal = -1;
+        System.out.println("\nAvailable Balance  : " + acc.getAccountBalance());
         double amount = UtilsUI.getAmount();
         bal = atm.doDeposit(acc, amount, "Credit");
         if (bal != -1) {
@@ -120,34 +126,42 @@ public class ATMTransactionsUI {
         return nMonthsBackDate;
     }
 
-    // this function is used to display transactions
-    public static void doMiniStatementsUI(Account acc) {
-        ArrayList<Transactions> alist = new ArrayList<>();
-        alist = atm.dominiStatement(acc);
-        String accNo = (acc.getAccNo() + "");
-        LocalDate date = getMiniStatementsDate();
+    public static int displayTransactions(String accNo, ArrayList<Transactions> alist) {
         System.out.println("\033[H\033[2J");
         System.out.println("\nAccount No : 2*****" + accNo.substring(6));
         System.out.println(
                 "\n   --    Mini Statement   --\n------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", "Transaction Mode", "Transaction ID",
-                "TransactionType", "Date",
+                "TransactionDescription", "Date",
                 "TransactionAmount", "Fee", "AvailabeBalance");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Transactions tlist : alist) {
-            if (tlist.getTransactionDate().compareTo(date) >= 0) {
-                if (tlist.getAccountNumber() / 1000000000 != 8)
-                    System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
-                            tlist.getTransactionID(),
-                            tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
-                            tlist.getFee(), tlist.getBalance());
-            }
+            if (tlist.getAccountNumber() / 1000000000 != 8)
+                System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
+                        tlist.getTransactionID(),
+                        tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
+                        tlist.getFee(), tlist.getBalance());
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.print("Press any key : ");
-        sc.next();
+        System.out.print("Enter 1 to continue or any integer to exit : ");
+        int x = sc.nextInt();
+        return x;
+    }
+
+    // this function is used to display transactions
+    public static void doMiniStatementsUI(Account acc) {
+        ArrayList<Transactions> alist = new ArrayList<>();
+        String accNo = (acc.getAccNo() + "");
+        alist = atm.getTenTransactions(acc);
+        int x = displayTransactions(accNo, alist);
+        if (x == 1) {
+            alist = null;
+            LocalDate date = getMiniStatementsDate();
+            alist = atm.dominiStatement(acc, date);
+            displayTransactions(accNo, alist);
+        }
     }
 
     // this function is used to withdraw amount
@@ -201,6 +215,7 @@ public class ATMTransactionsUI {
 
     // this function is used to withdraw amount
     public static void doWithdrawUI(Account acc) {
+        System.out.println("Available Balance  : " + acc.getAccountBalance());
         double amount = getWithdrawAmount(acc);
         String accType = acc.getAccountType();
         double bal = atm.dowithdraw(acc, amount, "Dedit", 0);
@@ -210,7 +225,7 @@ public class ATMTransactionsUI {
             }
             System.out.println("\nTransaction successfull...\nRemainig Balance : " + acc.getAccountBalance());
         } else if (bal == -2) {
-            System.out.println("\n Insufficient Balance \n Availale balance : " + acc.getAccountBalance()
+            System.out.println("\n Insufficient Balance \n Available balance : " + acc.getAccountBalance()
                     + "\nTransaction Failure...");
         } else {
             System.out.println("\nTransaction Failure....");
@@ -247,8 +262,9 @@ public class ATMTransactionsUI {
     }
 
     // this function is used to call method based on choice
-    public static void doAmountTransferUI(Account acc) {
+    public static void doAmountTransferUI(long mobileNo) {
         int choice = AmountTransferPage();
+        Account acc = UtilsUI.displayAccountNumber(mobileNo);
         Account payeeAcc = null;
         if (choice == 1 || choice == 2) {
             do {
@@ -279,7 +295,6 @@ public class ATMTransactionsUI {
         } else {
             System.out.println("\nAccount numbers must be different...");
         }
-
     }
 
     // this function is used to get amount from user
