@@ -36,6 +36,8 @@ public class ATMTransactionsUI {
                 choice = 0;
             }
         } while (choice < 1 || choice > 7);
+        System.out.println(
+                "\n------------------------------------------------------------------------------------------------------------------------------------------------");
         return choice;
     }
 
@@ -43,24 +45,28 @@ public class ATMTransactionsUI {
     // fund service
     public static void fundServices(long mobileNo) {
         int choice;
+        Account acc = null;
         System.out.println("\033[H\033[2J");
         do {
             choice = fundServicesPage();
+            if (choice != 2 || choice != 5 || choice != 7) {
+                System.out.println("\nChoose Source Account : ");
+                acc = UtilsUI.displayAccountNumber(mobileNo);
+                if (acc == null) {
+                    System.out.println("No Accounts available");
+                }
+            }
             if (choice == 1) {
-                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doWithdrawUI(acc);
             } else if (choice == 2) {
                 CreditCardServicesUI.ccWithdraw(mobileNo);
             } else if (choice == 3) {
-                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doDepositUI(acc);
             } else if (choice == 4) {
-                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doBalanceEnquiry(acc);
             } else if (choice == 5) {
                 doAmountTransferUI(mobileNo);
             } else if (choice == 6) {
-                Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doMiniStatementsUI(acc.getAccNo(), 1);
             } else {
                 System.out.println("\nBack to Home Page");
@@ -271,7 +277,6 @@ public class ATMTransactionsUI {
     // this function is used to call method based on choice
     public static void doAmountTransferUI(long mobileNo) {
         int choice = AmountTransferPage();
-        Account acc = UtilsUI.displayAccountNumber(mobileNo);
         Account payeeAcc = null;
         if (choice == 1 || choice == 2) {
             do {
@@ -283,24 +288,27 @@ public class ATMTransactionsUI {
             System.out.println("\nBack to HomePage");
             return;
         }
-        if (acc != payeeAcc) {
-            if (payeeAcc != null) {
-                System.out.println("\n Receiver name  : " + utils.getUsername(payeeAcc.getCIFNumber()));
-                System.out.println(" Receiver AccNo : " + payeeAcc.getAccNo());
-                System.out.print("Enter 1 to continue : ");
-                int x = sc.nextInt();
-                if (x != 1)
-                    return;
+        if (payeeAcc != null) {
+            System.out.println("\n Receiver name  : " + utils.getUsername(payeeAcc.getCIFNumber()));
+            System.out.println(" Receiver AccNo : " + payeeAcc.getAccNo());
+            System.out.print("Enter 1 to continue : ");
+            int x = sc.nextInt();
+            if (x != 1)
+                return;
+            System.out.println("\nChoose Source Account : ");
+            Account acc = UtilsUI.displayAccountNumber(mobileNo);
+            if (acc != payeeAcc) {
                 if (choice == 1) {
                     doNEFTUI(acc, payeeAcc);
                 } else if (choice == 2) {
                     doRTGSUI(acc, payeeAcc);
                 }
             } else {
-                System.out.println("\nReceiver Account Number is invalid");
+                System.out.println("\nAccount numbers must be different...");
             }
         } else {
-            System.out.println("\nAccount numbers must be different...");
+            System.out.println("\nReceiver Account Number is invalid");
+
         }
     }
 

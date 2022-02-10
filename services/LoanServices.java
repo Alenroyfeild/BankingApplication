@@ -114,10 +114,11 @@ public class LoanServices {
             }
         }
         return null;
-    } 
+    }
 
     // this function is used to calculate the days
     public int countDays(LocalDate date) {
+        date=date.minusMonths(1);
         long mons = date.until(LocalDate.now(), ChronoUnit.MONTHS);
         return (int) mons;
     }
@@ -132,13 +133,13 @@ public class LoanServices {
             if (loan.getMonthsRemain() >= 1) {
                 double EMI = calculateEMI(loan.getnoofMonths(), loan.getInterestRate(),
                         loan.getLoanAmount());
-                int mons = countDays(loan.getPaidDate());
-                while (mons >= 1) {
+                int mons = countDays(loan.getDueDate());
+                while (mons >= 1 && loan.getMonthsRemain() >= 1) {
                     loan.setMonthsRemain();
                     double balance = acc.getAccountBalance();
                     balance -= EMI;
                     acc.setAccountBalance(balance);
-                    loan.setPaidDate(LocalDate.now());
+                    //loan.setDueDate(LocalDate.now());
                     if (ba.transactions.containsKey(acc.getAccNo()))
                         ba.transactions.get(acc.getAccNo())
                                 .add(new Transactions(loan.getLoanAccNo(), "online", "LoanEMI-Dedit",
@@ -153,6 +154,8 @@ public class LoanServices {
                     }
                     mons--;
 
+                }if(loan.getMonthsRemain()==0){
+                    loan.setAccountStatus(false);
                 }
             }
         }
@@ -161,7 +164,7 @@ public class LoanServices {
 
     // this function is used to Pay EMI
     public int payEMI(Account acc, Loan loan, double amount) {
-        LocalDate date= loan.getLoanDate().plusMonths(loan.getnoofMonths()-loan.getMonthsRemain());
+        LocalDate date = loan.getLoanDate().plusMonths(loan.getnoofMonths() - loan.getMonthsRemain());
         long days = date.until(LocalDate.now(), ChronoUnit.DAYS);
         if (loan.getLoanDate().equals(LocalDate.now()))
             return -2;
@@ -170,7 +173,7 @@ public class LoanServices {
             double balance = acc.getAccountBalance();
             balance -= amount;
             acc.setAccountBalance(balance);
-            loan.setPaidDate(LocalDate.now().plusDays(days));
+            loan.setDueDate(LocalDate.now().plusDays(days+5));
             ba.transactions.get(acc.getAccNo())
                     .add(new Transactions(loan.getLoanAccNo(), "online", "LoanEMI-Dedit",
                             LocalDate.now(), -amount, utils.generateTransactionID(), 0,

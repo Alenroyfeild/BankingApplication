@@ -98,7 +98,7 @@ public class FDServices {
         int days = getFDDays(fd)[0];
         double fdAmt = fd.getFDAmount();
         double rate = fd.getFDinterestRate();
-        double intAmt = interestCalc(rate, days, fdAmt);
+        double intAmt = Math.round(interestCalc(rate, days, fdAmt));
         fd.setFDInterestAmount(intAmt);
     }
 

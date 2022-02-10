@@ -140,7 +140,7 @@ public class UtilsUI {
     public static Loan displayLoanAccountNumber(long mobileNo) {
         ArrayList<Loan> arrList = utils.getLoanAccNumbers(mobileNo);
         if (arrList == null) {
-            System.out.println("No Loan accounts Exist");
+            System.out.println("No Loan accounts available");
             return null;
         }
         for (int i = 0; i < arrList.size(); i++) {
@@ -148,8 +148,9 @@ public class UtilsUI {
                 arrList.remove(i);
             }
         }
-        if (arrList.size() == 1)
+        if (arrList.size() == 1) {
             return arrList.get(0);
+        }
         int i, x;
         do {
             i = 0;
@@ -175,7 +176,7 @@ public class UtilsUI {
         if (arrList == null)
             return null;
         if (arrList.size() == 1) {
-            System.out.println("Only one Account is available.So,");
+            System.out.println("1." + arrList.get(0).getAccNo() + "  " + arrList.get(0).getAccountType() + "\n");
             return arrList.get(0);
         }
         int i, x;
@@ -213,7 +214,7 @@ public class UtilsUI {
     public static CreditCard displayCredtCardNo(long mobileNo) {
         ArrayList<CreditCard> arrList = utils.getCreditCardS(mobileNo);
         if (arrList == null) {
-            System.out.println("\nNo Credit cards Exist");
+            System.out.println("\nNo Credit cards available");
             return null;
         }
         if (arrList.size() == 1)
@@ -238,7 +239,7 @@ public class UtilsUI {
     public static FixedDeposit displayFDAccNumbers(long mobileNo) {
         ArrayList<FixedDeposit> arrList = utils.getFDAccNumbers(mobileNo);
         if (arrList == null) {
-            System.out.println("\nNo FD accounts Exist");
+            System.out.println("\nNo FD accounts available");
             return null;
         }
         if (arrList.size() == 1)
@@ -264,7 +265,7 @@ public class UtilsUI {
     public static RecurringDeposit displayRDAccNumbers(long mobileNo) {
         ArrayList<RecurringDeposit> arrList = utils.getRDAccNumbers(mobileNo);
         if (arrList == null) {
-            System.out.println("\nNo RD accounts Exist");
+            System.out.println("\nNo RD accounts available");
             return null;
         }
         if (arrList.size() == 1)
@@ -287,14 +288,14 @@ public class UtilsUI {
 
     public static String[] getAddress() {
         String[] address = new String[5];
-        System.out.print("Enter Do.No/Street name : ");
+        System.out.print("Enter Do.No/Street name  : ");
         sc.nextLine();
         address[0] = sc.nextLine();
-        System.out.print("Enter Village Name      : ");
+        System.out.print("Enter Village Name       : ");
         address[1] = sc.nextLine();
-        System.out.print("Enter District Name     :");
+        System.out.print("Enter District Name      :");
         address[2] = sc.nextLine();
-        System.out.print("Enter State Name        : ");
+        System.out.print("Enter State Name         : ");
         address[3] = sc.nextLine();
         int pincode = getPincode();
         address[4] = pincode + "";

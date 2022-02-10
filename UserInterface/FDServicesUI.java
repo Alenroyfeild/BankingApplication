@@ -30,6 +30,8 @@ public class FDServicesUI {
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
+                System.out.println(
+                        "\n------------------------------------------------------------------------------------------------------------------------------------------------");
                 return choice;
             } catch (NumberFormatException e) {
                 System.out.println("You have entered wrong choice.\nPlease again Enter : ");
@@ -48,12 +50,14 @@ public class FDServicesUI {
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("  --  Notifications  -- \n");
             for (FixedDeposit fd : FDList) {
-                LocalDate date = utils.getFDMatureDate(fd);
-                fds.getTotalInterestAmt(fd);
-                if (date != null)
-                    System.out.println(
-                            "FD Acc no :(" + fd.getFDAccNo() + ")    FD Mature Date : " + date + "    FD Amount : "
-                                    + fd.getFDAmount() + "   FD Interest : " + (fd.getFDInterestAmount()) + "\n");
+                if (fd.getStatus()) {
+                    LocalDate date = utils.getFDMatureDate(fd);
+                    fds.getTotalInterestAmt(fd);
+                    if (date != null)
+                        System.out.println(
+                                "FD Acc no :(" + fd.getFDAccNo() + ")    FD Mature Date : " + date + "    FD Amount : "
+                                        + fd.getFDAmount() + "   FD Interest : " + (fd.getFDInterestAmount()) + "\n");
+                }
             }
             System.out.println(
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -90,12 +94,13 @@ public class FDServicesUI {
         FDList = utils.getUserAllFDAcc(mobileNo);
         if (FDList != null) {
             System.out.println(
-                    "\n   --    FD Accounts    --\n-------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", "FDAccountNumber", "FD Amount",
+                    "\n   --    FD Accounts    --\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s\n", "FDAccountNumber",
+                    "FD Amount",
                     "FD Interest Rate",
-                    "FD Depositdate", "FD Mature Date", "FD Interest", "FD Status");
+                    "FD Depositdate", "FD Mature Date", "FD Mature Amount", "FD Interest", "FD Status");
             System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+                    "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (FixedDeposit fd : FDList) {
                 fds.getTotalInterestAmt(fd);
                 String status;
@@ -104,12 +109,13 @@ public class FDServicesUI {
                 } else {
                     status = "Closed";
                 }
-                System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", fd.getFDAccNo(),
+                System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s\n", fd.getFDAccNo(),
                         fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
-                        utils.getFDMatureDate(fd), fd.getFDInterestAmount(), status);
+                        utils.getFDMatureDate(fd), fd.getFDAmount() + fd.getFDInterestAmount(),
+                        fd.getFDInterestAmount(), status);
             }
             System.out.println(
-                    "-------------------------------------------------------------------------------------------------------------------------------------------");
+                    "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
 
@@ -124,10 +130,12 @@ public class FDServicesUI {
             System.out.println("\nTransaction Successfull....");
             System.out.println("FD Amount : " + fdAcc.getFDAmount() + " is added to selected account");
             System.out.println("Interest Amount : " + amount + "is also added");
+            System.out.println("Successfully FD Account is closed");
         } else if (amount == -1) {
             System.out.println("\nToday only you have applied FD");
             System.out.println("Transaction Successfull....");
             System.out.println("FD Amount : " + fdAcc.getFDAmount() + "  is added to selected account");
+            System.out.println("Successfully FD Account is closed");
         } else if (amount == -2) {
             System.out.println("\nThis FD account is already closed");
         }
@@ -143,12 +151,12 @@ public class FDServicesUI {
             System.out.println("Create Account for Nominee ");
             return;
         }
-        System.out.println(" Nominee Name : " + cif.getCustomerFullname());
+        System.out.println("\n Nominee Name : " + cif.getCustomerFullname());
         System.out.print("Enter 1 to continue or any number to exit : ");
         int x = sc.nextInt();
         if (x != 1)
             return;
-        System.out.println("Select the account to withdraw for FD deposit : ");
+        System.out.println("\nSelect the account to withdraw for FD deposit : ");
         Account acc = UtilsUI.displayAccountNumber(mobileNo);
         double amount = getAmount(acc);
         FixedDeposit acc1 = fds.createFD(cif.getAadharNumber(), mobileNo, acc.getAccNo(), amount, mons);
@@ -192,11 +200,13 @@ public class FDServicesUI {
     // this function is used to display FD interest details
     public static void displayFDInterestDetails() {
         System.out.println("\nFixed Deposit interest is based on duration ");
-        System.out.println("    Months         interest rate ");
-        System.out.println("   1  to  5           6.5%      ");
-        System.out.println("   6  to  11          7.50%   ");
-        System.out.println("   12 to  23          8.25%   ");
-        System.out.println("   above 24           8.50%      ");
+        System.out.println("    Months     |    interest rate (p.a)");
+        System.out.println("-----------------------------------------------");
+        System.out.println("   1  to  5    |       6.5%      ");
+        System.out.println("   6  to  11   |       7.50%   ");
+        System.out.println("   12 to  23   |       8.25%   ");
+        System.out.println("   above 24    |       8.50%      ");
+        System.out.println("\n For age above 60 will get InterestRate + 0.75% \n");
     }
 
     // this function is used to get FD mons from the user

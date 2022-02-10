@@ -33,6 +33,8 @@ public class CreditCardServicesUI {
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
+                System.out.println(
+                        "\n------------------------------------------------------------------------------------------------------------------------------------------------");
                 return choice;
             } catch (NumberFormatException e) {
                 System.out.println("\nYou have entered wrong choice.\nPlease again Enter : ");
@@ -40,6 +42,7 @@ public class CreditCardServicesUI {
             }
         } while (choice < 1 || choice > 7);
         return 0;
+
     }
 
     public static void CreditCardUI(long mobileNo) {
@@ -82,7 +85,7 @@ public class CreditCardServicesUI {
             return;
         }
         if (cc.getCardStatus().equals("active")) {
-            System.out.print("Enter 1 to Block Card : ");
+            System.out.print("\nEnter 1 to Block Card : ");
             int x = sc.nextInt();
             if (x == 1) {
                 cc.setCardStatus("Block");
@@ -110,7 +113,7 @@ public class CreditCardServicesUI {
                 "\n   --   Credit Card Details   --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n",
                 "Credit Card No", "Balance Limit", "Used Balance", "Available Balance", "CC Bill due Date",
-                "LastCardBillAmount", "BillPaidStatus");
+                "Last CC BillAmount", "Bill Paid Status");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (CreditCard cc : ccList) {
@@ -227,7 +230,7 @@ public class CreditCardServicesUI {
                     System.out.println("Insufficiet Balance \nAvailable Credit Card Balance : "
                             + (cc.getBalanceLimit() - cc.getUsedBalance()));
                 }
-            }else{
+            } else {
                 System.out.println("Credit Card is Blocked");
             }
         } else {

@@ -37,7 +37,7 @@ public class BankMainUI {
 
         int choice = 0;
         do {
-            System.out.println("\033[H\033[2J");
+            // System.out.println("\033[H\033[2J");
             System.out.println("\n\n\n---------------------------------------------------------------------");
             System.out.println("        --- Welcome to Zoho Bank ---");
             System.out.println("\nChoose the Options : ");
@@ -255,6 +255,9 @@ public class BankMainUI {
             System.out.println("\nSuccessfully available balance is withdrawn");
         } else {
             acc2.setAccountBalance(acc.getAccountBalance() + acc2.getAccountBalance());
+            ArrayList<Account> arrList = utils.getAccNumbers(mobileNo);
+            if (arrList.size() == 1)
+                System.out.println("\nOnly one Account is available.So,");
             System.out.println("Available Balance : " + acc.getAccountBalance() + " is tranfered to selected Account");
         }
         System.out.println("\nSuccessfully Account is closed");
@@ -302,10 +305,10 @@ public class BankMainUI {
         ba.userLogins.add(new UserLogin(9701660809l, "l"));
         ba.userLogins.get(0).setCIFno(1603202101l);
         String[] address = { "3/269-a", "Ananthapuram", "Kadapa", "AP", "626262" };
-        ba.cifList.add(new CIF(1603202101l,"Balaji Royal", "Balaji", 9701660809l, 622988081663l, address, 21));
+        ba.cifList.add(new CIF(1603202101l, "Balaji Royal", "Balaji", 9701660809l, 622988081663l, address, 21));
         ba.userLogins.add(new UserLogin(9701660808l, "l"));
         ba.userLogins.get(1).setCIFno(1603202102l);
-        ba.cifList.add(new CIF(1603202102l,"Balaji Royal", "Royal", 9701660808l, 622988081664l, address, 21));
+        ba.cifList.add(new CIF(1603202102l, "Balaji Royal", "Royal", 9701660808l, 622988081664l, address, 21));
         ba.accountsList
                 .add(new SavingsAccount(9701660809l, 2603202101l, 1603202101l, "SavingsAccount",
                         "MinimumBalanceAccount", 300000, true));
@@ -317,7 +320,7 @@ public class BankMainUI {
                         "MinimumBalanceAccount", 300000, true));
         ArrayList<Loan> arr = new ArrayList<>();
         arr.add(new Loan(9701660809l, 2603202101l, 5603202101l, "PersonalLoan", LocalDate.of(2022, 01, 01), 100000, 8.5,
-                5, 5,
+                6, 6,
                 true));
         ba.loanList.put(9701660809l, arr);
         FixedDeposit acc1 = new FixedDeposit(622988081664l, 9701660809l, 6603202101l, LocalDate.of(2021, 01, 01), 7.5,
@@ -327,7 +330,7 @@ public class BankMainUI {
         arr1.add(acc1);
         ba.FDList.put(9701660809l, arr1);
         ArrayList<RecurringDeposit> ar = new ArrayList<>();
-        ar.add(new RecurringDeposit(9701660809l, 2603202101l, 7603202101l, 1000, 5.25, 622988081664l,
+        ar.add(new RecurringDeposit(9701660809l, 2603202101l, 7603202101l, 1000, 6.1, 622988081664l,
                 LocalDate.of(2021, 01, 01),
                 14, 14, true));
         ba.RDList.put(9701660809l, ar);
@@ -340,6 +343,7 @@ public class BankMainUI {
                 utils.generateTransactionID(), 0, 9000));
         ba.transactions.put(2603202102l, trans);
         BankMainUI.notifications();
+        sc.next();
         Console c = System.console();
         int button = 0;
         do {
@@ -384,7 +388,7 @@ public class BankMainUI {
             } else if (button == 2) {
                 int button2;
                 do {
-                    button2 =2;// userEntrancePage();
+                    button2 = 2;//userEntrancePage();
                     if (button2 == 1) {
                         AccountCreationUI.userSingin();
                     } else if (button2 == 2) {
@@ -392,15 +396,15 @@ public class BankMainUI {
                         //char[] pass = c.readPassword("Enter your password : ");
                         String password = new String("l");
                         if (UtilsUI.validateLogin(mobileNo, password)) {
-                            UtilsUI.displayAccountsSummary(mobileNo);
+                            //UtilsUI.displayAccountsSummary(mobileNo);
                             int button5;
                             do {
-                                button5 = userAccEntrancePage(mobileNo);
+                                button5 = 3;//userAccEntrancePage(mobileNo);
                                 if (button5 == 1) {
                                     int button3 = 0;
                                     System.out.println("\033[H\033[2J");
                                     do {
-                                        button3 = userBankMenuPage(mobileNo);
+                                        button3 =userBankMenuPage(mobileNo);
                                         if (button3 == 1) {
                                             long cifno = utils.getCIF(mobileNo);
                                             AccountCreationUI.createAccountUI(cifno, mobileNo);
@@ -410,7 +414,7 @@ public class BankMainUI {
                                             displayPassbookUI(mobileNo, ac);
                                         } else if (button3 == 3) {
                                             Account ac = UtilsUI.displayAccountNumber(mobileNo);
-                                            ATMTransactionsUI.doMiniStatementsUI(ac.getAccNo(),1);
+                                            ATMTransactionsUI.doMiniStatementsUI(ac.getAccNo(), 1);
                                         } else if (button3 == 4) {
                                             Account ac = UtilsUI.displayAccountNumber(mobileNo);
                                             BankMainUI.closeAccount(ac, mobileNo);
@@ -424,7 +428,7 @@ public class BankMainUI {
                                 } else if (button5 == 3) {
                                     int button6 = 0;
                                     do {
-                                        button6 = depositSelectionPage();
+                                        button6 = 2;//depositSelectionPage();
                                         if (button6 == 1) {
                                             FDServicesUI.FDServiceUI(mobileNo);
                                         } else if (button6 == 2) {

@@ -51,13 +51,12 @@ public class AccountCreationUI {
     public static long createCIF(long mobileNo) {
         System.out.println("\nProvide the details for creating CIF : ");
         System.out.println("--------------------------------------------------------");
-        System.out.print("Enter Full Name               : ");
-        String customerFullname = sc.next();
-        System.out.print("Enter Preferred Name           : ");
-        String displayname = sc.next();
+        System.out.print("Enter Full Name          : ");
+        String customerFullname = sc.nextLine();
+        System.out.print("Enter Preferred Name     : ");
+        String displayname = sc.nextLine();
         long aadharNumber = UtilsUI.getAadharno();
         int age = getUserAge();
-        System.out.print("Enter Address : ");
         String[] address = UtilsUI.getAddress();
         CIF ci = bm.createCIF(customerFullname, displayname, aadharNumber, mobileNo, age, address);
         return ci.getCIFno();

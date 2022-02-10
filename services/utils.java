@@ -342,6 +342,7 @@ public class utils {
     public static LocalDate getLoanDueDate(Loan loan) {
         LocalDate date;
         date = loan.getLoanDate().plusMonths(loan.getnoofMonths() - loan.getMonthsRemain() + 1);
+        date=date.plusDays(5);
         return date;
     }
 

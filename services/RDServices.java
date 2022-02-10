@@ -84,8 +84,9 @@ public class RDServices {
 
     // this function is used to check date
     public boolean checkDate(RecurringDeposit rdAcc) {
-        LocalDate payDate = rdAcc.getRDOpenDate().plusMonths(rdAcc.getRDTenure() - rdAcc.getRDRemainingMonths());
-        if (payDate.compareTo(LocalDate.now()) <= 0) {
+        LocalDate payDate = rdAcc.getRDOpenDate().plusMonths(rdAcc.getRDTenure() - rdAcc.getRDRemainingMonths())
+                .plusDays(15);
+        if (payDate.compareTo(LocalDate.now()) <=0) {
             return true;
         }
         return false;
@@ -122,8 +123,16 @@ public class RDServices {
         double balance = acc.getAccountBalance();
         balance -= rdAcc.getRDAmount();
         acc.setAccountBalance(balance);
-        ba.transactions.get(acc.getAccNo()).add(new Transactions(rdAcc.getRDID(), "online", "RDAmount-Deposit",
-                LocalDate.now(), -rdAcc.getRDAmount(), utils.generateTransactionID(), 0, acc.getAccountBalance()));
+        if (ba.transactions.containsKey(acc.getAccNo()))
+            ba.transactions.get(acc.getAccNo()).add(new Transactions(rdAcc.getRDID(), "online", "RDAmount-Deposit",
+                    LocalDate.now(), -rdAcc.getRDAmount(), utils.generateTransactionID(), 0, acc.getAccountBalance()));
+        else {
+            ArrayList<Transactions> trans = new ArrayList<>();
+            trans.add(new Transactions(rdAcc.getRDID(), "online", "RDAmount-Deposit",
+                    LocalDate.now(), -rdAcc.getRDAmount(), utils.generateTransactionID(), 0, acc.getAccountBalance()));
+            ba.transactions.put(acc.getAccNo(), trans);
+        }
+
         rdAcc.setRDremainingMonths();
         rdAcc.setTotalAmount();
     }
