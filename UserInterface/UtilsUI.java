@@ -288,6 +288,7 @@ public class UtilsUI {
     public static String[] getAddress() {
         String[] address = new String[5];
         System.out.print("Enter Do.No/Street name : ");
+        sc.nextLine();
         address[0] = sc.nextLine();
         System.out.print("Enter Village Name      : ");
         address[1] = sc.nextLine();
@@ -305,7 +306,7 @@ public class UtilsUI {
         CIF acc1 = null;
         long aadharNo = 0;
         do {
-            System.out.println("Enter Nominee Details : ");
+            System.out.println("\nEnter Nominee Details : ");
             aadharNo = getAadharno();
             acc1 = utils.validateAadhar(aadharNo);
             if (acc1 == null) {
@@ -330,7 +331,7 @@ public class UtilsUI {
 
         for (Account acc : accList) {
             if (acc != null) {
-                System.out.println(acc.toString("%1$-30s%2$-25s%3$-20s\n"));
+                System.out.print(acc.toString("%1$-30s%2$-25s%3$-20s\n"));
             }
         }
         System.out.println(
@@ -348,7 +349,7 @@ public class UtilsUI {
         do {
             do {
                 try {
-                    System.out.print("Enter Your " + name + " : ");
+                    System.out.print("\nEnter Your " + name + " : ");
                     number = Integer.parseInt(sc.next());
                 } catch (NumberFormatException e) {
                     System.out.println("Entered " + name + " number is not a valid integer number..");

@@ -17,10 +17,11 @@ public class CheckServicesUI {
 
     // this function is used to display cheques menu
     static void doChequeBook(long mobileNo) {
-        Account acc = UtilsUI.displayAccountNumber(mobileNo);
         int choice = 0;
+        Account acc = null;
         do {
-            System.out.println("\n\n\n--------------------------------------------------------------------------------------------");
+            System.out.println(
+                    "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("\n  --  Welcome to Check Services Page  --");
             System.out.println(" 1.Genarate Cheque");
             System.out.println(" 2.Cheques Summary");
@@ -34,6 +35,8 @@ public class CheckServicesUI {
                 System.out.println("You have entered wrong choice.\nPlease again Enter : ");
                 choice = 0;
             }
+            if (choice != 5)
+                acc = UtilsUI.displayAccountNumber(mobileNo);
             if (choice == 1) {
                 doChequeTransferUI(acc);
             } else if (choice == 2) {
@@ -52,7 +55,7 @@ public class CheckServicesUI {
 
     static ATMTransaction atm = new ATMTransaction();
 
-    //this unction is used to deposit amount through cheque
+    // this unction is used to deposit amount through cheque
     private static void doChequeDeposit(Account acc) {
         double bal = -1;
         long a[] = new long[2];
@@ -69,7 +72,7 @@ public class CheckServicesUI {
         }
         if (bal != -1) {
             System.out.println("\nCheque Transaction successfull...");
-            System.out.println("Available Balance : "+bal);
+            System.out.println("Available Balance : " + bal);
         } else {
             System.out.println("\nCheque Transaction Failure...");
         }

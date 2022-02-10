@@ -61,15 +61,15 @@ public class LoanServicesUI {
                 loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 payLoanAmount(loan, mobileNo);
             } else if (choice == 4) {
-                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 System.out.println("\033[H\033[2J");
+                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 displayLoanDetails(loan);
             } else if (choice == 3) {
                 System.out.println("\033[H\033[2J");
                 displayLoanSummary(mobileNo);
             } else if (choice == 5) {
-                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 System.out.println("\033[H\033[2J");
+                loan = UtilsUI.displayLoanAccountNumber(mobileNo);
                 displayLoanStatments(loan);
             } else {
                 System.out.println("\nBack to home page");
@@ -157,10 +157,16 @@ public class LoanServicesUI {
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Loan loan : arr) {
+            String dueDate = utils.getLoanDueDate(loan) + "";
             double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
+            String amount = Math.round(EMI) + "";
+            if (loan.getMonthsRemain() == 0) {
+                amount = "-";
+                dueDate = "-";
+            }
             System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
                     loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                    loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI));
+                    loan.getMonthsRemain(), dueDate, amount);
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -240,7 +246,7 @@ public class LoanServicesUI {
                         System.out.println("\nInvalid Loan AccountNumber");
                         return;
                     }
-                    System.out.println("\nTotal amount to pay : " + amount);
+                    System.out.println("\nTotal Remaining amount to pay : " + amount);
                     System.out.print("Enter 1 to continue : ");
                     int x = sc.nextInt();
                     if (x == 1) {
@@ -250,6 +256,7 @@ public class LoanServicesUI {
                             ls.payTotalLoanAmount(acc, loan, amount);
                             System.out.println("\nTransaction Succesfull");
                             System.out.println("You save upto : " + interestAmount);
+                            System.out.println("Successfully Loan Account is closed");
                         } else {
                             System.out.println("\nBack to Home page");
                         }

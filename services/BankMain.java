@@ -21,11 +21,11 @@ public class BankMain {
     }
 
     // this function is used to create CIF
-    public CIF createCIF(String username, long aadharNumber, long mobileNo, int age, String[] address) {
+    public CIF createCIF(String customerFullname,String displayName, long aadharNumber, long mobileNo, int age, String[] address) {
         CIF cif = null;
         long cifno = utils.generateCIFno();
-        cif = new CIF(cifno, username, mobileNo, aadharNumber, address, age);
-        ba.cifList.add(new CIF(cifno, username, mobileNo, aadharNumber, address, age));
+        cif = new CIF(cifno, customerFullname,displayName, mobileNo, aadharNumber, address, age);
+        ba.cifList.add(new CIF(cifno, customerFullname,displayName, mobileNo, aadharNumber, address, age));
         return cif;
     }
 

@@ -50,8 +50,7 @@ public class ATMTransactionsUI {
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doWithdrawUI(acc);
             } else if (choice == 2) {
-                Account acc = UtilsUI.displayAccountNumber(mobileNo);
-                CreditCardServicesUI.ccWithdraw(acc);
+                CreditCardServicesUI.ccWithdraw(mobileNo);
             } else if (choice == 3) {
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 doDepositUI(acc);
@@ -62,7 +61,7 @@ public class ATMTransactionsUI {
                 doAmountTransferUI(mobileNo);
             } else if (choice == 6) {
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
-                doMiniStatementsUI(acc);
+                doMiniStatementsUI(acc.getAccNo(), 1);
             } else {
                 System.out.println("\nBack to Home Page");
             }
@@ -126,41 +125,49 @@ public class ATMTransactionsUI {
         return nMonthsBackDate;
     }
 
-    public static int displayTransactions(String accNo, ArrayList<Transactions> alist) {
+    public static int displayTransactions(String accNo, ArrayList<Transactions> alist, int x) {
         System.out.println("\033[H\033[2J");
         System.out.println("\nAccount No : 2*****" + accNo.substring(6));
         System.out.println(
-                "\n   --    Mini Statement   --\n------------------------------------------------------------------------------------------------------------------------------------------------");
+                "\n   --    Mini Statements   --\n------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", "Transaction Mode", "Transaction ID",
                 "TransactionDescription", "Date",
                 "TransactionAmount", "Fee", "AvailabeBalance");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Transactions tlist : alist) {
-            if (tlist.getAccountNumber() / 1000000000 != 8)
-                System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
-                        tlist.getTransactionID(),
-                        tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
-                        tlist.getFee(), tlist.getBalance());
+            if (x == 1) {
+                if (tlist.getAccountNumber() / 1000000000 != 8)
+                    System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
+                            tlist.getTransactionID(),
+                            tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
+                            tlist.getFee(), tlist.getBalance());
+            } else if (x == 0) {
+                if (tlist.getAccountNumber() / 1000000000 == 8)
+                    System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
+                            tlist.getTransactionID(),
+                            tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
+                            tlist.getFee(), tlist.getBalance());
+            }
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.print("Enter 1 to continue or any integer to exit : ");
-        int x = sc.nextInt();
-        return x;
+        int y = sc.nextInt();
+        return y;
     }
 
     // this function is used to display transactions
-    public static void doMiniStatementsUI(Account acc) {
+    public static void doMiniStatementsUI(long accNum, int y) {
         ArrayList<Transactions> alist = new ArrayList<>();
-        String accNo = (acc.getAccNo() + "");
-        alist = atm.getTenTransactions(acc);
-        int x = displayTransactions(accNo, alist);
+        String accNo = (accNum + "");
+        alist = atm.getTenTransactions(accNum);
+        int x = displayTransactions(accNo, alist, y);
         if (x == 1) {
             alist = null;
             LocalDate date = getMiniStatementsDate();
-            alist = atm.dominiStatement(acc, date);
-            displayTransactions(accNo, alist);
+            alist = atm.dominiStatement(accNum, date);
+            displayTransactions(accNo, alist, y);
         }
     }
 

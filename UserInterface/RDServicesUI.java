@@ -94,12 +94,12 @@ public class RDServicesUI {
                 rdAcc = UtilsUI.displayRDAccNumbers(mobileNo);
                 withdrawRD(rdAcc, mobileNo);
             } else if (choice == 4) {
-                rdAcc = UtilsUI.displayRDAccNumbers(mobileNo);
                 System.out.println("\033[H\033[2J");
+                rdAcc = UtilsUI.displayRDAccNumbers(mobileNo);
                 displayRDdetails(rdAcc);
             } else if (choice == 5) {
-                rdAcc = UtilsUI.displayRDAccNumbers(mobileNo);
                 System.out.println("\033[H\033[2J");
+                rdAcc = UtilsUI.displayRDAccNumbers(mobileNo);
                 displayRDStatements(rdAcc);
             } else if (choice == 6) {
                 displayRDSummary(mobileNo);
@@ -127,23 +127,26 @@ public class RDServicesUI {
         if (RDList != null) {
             System.out.println(
                     "\n  --   RD Accounts  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.format("%1$-25s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s%9$-20s\n", "RDAccountNumber",
+            System.out.format("%1$-20s%2$-10s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s%9$-15s%10$-15s\n",
+                    "RDAccountNumber",
                     "RDAmount", "RDInterestRate", "RDDurationMonths", "RDMonthsRemain",
-                    "RDAppliedDate", "RD Mature Date", "RDMatureAmount", "RDDueDate");
+                    "RDAppliedDate", "RD Mature Date", "RDMatureAmount", "RDInterest", "RDDueDate");
             System.out.println(
                     "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (RecurringDeposit rd : RDList) {
                 LocalDate date = rd.getRDOpenDate().plusMonths(rd.getRDTenure());
                 double matureAmount = Math.round(rds.getMatureAmount(rd));
+                double interest = matureAmount - (rd.getRDAmount() * rd.getRDTenure());
                 String dueDate;
                 if (rd.getRDRemainingMonths() == 0)
                     dueDate = "-";
                 else
                     dueDate = utils.getRDDueDate(rd) + "";
-                System.out.format("%1$-25s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s%9$-20s\n", rd.getRDID(),
+                System.out.format("%1$-20s%2$-10s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s%9$-15s%10$-15s\n",
+                        rd.getRDID(),
                         rd.getRDAmount(),
                         rd.getRDInterestRate(), rd.getRDTenure(), rd.getRDRemainingMonths(),
-                        rd.getRDOpenDate(), date, matureAmount, dueDate);
+                        rd.getRDOpenDate(), date, matureAmount, interest, dueDate);
             }
             System.out.println(
                     "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -163,23 +166,25 @@ public class RDServicesUI {
         System.out.println("\n  Account No : 2*****" + accNo.substring(6));
         System.out.println(
                 "\n  --   RD Statement  --\n------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-25s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s%9$-20s\n", "RDAccountNumber",
+        System.out.format("%1$-20s%2$-10s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s%9$-15s%10$-15s\n",
+                "RDAccountNumber",
                 "RDAmount", "RDInterestRate", "RDDurationMonths", "RDMonthsRemain",
-                "RDAppliedDate", "RD Mature Date", "RDMatureAmount", "RDDueDate");
+                "RDAppliedDate", "RD Mature Date", "RDMatureAmount", "RDInterest", "RDDueDate");
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         LocalDate date = rd.getRDOpenDate().plusMonths(rd.getRDTenure());
         double matureAmount = Math.round(rds.getMatureAmount(rd));
+        double interest = matureAmount - (rd.getRDAmount() * rd.getRDTenure());
         String dueDate;
         if (rd.getRDRemainingMonths() == 0)
             dueDate = "-";
         else
             dueDate = utils.getRDDueDate(rd) + "";
-        System.out.format("%1$-25s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s%9$-20s\n",
+        System.out.format("%1$-20s%2$-10s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s%9$-15s%10$-15s\n",
                 rd.getRDID(),
                 rd.getRDAmount(),
                 rd.getRDInterestRate(), rd.getRDTenure(), rd.getRDRemainingMonths(),
-                rd.getRDOpenDate(), date, matureAmount, dueDate);
+                rd.getRDOpenDate(), date, matureAmount, interest, dueDate);
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println(
@@ -245,7 +250,7 @@ public class RDServicesUI {
                 }
             }
         } else {
-            System.out.println("\n\nThis RD Account is closed");
+            System.out.println("\n\n No RD Accounts is available");
         }
     }
 
@@ -253,9 +258,9 @@ public class RDServicesUI {
     private static void withdrawRD(RecurringDeposit rdAcc, long mobileNo) {
         if (rdAcc == null)
             return;
-        System.out.println("Select the Source Account to deposit RD Amount :");
         if (rdAcc.getRDstatus())
             if (rdAcc.getRDOpenDate().plusMonths(rdAcc.getRDTenure()).compareTo(LocalDate.now()) <= 0) {
+                System.out.println("Select the Source Account to deposit RD Amount :");
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 double amount = Math.round(rds.addRDAmount(acc, rdAcc));
                 double interest = amount - (rdAcc.getRDAmount() * (rdAcc.getRDTenure()));
@@ -269,6 +274,7 @@ public class RDServicesUI {
         LocalDate eligibleDate = rds.validateRDdate(rdAcc);
         if (rdAcc.getRDstatus()) {
             if (eligibleDate == null) {
+                System.out.println("Select the Source Account to deposit RD Amount :");
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
                 double amount = Math.round(rds.addRDAmount(acc, rdAcc));
                 double interest = amount - (rdAcc.getRDAmount() * (rdAcc.getRDTenure() - rdAcc.getRDRemainingMonths()));
@@ -281,7 +287,7 @@ public class RDServicesUI {
                 System.out.println("\nYou are not eligible to withdraw wait for up to this date : " + eligibleDate);
             }
         } else {
-            System.out.println("This RD Account is closed");
+            System.out.println("No RD Acounts is available");
         }
     }
 
@@ -295,9 +301,10 @@ public class RDServicesUI {
             System.out.println("Create Account for Nominee ");
             return;
         }
-        System.out.println(" Nominee Name : " + cif.getUsername());
+        System.out.println(" Nominee Name : " + cif.getCustomerFullname());
         System.out.print("Enter 1 to continue or any number to exit : ");
         int x = sc.nextInt();
+        System.out.println("\nSelect the Account to withdraw RD Amount : ");
         Account acc = UtilsUI.displayAccountNumber(mobileNo);
         if (x != 1)
             return;

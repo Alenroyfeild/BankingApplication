@@ -22,7 +22,7 @@ public class UserProfileUI {
                     "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("\n  --  Welcome to User Profile Page  --");
             System.out.println(" 1.View Profile");
-            System.out.println(" 2.Update CustomerName");
+            System.out.println(" 2.Update PreferredName");
             System.out.println(" 3.Update Password");
             System.out.println(" 4.Update Address");
             System.out.println(" 5.Quit");
@@ -56,18 +56,20 @@ public class UserProfileUI {
         CIF cifList = bas.getUserCIFDetails(mobileNo);
         System.out.println("\n\n-----------------------------------------------------------");
         System.out.println("\n  -- User Profile Info --\n");
-        System.out.println("Customer Name      : " + cifList.getUsername());
-        System.out.println("Age                : " + cifList.getAge());
-        System.out.println("Aadhar Number      : " + cifList.getAadharNumber());
-        System.out.println("Mobile number      : " + cifList.getMobileNo());
+        System.out.println("Customer Full Name   : " + cifList.getCustomerFullname());
+        System.out.println("Preferred name       : " + cifList.getUsername());
+        System.out.println("Age                  : " + cifList.getAge());
+        System.out.println("Aadhar Number        : " + cifList.getAadharNumber());
+        System.out.println("Mobile number        : " + cifList.getMobileNo());
         String[] address = cifList.getAddress();
-        System.out.println("Address            : " + address[0] + "," + address[1] + "," + address[2] + "," + address[3]
-                + "-" + address[4] + ".");
+        System.out
+                .println("Address              : " + address[0] + "," + address[1] + "," + address[2] + "," + address[3]
+                        + "-" + address[4] + ".");
     }
 
     // this function is used to display Profile update menu and its methods
     private static void doUpdateAddress(long mobileno) {
-        System.out.print("\nEnter New  Address Details\n");
+        System.out.println("\nEnter New  Address Details");
         String[] address = UtilsUI.getAddress();
         Boolean bool = up.updateAddress(mobileno, address);
         if (bool)
@@ -97,7 +99,7 @@ public class UserProfileUI {
     }
 
     private static void doUpdateName(long mobileno) {
-        System.out.print("\nEnter New Customername : ");
+        System.out.print("\nEnter New Username : ");
         String name = sc.next();
         Boolean bool = up.updateUsername(mobileno, name);
         if (bool)

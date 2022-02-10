@@ -1,6 +1,5 @@
 package UserInterface;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,7 +7,6 @@ import entities.Account;
 import entities.Bank;
 import entities.CIF;
 import entities.CreditCard;
-import entities.Transactions;
 import services.CreditCardServices;
 import services.utils;
 
@@ -50,18 +48,16 @@ public class CreditCardServicesUI {
         CCNotification(mobileNo);
         Account acc = null;
         CreditCard cc = null;
-        int x = 0;
         do {
             choice = creditCardPage();
             if (choice == 1)
                 acc = UtilsUI.displayAccountNumber(mobileNo);
-            if (choice != 1 && choice != 7 && x == 0) {
+            if (choice != 1 && choice != 7) {
                 cc = UtilsUI.displayCredtCardNo(mobileNo);
                 if (cc.getCardStatus().equals("Block")) {
                     System.out.println("\n\nCredit Card is Blocked First UnBlock the Card ");
                     choice = 6;
                 }
-                x = 1;
             }
             if (choice == 1) {
                 applyCreditCard(acc, mobileNo);
@@ -75,7 +71,6 @@ public class CreditCardServicesUI {
                 updatePin(cc);
             } else if (choice == 6) {
                 updateCardStatus(cc, mobileNo);
-                // break;
             } else {
                 System.out.println("\nBack to Home Page");
             }
@@ -154,6 +149,7 @@ public class CreditCardServicesUI {
         Boolean bool = utils.validateCard(acc);
         if (bool) {
             int cardPin = UtilsUI.getCardPin("New Card Pin", 4);
+            System.out.println("Credit card Interest Rate : 12 % per month");
             CreditCard cc = ccs.applyCC(acc, cardPin);
             if (cc != null) {
                 displayCC(cc, mobileNo);
@@ -166,30 +162,37 @@ public class CreditCardServicesUI {
     private static void displayCardStatements(CreditCard cc, long mobileNo) {
         if (cc == null)
             return;
-        ArrayList<Transactions> transList = ccs.getCCTransactions(cc, mobileNo);
-        if (transList == null)
-            return;
-        LocalDate date = ATMTransactionsUI.getMiniStatementsDate();
-        String cardNo = cc.getCardNo() + "";
-        String accNo = cc.getAccNo() + "";
-        System.out.println("\n Acc No : 2XXXXX" + accNo.substring(6) + "\t\t Card No : 7XXXXX" + cardNo.substring(6));
-        System.out.println(
-                "\n   --    Credit Card Statements   --\n------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-20s\n", "Transaction Mode", "Transaction ID",
-                "TransactionType", "Date",
-                "TransactionAmount", "AvailabeBalance");
-        System.out.println(
-                "------------------------------------------------------------------------------------------------------------------------------------------------");
-        for (Transactions tlist : transList) {
-            if (tlist.getTransactionDate().compareTo(date) >= 0) {
-                System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-20s\n", tlist.getTransactionMode(),
-                        tlist.getTransactionID(),
-                        tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
-                        tlist.getBalance());
-            }
-        }
-        System.out.println(
-                "------------------------------------------------------------------------------------------------------------------------------------------------");
+        ATMTransactionsUI.doMiniStatementsUI(cc.getAccNo(), 0);
+
+        // ArrayList<Transactions> transList = ccs.getCCTransactions(cc, mobileNo);
+        // if (transList == null)
+        // return;
+        // LocalDate date = ATMTransactionsUI.getMiniStatementsDate();
+        // String cardNo = cc.getCardNo() + "";
+        // String accNo = cc.getAccNo() + "";
+        // System.out.println("\n Acc No : 2XXXXX" + accNo.substring(6) + "\t\t Card No
+        // : 7XXXXX" + cardNo.substring(6));
+        // System.out.println(
+        // "\n -- Credit Card Statements
+        // --\n------------------------------------------------------------------------------------------------------------------------------------------------");
+        // System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-20s\n",
+        // "Transaction Mode", "Transaction ID",
+        // "TransactionType", "Date",
+        // "TransactionAmount", "AvailabeBalance");
+        // System.out.println(
+        // "------------------------------------------------------------------------------------------------------------------------------------------------");
+        // for (Transactions tlist : transList) {
+        // if (tlist.getTransactionDate().compareTo(date) >= 0) {
+        // System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-20s\n",
+        // tlist.getTransactionMode(),
+        // tlist.getTransactionID(),
+        // tlist.getTransactionType(), tlist.getTransactionDate(),
+        // Math.round(tlist.getAmount()),
+        // tlist.getBalance());
+        // }
+        // }
+        // System.out.println(
+        // "------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     private static void displayCC(CreditCard cc, long mobileNo) {
@@ -197,7 +200,7 @@ public class CreditCardServicesUI {
             return;
         CIF cif = utils.getCIFAccount(mobileNo);
         System.out.println("\n\n      ~ Credit Card Details ~");
-        System.out.println(" User Name        : " + cif.getUsername());
+        System.out.println(" User Name        : " + cif.getCustomerFullname());
         System.out.println(" Card No          : " + cc.getCardNo());
         System.out.println(" CC Expiry Date   : " + cc.getCardExpiryDate());
         System.out.println(" CC CVV code      : " + cc.getCvvCode());
@@ -205,25 +208,27 @@ public class CreditCardServicesUI {
         System.out.println(" CC status        : " + cc.getCardStatus());
     }
 
-    public static void ccWithdraw(Account acc) {
-        CreditCard cc = utils.getCreditCard(acc.getAccNo());
+    public static void ccWithdraw(long mobileNo) {
+        CreditCard cc = UtilsUI.displayCredtCardNo(mobileNo);
         if (cc == null) {
-            System.out.println("No credit cards available with this Account No " + acc.getAccNo());
+            System.out.println("No credit cards available");
             return;
         }
-        System.out.println("\n");
+        System.out.println("\n Your Card No : " + cc.getCardNo());
         int pin = UtilsUI.getCardPin("Card Pin ", 4);
         if (cc.validatePin(pin)) {
             if (cc.getCardStatus() != "Block") {
                 double amount = UtilsUI.getAmount();
                 if (amount <= (cc.getBalanceLimit() - cc.getUsedBalance())) {
-                    ccs.CCwithdraw(acc, cc, amount);
+                    ccs.CCwithdraw(cc, amount);
                     System.out.println("\n\nTransaction Successfull \nAvailable Credit Card Balance : "
                             + (cc.getBalanceLimit() - cc.getUsedBalance()));
                 } else {
                     System.out.println("Insufficiet Balance \nAvailable Credit Card Balance : "
                             + (cc.getBalanceLimit() - cc.getUsedBalance()));
                 }
+            }else{
+                System.out.println("Credit Card is Blocked");
             }
         } else {
             System.out.println("Invalid Pin");
@@ -236,7 +241,7 @@ public class CreditCardServicesUI {
         }
         double amount = ccs.getCreditCardBill(cc);
         if (amount <= 0) {
-            System.out.println("No Credit card Bills available");
+            System.out.println("\nNo Credit card Bills available");
         } else {
             System.out.println("Credit card Bill : " + amount);
             System.out.print("Enter 1 to continue : ");

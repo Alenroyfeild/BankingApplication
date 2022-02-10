@@ -36,12 +36,12 @@ public class CreditCardServices {
         return null;
     }
 
-    public void CCwithdraw(Account acc, CreditCard cc, double amount) {
+    public void CCwithdraw( CreditCard cc, double amount) {
         if (cc.getUsedBalance() == 0) {
             cc.setFirstUsedDate(LocalDate.now());
         }
         cc.setUsedBalance(amount);
-        ba.transactions.get(acc.getAccNo())
+        ba.transactions.get(cc.getAccNo())
                 .add(new Transactions(cc.getCardNo(), "online", "CreditCard-Debit",
                         LocalDate.now(), amount, utils.generateTransactionID(), 0,
                         (cc.getBalanceLimit() - cc.getUsedBalance())));
@@ -61,7 +61,7 @@ public class CreditCardServices {
     private double calcBillAmount(ArrayList<Transactions> transList) {
         double amount = 0;
         for (Transactions trans : transList) {
-            amount += calcBill(trans.getAmount(), trans.getTransactionDate(), trans.getBillPaid());
+            amount += trans.getAmount() + calcBill(trans.getAmount(), trans.getTransactionDate(), trans.getBillPaid());
             trans.setBillPaid(true);
         }
         return amount;

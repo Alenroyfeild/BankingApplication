@@ -42,7 +42,7 @@ public class BankAdminServiceUI {
                                 "-------------------------------------------------------------------------------------------------------------------");
                 for (CIF cif : cifList) {
                         System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n",
-                                        cif.getCIFno(), cif.getUsername(), cif.getAadharNumber(), cif.getMobileNo(),
+                                        cif.getCIFno(), cif.getCustomerFullname(), cif.getAadharNumber(), cif.getMobileNo(),
                                         cif.getAge());
                 }
                 System.out.println(
@@ -123,7 +123,7 @@ public class BankAdminServiceUI {
                         System.out.println(
                                         "-------------------------------------------------------------------------------------------------------------------");
                         System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n",
-                                        cif.getCIFno(), cif.getUsername(), cif.getAadharNumber(), cif.getMobileNo(),
+                                        cif.getCIFno(), cif.getCustomerFullname(), cif.getAadharNumber(), cif.getMobileNo(),
                                         cif.getAge());
                         System.out.println(
                                         "--------------------------------------------------------------------------------------------------------------------");
@@ -158,7 +158,10 @@ public class BankAdminServiceUI {
         public static void displaySelectedAccountTransactions() {
                 long accNo = UtilsUI.getAccNumber();
                 Account acc = utils.searchAccount(accNo);
-                ATMTransactionsUI.doMiniStatementsUI(acc);
+                if(acc!=null)
+                ATMTransactionsUI.doMiniStatementsUI(accNo,1);
+                else
+                System.out.println("No account exist with this account Number");
         }
 
         // this function is used display selected loan account details

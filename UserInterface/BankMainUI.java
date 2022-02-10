@@ -176,15 +176,16 @@ public class BankMainUI {
         CIF cifList = bas.getUserCIFDetails(mobileNo);
         System.out.println("\033[H\033[2J");
         System.out.println("\n\n  -- User PassBook  --");
-        System.out.println("User Name          : " + cifList.getUsername());
+        System.out.println("User Name          : " + cifList.getCustomerFullname());
         System.out.println("Account number     : " + acc.getAccNo());
         System.out.println("Account Type       : " + acc.getAccountType());
         System.out.println("Balance Type       : " + acc.getBalanceType());
         System.out.println("Age                : " + cifList.getAge());
         System.out.println("Mobile number      : " + cifList.getMobileNo());
         System.out.println("Account opened Date: " + acc.getAccOpenDate());
-        String[] address=cifList.getAddress();
-        System.out.println("Address            : "+address[0]+","+address[1]+","+address[2]+","+address[3]+"-"+address[4]+".");
+        String[] address = cifList.getAddress();
+        System.out.println("Address            : " + address[0] + "," + address[1] + "," + address[2] + "," + address[3]
+                + "-" + address[4] + ".");
     }
 
     // this function is used to display notifications
@@ -254,7 +255,7 @@ public class BankMainUI {
             System.out.println("\nSuccessfully available balance is withdrawn");
         } else {
             acc2.setAccountBalance(acc.getAccountBalance() + acc2.getAccountBalance());
-            System.out.println("Available Balance : " + acc.getAccountBalance() + " is tranfered to other Account");
+            System.out.println("Available Balance : " + acc.getAccountBalance() + " is tranfered to selected Account");
         }
         System.out.println("\nSuccessfully Account is closed");
     }
@@ -300,11 +301,11 @@ public class BankMainUI {
         Bank ba = Bank.getInstance();
         ba.userLogins.add(new UserLogin(9701660809l, "l"));
         ba.userLogins.get(0).setCIFno(1603202101l);
-        String[] address={"3/269-a","Ananthapuram","Kadapa","AP","626262"};
-        ba.cifList.add(new CIF(1603202101l, "Balaji", 9701660809l, 622988081663l,address, 21));
+        String[] address = { "3/269-a", "Ananthapuram", "Kadapa", "AP", "626262" };
+        ba.cifList.add(new CIF(1603202101l,"Balaji Royal", "Balaji", 9701660809l, 622988081663l, address, 21));
         ba.userLogins.add(new UserLogin(9701660808l, "l"));
         ba.userLogins.get(1).setCIFno(1603202102l);
-        ba.cifList.add(new CIF(1603202102l, "Royal", 9701660808l, 622988081664l, address, 21));
+        ba.cifList.add(new CIF(1603202102l,"Balaji Royal", "Royal", 9701660808l, 622988081664l, address, 21));
         ba.accountsList
                 .add(new SavingsAccount(9701660809l, 2603202101l, 1603202101l, "SavingsAccount",
                         "MinimumBalanceAccount", 300000, true));
@@ -319,7 +320,8 @@ public class BankMainUI {
                 5, 5,
                 true));
         ba.loanList.put(9701660809l, arr);
-        FixedDeposit acc1 = new FixedDeposit(622988081664l, 9701660809l, 6603202101l, LocalDate.of(2021, 01, 01), 7.5, 100000, 12,
+        FixedDeposit acc1 = new FixedDeposit(622988081664l, 9701660809l, 6603202101l, LocalDate.of(2021, 01, 01), 7.5,
+                100000, 12,
                 true);
         ArrayList<FixedDeposit> arr1 = new ArrayList<>();
         arr1.add(acc1);
@@ -341,7 +343,7 @@ public class BankMainUI {
         Console c = System.console();
         int button = 0;
         do {
-            button = 2;// loginPage();
+            button = 2;//loginPage();
             if (button == 1) {
                 int button4 = 0;
                 if (BankAdminServiceUI.login()) {
@@ -382,18 +384,18 @@ public class BankMainUI {
             } else if (button == 2) {
                 int button2;
                 do {
-                    button2 = 2;// = userEntrancePage();
+                    button2 =2;// userEntrancePage();
                     if (button2 == 1) {
                         AccountCreationUI.userSingin();
                     } else if (button2 == 2) {
-                        long mobileNo = 9701660809l;// UtilsUI.getMobileNo();
-                        // char[] pass = c.readPassword("Enter your password : ");
+                        long mobileNo = 9701660809l;//UtilsUI.getMobileNo();
+                        //char[] pass = c.readPassword("Enter your password : ");
                         String password = new String("l");
                         if (UtilsUI.validateLogin(mobileNo, password)) {
                             UtilsUI.displayAccountsSummary(mobileNo);
                             int button5;
                             do {
-                                button5 = 3;//userAccEntrancePage(mobileNo);
+                                button5 = userAccEntrancePage(mobileNo);
                                 if (button5 == 1) {
                                     int button3 = 0;
                                     System.out.println("\033[H\033[2J");
@@ -408,7 +410,7 @@ public class BankMainUI {
                                             displayPassbookUI(mobileNo, ac);
                                         } else if (button3 == 3) {
                                             Account ac = UtilsUI.displayAccountNumber(mobileNo);
-                                            ATMTransactionsUI.doMiniStatementsUI(ac);
+                                            ATMTransactionsUI.doMiniStatementsUI(ac.getAccNo(),1);
                                         } else if (button3 == 4) {
                                             Account ac = UtilsUI.displayAccountNumber(mobileNo);
                                             BankMainUI.closeAccount(ac, mobileNo);
@@ -422,15 +424,15 @@ public class BankMainUI {
                                 } else if (button5 == 3) {
                                     int button6 = 0;
                                     do {
-                                        button6 = 2;//depositSelectionPage();
+                                        button6 = depositSelectionPage();
                                         if (button6 == 1) {
                                             FDServicesUI.FDServiceUI(mobileNo);
                                         } else if (button6 == 2) {
                                             RDServicesUI.RDServiceUI(mobileNo);
                                         } else {
-                                            System.out.println("Back to Home page");
+                                            System.out.println("\nBack to Home page");
                                         }
-                                    } while (button6 < 1 || button > 3 || button != 3);
+                                    } while (button6 < 1 || button6 > 3 || button6 != 3);
                                 } else if (button5 == 4) {
                                     CreditCardServicesUI.CreditCardUI(mobileNo);
                                 } else if (button5 == 5) {
@@ -440,7 +442,7 @@ public class BankMainUI {
                                 } else if (button5 == 7) {
                                     UserProfileUI.userProfileMenuPage(mobileNo);
                                 } else if (button5 == 8) {
-                                    System.out.println("Back to Entrance Page");
+                                    System.out.println("\nBack to Entrance Page");
                                 }
                             } while (button5 < 1 || button5 > 8 || button5 != 8);
                         }
@@ -449,11 +451,11 @@ public class BankMainUI {
                     } else if (button2 == 4) {
                         UtilsUI.forgotMobileNo();
                     } else {
-                        System.out.println("Back to Login Page");
+                        System.out.println("\nBack to Login Page");
                     }
                 } while (button2 < 1 || button2 > 5 || button2 != 5);
             } else {
-                System.out.println("Thank You...!");
+                System.out.println("\nThank You...!");
             }
 
         } while (button < 1 || button > 3 || button != 3);

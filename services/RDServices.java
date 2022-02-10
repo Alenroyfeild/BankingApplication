@@ -52,7 +52,7 @@ public class RDServices {
     }
 
     private double getInterestRate(int mons) {
-        if (mons > 1 && mons >= 12) {
+        if (mons > 1 && mons <= 12) {
             return 6.1;
         } else if (mons > 12 && mons <= 24) {
             return 6.2;

@@ -127,7 +127,7 @@ public class FDServicesUI {
         } else if (amount == -1) {
             System.out.println("\nToday only you have applied FD");
             System.out.println("Transaction Successfull....");
-            System.out.println("FD Amount : " + fdAcc.getFDAmount() + " is added to selected account");
+            System.out.println("FD Amount : " + fdAcc.getFDAmount() + "  is added to selected account");
         } else if (amount == -2) {
             System.out.println("\nThis FD account is already closed");
         }
@@ -143,7 +143,7 @@ public class FDServicesUI {
             System.out.println("Create Account for Nominee ");
             return;
         }
-        System.out.println(" Nominee Name : " + cif.getUsername());
+        System.out.println(" Nominee Name : " + cif.getCustomerFullname());
         System.out.print("Enter 1 to continue or any number to exit : ");
         int x = sc.nextInt();
         if (x != 1)

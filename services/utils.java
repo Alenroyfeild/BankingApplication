@@ -152,10 +152,15 @@ public class utils {
     public static ArrayList<Loan> getLoanAccNumbers(long mobileNo) {
         if (ba.loanList.containsKey(mobileNo)) {
             ArrayList<Loan> arrList = new ArrayList<>();
+            int x = 0;
             for (Loan acc : ba.loanList.get(mobileNo)) {
-                arrList.add(acc);
+                if (acc.getAccountStatus()) {
+                    arrList.add(acc);
+                    x = 1;
+                }
             }
-            return arrList;
+            if (x == 1)
+                return arrList;
         }
         return null;
     }
@@ -216,7 +221,7 @@ public class utils {
     // this function is used to return user name
     public static String getUsername(long cifNumber) {
         CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getCIFno() == cifNumber);
-        return cif.getUsername();
+        return cif.getCustomerFullname();
     }
 
     // this function is used to validate aadhar number
@@ -229,10 +234,15 @@ public class utils {
     public static ArrayList<RecurringDeposit> getRDAccNumbers(long mobileNo) {
         if (ba.RDList.containsKey(mobileNo)) {
             ArrayList<RecurringDeposit> arrList = new ArrayList<>();
+            int x = 0;
             for (RecurringDeposit acc : ba.RDList.get(mobileNo)) {
-                arrList.add(acc);
+                if (acc.getRDstatus()) {
+                    arrList.add(acc);
+                    x = 1;
+                }
             }
-            return arrList;
+            if (x == 1)
+                return arrList;
         }
         return null;
     }
@@ -260,13 +270,15 @@ public class utils {
     // this function is used to return user name
     public static String getname(long aadharNo) {
         CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber() == aadharNo);
-        return cif.getUsername();
+        return cif.getCustomerFullname();
     }
 
     public static Account getAccount(long mobileNo) {
-        Account acc = (Account) search(ba.accountsList, value -> ((Account) value).getMobileNo() == mobileNo&&((Account) value).getAccStatus());
+        Account acc = (Account) search(ba.accountsList,
+                value -> ((Account) value).getMobileNo() == mobileNo && ((Account) value).getAccStatus());
         return acc;
     }
+
     public static ArrayList<RecurringDeposit> getUserAllRDAcc(long mobileNo) {
         ArrayList<RecurringDeposit> RDList = new ArrayList<>();
         int x = 0;

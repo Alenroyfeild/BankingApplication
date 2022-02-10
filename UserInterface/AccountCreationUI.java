@@ -16,7 +16,7 @@ public class AccountCreationUI {
     static Bank ba = Bank.getInstance();
     static UserLoginServices uls = new UserLoginServices();
 
-    //this unction is used to user sigin
+    // this unction is used to user sigin
     public static void userSingin() {
         long mobileNo = UtilsUI.getMobileNo();
         if (uls.validateMoblieNo(mobileNo) != null) {
@@ -47,17 +47,19 @@ public class AccountCreationUI {
 
     static BankMain bm = new BankMain();
 
-    //this fuction is used to create CIF
+    // this fuction is used to create CIF
     public static long createCIF(long mobileNo) {
         System.out.println("\nProvide the details for creating CIF : ");
         System.out.println("--------------------------------------------------------");
-        System.out.print("Enter Name               : ");
-        String username = sc.next();
+        System.out.print("Enter Full Name               : ");
+        String customerFullname = sc.next();
+        System.out.print("Enter Preferred Name           : ");
+        String displayname = sc.next();
         long aadharNumber = UtilsUI.getAadharno();
         int age = getUserAge();
         System.out.print("Enter Address : ");
-        String[] address=UtilsUI.getAddress();
-        CIF ci = bm.createCIF(username, aadharNumber, mobileNo, age, address);
+        String[] address = UtilsUI.getAddress();
+        CIF ci = bm.createCIF(customerFullname, displayname, aadharNumber, mobileNo, age, address);
         return ci.getCIFno();
     }
 
@@ -152,14 +154,15 @@ public class AccountCreationUI {
         System.out.println("\033[H\033[2J");
         System.out.println("\n  ----    Passbook    ----");
         System.out.println(" CIF No          : " + cif.getCIFno());
-        System.out.println(" Username        : " + cif.getUsername());
+        System.out.println(" Username        : " + cif.getCustomerFullname());
         System.out.println(" Age             : " + cif.getAge());
         System.out.println(" Account number  : " + acc.getAccNo());
         System.out.println(" Account Type    : " + acc.getAccountType());
         System.out.println(" Balance Type    : " + acc.getBalanceType());
         System.out.println(" Mobile Number   : " + cif.getMobileNo());
         System.out.println(" Account opened on " + acc.getAccOpenDate());
-        String[] address=cif.getAddress();
-        System.out.println(" Address         : "+address[0]+","+address[1]+","+address[2]+","+address[3]+"-"+address[4]+".");
+        String[] address = cif.getAddress();
+        System.out.println(" Address         : " + address[0] + "," + address[1] + "," + address[2] + "," + address[3]
+                + "-" + address[4] + ".");
     }
 }

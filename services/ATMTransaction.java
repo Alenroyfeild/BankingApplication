@@ -78,11 +78,11 @@ public class ATMTransaction {
     }
 
     // this function is used to return transactions list of an Account
-    public ArrayList<Transactions> dominiStatement(Account acc, LocalDate date) {
-        if (acc != null
-                && ba.transactions.containsKey(acc.getAccNo())) {
+    public ArrayList<Transactions> dominiStatement(long accNo, LocalDate date) {
+        if (accNo != 0
+                && ba.transactions.containsKey(accNo)) {
             ArrayList<Transactions> list = new ArrayList<>();
-            for (Transactions tlist : ba.transactions.get(acc.getAccNo())) {
+            for (Transactions tlist : ba.transactions.get(accNo)) {
                 if (tlist.getTransactionDate().compareTo(date) >= 0) {
                     list.add(tlist);
                 }
@@ -148,11 +148,11 @@ public class ATMTransaction {
         return a;
     }
 
-    public ArrayList<Transactions> getTenTransactions(Account acc) {
-        if (acc != null
-                && ba.transactions.containsKey(acc.getAccNo())) {
+    public ArrayList<Transactions> getTenTransactions(long accNo) {
+        if (accNo != 0
+                && ba.transactions.containsKey(accNo)) {
             ArrayList<Transactions> list = new ArrayList<>();
-            ArrayList<Transactions> list1 = ba.transactions.get(acc.getAccNo());
+            ArrayList<Transactions> list1 = ba.transactions.get(accNo);
             ListIterator<Transactions> list2 = list1.listIterator(list1.size());
             int x = 1;
             while ((x <= 10) && list2.hasPrevious()) {
