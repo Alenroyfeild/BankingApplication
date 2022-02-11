@@ -30,7 +30,7 @@ public class RecurringDeposit {
         this.totalRDAmount=0;
     }
 
-    public double getMoileNo(){
+    public long getMobileNo(){
         return this.mobileNo;
     }
     public double getTotalRDAmount(){

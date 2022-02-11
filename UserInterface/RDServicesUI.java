@@ -223,10 +223,12 @@ public class RDServicesUI {
                     rds.payRDAmount(acc, rdAcc);
                     System.out.println("\nRD Amount paid successfully ");
                     if (rdAcc.getRDRemainingMonths() == 0) {
-                        System.out.println("\nYou will get full mature amount on "
-                                + rdAcc.getRDOpenDate().plusMonths(rdAcc.getRDTenure()));
+                        System.out.println(
+                                "\nYou have successfuly paid all RD's Amount.\nYou will get full mature amount on "
+                                        + rdAcc.getRDOpenDate().plusMonths(rdAcc.getRDTenure()));
                     } else {
                         System.out.println("Remaining months : " + rdAcc.getRDRemainingMonths());
+                        System.out.println("Next RD Due Date : " + utils.getRDDueDate(rdAcc));
                     }
                 } else {
                     System.out.println("\nThis month RD is already paid");
@@ -321,6 +323,7 @@ public class RDServicesUI {
         if (rd == null)
             return;
         System.out.println("\n    ~  Recurring Deposit Passbook  ~");
+        System.out.println(" RD Acc Holder Name   : " + utils.getHoldername(rd.getMobileNo()));
         System.out.println(" RD Account No        : " + rd.getRDID());
         System.out.println(" RD Nominee Aadhar No : " + rd.getNomineeAadhar());
         System.out.println(" Nominee Aadhar Name  : " + utils.getname(rd.getNomineeAadhar()));

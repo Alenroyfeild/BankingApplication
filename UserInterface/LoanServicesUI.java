@@ -316,6 +316,7 @@ public class LoanServicesUI {
     public static void displayLoanPassbookDetailsUI(Loan acc) {
         if (acc != null) {
             System.out.println("\n ---  Loan Account Passbook  ---");
+            System.out.println("Loan Acc Holder Name       : "+utils.getHoldername(acc.getMobileNo()));
             System.out.println("Loan Account Number        : " + acc.getLoanAccNo());
             System.out.println("Loan Account Type          : " + acc.getLoanType());
             System.out.println("Loan Amount                : " + acc.getLoanAmount());

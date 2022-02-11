@@ -309,6 +309,12 @@ public class utils {
             return null;
     }
 
+    // this function is used to return user name
+    public static String getHoldername(long mobileNo) {
+        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() == mobileNo);
+        return cif.getCustomerFullname();
+    }
+
     public static ArrayList<FixedDeposit> getUserFDAcc(long mobileNo) {
         ArrayList<FixedDeposit> FDList = new ArrayList<>();
         int x = 0;
@@ -342,7 +348,7 @@ public class utils {
     public static LocalDate getLoanDueDate(Loan loan) {
         LocalDate date;
         date = loan.getLoanDate().plusMonths(loan.getnoofMonths() - loan.getMonthsRemain() + 1);
-        date=date.plusDays(5);
+        date = date.plusDays(5);
         return date;
     }
 

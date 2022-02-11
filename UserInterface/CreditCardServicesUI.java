@@ -166,36 +166,6 @@ public class CreditCardServicesUI {
         if (cc == null)
             return;
         ATMTransactionsUI.doMiniStatementsUI(cc.getAccNo(), 0);
-
-        // ArrayList<Transactions> transList = ccs.getCCTransactions(cc, mobileNo);
-        // if (transList == null)
-        // return;
-        // LocalDate date = ATMTransactionsUI.getMiniStatementsDate();
-        // String cardNo = cc.getCardNo() + "";
-        // String accNo = cc.getAccNo() + "";
-        // System.out.println("\n Acc No : 2XXXXX" + accNo.substring(6) + "\t\t Card No
-        // : 7XXXXX" + cardNo.substring(6));
-        // System.out.println(
-        // "\n -- Credit Card Statements
-        // --\n------------------------------------------------------------------------------------------------------------------------------------------------");
-        // System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-20s\n",
-        // "Transaction Mode", "Transaction ID",
-        // "TransactionType", "Date",
-        // "TransactionAmount", "AvailabeBalance");
-        // System.out.println(
-        // "------------------------------------------------------------------------------------------------------------------------------------------------");
-        // for (Transactions tlist : transList) {
-        // if (tlist.getTransactionDate().compareTo(date) >= 0) {
-        // System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-20s\n",
-        // tlist.getTransactionMode(),
-        // tlist.getTransactionID(),
-        // tlist.getTransactionType(), tlist.getTransactionDate(),
-        // Math.round(tlist.getAmount()),
-        // tlist.getBalance());
-        // }
-        // }
-        // System.out.println(
-        // "------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     private static void displayCC(CreditCard cc, long mobileNo) {
