@@ -296,7 +296,6 @@ public class RDServicesUI {
     private static void createRDAccount(long mobileNo) {
         System.out.println("\nProvide details for RD Account :");
         System.out.println("\n---------------------------------------------------------------------\n");
-        int mons = getMonths();
         CIF cif = UtilsUI.getNomineeAadharNo();
         if (cif == null) {
             System.out.println("Create Account for Nominee ");
@@ -305,6 +304,7 @@ public class RDServicesUI {
         System.out.println(" Nominee Name : " + cif.getCustomerFullname());
         System.out.print("\nEnter 1 to continue or any number to exit : ");
         int x = sc.nextInt();
+        int mons = getMonths();
         System.out.println("\nSelect Account to withdraw for RD Amount & for Auto payments : ");
         Account acc = UtilsUI.displayAccountNumber(mobileNo);
         if (x != 1)
