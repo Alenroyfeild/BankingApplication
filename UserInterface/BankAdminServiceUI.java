@@ -96,7 +96,7 @@ public class BankAdminServiceUI {
                 System.out.println(
                                 "\n\n   --    All Bank Transactions   --\n--------------------------------------------------------------------------------------------------------");
                 System.out.format("%1$-30s%2$-20s%3$-30s%4$-20s%5$-20s\n", "AccountNumber", "Transaction Mode",
-                                "TransactionType", "Date", "Balance");
+                                "TransactionDescription", "Date", "Balance");
                 System.out.println(
                                 "--------------------------------------------------------------------------------------------------------");
                 for (Transactions tlist : allTransactions) {

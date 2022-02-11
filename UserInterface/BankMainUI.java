@@ -37,7 +37,7 @@ public class BankMainUI {
 
         int choice = 0;
         do {
-            // System.out.println("\033[H\033[2J");
+             System.out.println("\033[H\033[2J");
             System.out.println("\n\n\n---------------------------------------------------------------------");
             System.out.println("        --- Welcome to Zoho Bank ---");
             System.out.println("\nChoose the Options : ");
@@ -121,6 +121,7 @@ public class BankMainUI {
     public static int userEntrancePage() {
         int choice = 0;
         do {
+            System.out.println("\033[H\033[2J");
             System.out.println(
                     "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Entrance Page ---");
@@ -346,7 +347,7 @@ public class BankMainUI {
         Console c = System.console();
         int button = 0;
         do {
-            button = 2;// loginPage();
+            button = loginPage();
             if (button == 1) {
                 int button4 = 0;
                 if (BankAdminServiceUI.login()) {
@@ -387,18 +388,18 @@ public class BankMainUI {
             } else if (button == 2) {
                 int button2;
                 do {
-                    button2 = 2;// userEntrancePage();
+                    button2 = userEntrancePage();
                     if (button2 == 1) {
                         AccountCreationUI.userSingin();
                     } else if (button2 == 2) {
-                        long mobileNo = 9701660809l;// UtilsUI.getMobileNo();
-                        // char[] pass = c.readPassword("Enter your password : ");
-                        String password = new String("l");
+                        long mobileNo = UtilsUI.getMobileNo();
+                        char[] pass = c.readPassword("Enter your password : ");
+                        String password = new String(pass);
                         if (UtilsUI.validateLogin(mobileNo, password)) {
-                            // UtilsUI.displayAccountsSummary(mobileNo);
+                            UtilsUI.displayAccountsSummary(mobileNo);
                             int button5;
                             do {
-                                button5 = 3;// userAccEntrancePage(mobileNo);
+                                button5 = userAccEntrancePage(mobileNo);
                                 if (button5 == 1) {
                                     int button3 = 0;
                                     System.out.println("\033[H\033[2J");
@@ -427,7 +428,7 @@ public class BankMainUI {
                                 } else if (button5 == 3) {
                                     int button6 = 0;
                                     do {
-                                        button6 = 2;// depositSelectionPage();
+                                        button6 = depositSelectionPage();
                                         if (button6 == 1) {
                                             FDServicesUI.FDServiceUI(mobileNo);
                                         } else if (button6 == 2) {
