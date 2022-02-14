@@ -1,5 +1,6 @@
 package UserInterface;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ import services.utils;
 public class ATMTransactionsUI {
     static ATMTransaction atm = new ATMTransaction();
     static Scanner sc = new Scanner(System.in);
+    static DecimalFormat df = new DecimalFormat("0.00");
 
     // this function is used to choose the Fund services types
     public static int fundServicesPage() {
@@ -146,14 +148,14 @@ public class ATMTransactionsUI {
                 if (tlist.getAccountNumber() / 1000000000 != 8)
                     System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
                             tlist.getTransactionID(),
-                            tlist.getTransactionType(), tlist.getTransactionDate(), tlist.getAmount(),
-                            tlist.getFee(), tlist.getBalance());
+                            tlist.getTransactionType(), tlist.getTransactionDate(), df.format(tlist.getAmount()),
+                            df.format(tlist.getFee()), tlist.getBalance());
             } else if (x == 0) {
                 if (tlist.getAccountNumber() / 1000000000 == 8)
                     System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
                             tlist.getTransactionID(),
-                            tlist.getTransactionType(), tlist.getTransactionDate(), tlist.getAmount(),
-                            tlist.getFee(), tlist.getBalance());
+                            tlist.getTransactionType(), tlist.getTransactionDate(), df.format(tlist.getAmount()),
+                            df.format(tlist.getFee()), tlist.getBalance());
             }
         }
         System.out.println(

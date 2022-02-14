@@ -1,5 +1,6 @@
 package entities;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 public class CreditCard {
@@ -112,7 +113,8 @@ public class CreditCard {
     }
 
     public double getBalanceLimit() {
-        return this.balanceLimit;
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(this.balanceLimit));
     }
 
     public long getAccNo() {

@@ -1,5 +1,6 @@
 package UserInterface;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import services.utils;
 public class FDServicesUI {
     static Scanner sc = new Scanner(System.in);
     static FDServices fds = new FDServices();
-
+    static DecimalFormat df = new DecimalFormat("0.00");
     // this function is used to display interest details based on amount
     public static int FDServicesPage() {
         int choice = 0;
@@ -110,9 +111,9 @@ public class FDServicesUI {
                     status = "Closed";
                 }
                 System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-20s\n", fd.getFDAccNo(),
-                        fd.getFDAmount(), fd.getFDinterestRate(), fd.getFDDepositDate(),
-                        utils.getFDMatureDate(fd), fd.getFDAmount() + fd.getFDInterestAmount(),
-                        fd.getFDInterestAmount(), status);
+                        df.format(fd.getFDAmount()), fd.getFDinterestRate(), fd.getFDDepositDate(),
+                        utils.getFDMatureDate(fd), df.format(fd.getFDAmount() + fd.getFDInterestAmount()),
+                        df.format(fd.getFDInterestAmount()), status);
             }
             System.out.println(
                     "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -128,13 +129,13 @@ public class FDServicesUI {
         double amount = fds.doFDWithdraw(acc, fdAcc);
         if (amount >= 0) {
             System.out.println("\nTransaction Successfull....");
-            System.out.println("FD Amount : " + fdAcc.getFDAmount() + " is added to selected account");
-            System.out.println("Interest Amount : " + amount + "is also added");
+            System.out.println("FD Amount : " + df.format(fdAcc.getFDAmount()) + " is added to selected account");
+            System.out.println("Interest Amount : " + df.format(amount) + "is also added");
             System.out.println("Successfully FD Account is closed");
         } else if (amount == -1) {
             System.out.println("\nToday only you have applied FD");
             System.out.println("Transaction Successfull....");
-            System.out.println("FD Amount : " + fdAcc.getFDAmount() + "  is added to selected account");
+            System.out.println("FD Amount : " + df.format(fdAcc.getFDAmount()) + "  is added to selected account");
             System.out.println("Successfully FD Account is closed");
         } else if (amount == -2) {
             System.out.println("\nThis FD account is already closed");

@@ -1,5 +1,6 @@
 package UserInterface;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class CreditCardServicesUI {
     static Scanner sc = new Scanner(System.in);
     static Bank ba = Bank.getInstance();
     static CreditCardServices ccs = new CreditCardServices();
+    static DecimalFormat df = new DecimalFormat("0.00");
 
     // this function is used to display loan page
     public static int creditCardPage() {
@@ -123,9 +125,9 @@ public class CreditCardServicesUI {
             else
                 status = "UnPaid";
             System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", cc.getCardNo(),
-                    cc.getBalanceLimit(), Math.round(cc.getUsedBalance()*100)*0.01,
-                    Math.round((cc.getBalanceLimit() - cc.getUsedBalance())*100)*0.01, cc.getFirstUsedDate().plusDays(43),
-                    cc.getLastCardBillAmt(), status);
+                    df.format(cc.getBalanceLimit()), df.format(cc.getUsedBalance()),
+                    df.format(cc.getBalanceLimit() - cc.getUsedBalance()), cc.getFirstUsedDate().plusDays(43),
+                    df.format(cc.getLastCardBillAmt()), status);
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");

@@ -1,5 +1,6 @@
 package UserInterface;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class LoanServicesUI {
     static Bank ba = Bank.getInstance();
     static LoanServices ls = new LoanServices();
     static ATMTransaction atm = new ATMTransaction();
-
+    static DecimalFormat df = new DecimalFormat("0.00");
     // this function is used to display loan page
     public static int loanPage() {
 
@@ -125,24 +126,24 @@ public class LoanServicesUI {
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
         System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
-                loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI*100)*0.01);
+                loan.getLoanType(), df.format(loan.getLoanAmount()), loan.getInterestRate(), loan.getnoofMonths(),
+                loan.getMonthsRemain(), utils.getLoanDueDate(loan), df.format(EMI));
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         System.out.println(
                 "\n   --   Loan Statement   --\n--------------------------------------------------------------------------------------------------------");
-        System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s\n", "Transaction ID",
+        System.out.format("%1$-15s%2$-20s%3$-25s%4$-20s%5$-20s\n", "Transaction ID",
                 "Transaction Mode",
                 "TransactionDescription", "Date", "Balance");
         System.out.println(
                 "--------------------------------------------------------------------------------------------------------");
         if (arrList != null)
             for (Transactions tlist : arrList) {
-                System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s\n", tlist.getTransactionID(),
+                System.out.format("%1$-15s%2$-20s%3$-25s%4$-20s%5$-20s\n", tlist.getTransactionID(),
                         tlist.getTransactionMode(),
                         tlist.getTransactionType(), tlist.getTransactionDate(),
-                        Math.round(tlist.getAmount()*100)*0.01);
+                        df.format(tlist.getAmount()));
             }
         System.out.println(
                 "--------------------------------------------------------------------------------------------------------");
@@ -171,13 +172,13 @@ public class LoanServicesUI {
         for (Loan loan : arr) {
             String dueDate = utils.getLoanDueDate(loan) + "";
             double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
-            String amount = Math.round(EMI*100)*0.01 + "";
+            String amount = df.format(EMI);
             if (loan.getMonthsRemain() == 0) {
                 amount = "-";
                 dueDate = "-";
             }
             System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
-                    loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
+                    loan.getLoanType(), df.format(loan.getLoanAmount()), loan.getInterestRate(), loan.getnoofMonths(),
                     loan.getMonthsRemain(), dueDate, amount);
         }
         System.out.println(

@@ -248,20 +248,6 @@ public class utils {
             return null;
     }
 
-    // // this function is used to return user name
-    // public static String getname(long aadharNo) {
-    // CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber()
-    // == aadharNo);
-    // return cif.getCustomerFullname();
-    // }
-
-    // public static Account getAccount(long mobileNo) {
-    // Account acc = (Account) search(ba.accountsList,
-    // value -> ((Account) value).getMobileNo() == mobileNo && ((Account)
-    // value).getAccStatus());
-    // return acc;
-    // }
-
     public static ArrayList<RecurringDeposit> getUserAllRDAcc(long mobileNo) {
         ArrayList<RecurringDeposit> RDList = new ArrayList<>();
         int x = 0;
@@ -291,13 +277,6 @@ public class utils {
         else
             return null;
     }
-
-    // // this function is used to return user name
-    // public static String getHoldername(long mobileNo) {
-    // CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() ==
-    // mobileNo);
-    // return cif.getCustomerFullname();
-    // }
 
     public static ArrayList<FixedDeposit> getUserFDAcc(long mobileNo) {
         ArrayList<FixedDeposit> FDList = new ArrayList<>();
@@ -348,12 +327,6 @@ public class utils {
         date = fd.getFDDepositDate().plusMonths(fd.getFDMonths());
         return date;
     }
-
-    // public static CIF getCIFAccount(long mobileNo) {
-    // CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() ==
-    // mobileNo);
-    // return cif;
-    // }
 
     public static CreditCard getCreditCard(long accNo) {
         if (ba.CCList.containsKey(accNo)) {

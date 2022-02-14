@@ -80,7 +80,8 @@ public abstract class Account {
     }
 
     public String toString(String format) {
-        return String.format(format, accountNumber, accountType, accountBalance);
+        DecimalFormat df = new DecimalFormat("0.00");
+        return String.format(format, accountNumber, accountType, df.format(accountBalance));
 
     }
 
