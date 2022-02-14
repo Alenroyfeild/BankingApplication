@@ -25,7 +25,7 @@ public class UserProfileUI {
             System.out.println(" 2.Update PreferredName");
             System.out.println(" 3.Update Password");
             System.out.println(" 4.Update Address");
-            System.out.println(" 5.Quit");
+            System.out.println(" 5.Back to Home");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());

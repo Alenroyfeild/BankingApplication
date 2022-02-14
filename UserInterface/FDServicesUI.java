@@ -26,7 +26,7 @@ public class FDServicesUI {
             System.out.println(" 2.WithDraw FD Account");
             System.out.println(" 3.FD's Summary");
             System.out.println(" 4.FD Interest Details");
-            System.out.println(" 5.Exit");
+            System.out.println(" 5.Back to Deposit Selection");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -84,7 +84,7 @@ public class FDServicesUI {
                 System.out.println("\033[H\033[2J");
                 displayFDInterestDetails();
             } else {
-                System.out.println("\nBack to HomePage");
+                System.out.println("\nBack to Deposit Page");
             }
         } while (choice < 1 || choice > 5 || choice != 5);
     }

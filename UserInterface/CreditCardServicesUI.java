@@ -24,12 +24,12 @@ public class CreditCardServicesUI {
             System.out.println("\n   -- Credit Card Servics page  --");
             System.out.println("\nChoose the Options : ");
             System.out.println(" 1.Apply Credit Card");
-            System.out.println(" 2.Pay Credit Card Bill");
-            System.out.println(" 3.Virtual Credit Card");
+            System.out.println(" 2.Contribute Credit Card Bill");
+            System.out.println(" 3.Credit Card Details");
             System.out.println(" 4.Credit Card Statements");
             System.out.println(" 5.Change Card Pin");
             System.out.println(" 6.Block\\ UnBlock Card");
-            System.out.println(" 7.Quit");
+            System.out.println(" 7.Back to Home");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -152,7 +152,7 @@ public class CreditCardServicesUI {
         Boolean bool = utils.validateCard(acc);
         if (bool) {
             int cardPin = UtilsUI.getCardPin("New Card Pin", 4);
-            System.out.println("Credit card Interest Rate : 12 % per month");
+            System.out.println("Credit card Interest Rate : 3.5 % per month");
             CreditCard cc = ccs.applyCC(acc, cardPin);
             if (cc != null) {
                 displayCC(cc, mobileNo);
@@ -217,7 +217,7 @@ public class CreditCardServicesUI {
             System.out.println("\nNo Credit card Bills available");
         } else {
             System.out.println("Credit card Bill : " + amount);
-            System.out.print("Enter 1 to continue : ");
+            System.out.print("Enter 1 to continue or any Integer Exit : ");
             int x = sc.nextInt();
             if (x == 1) {
                 double status = ccs.payCreditCardBill(cc, amount);

@@ -27,7 +27,7 @@ public class CheckServicesUI {
             System.out.println(" 2.Cheques Summary");
             System.out.println(" 3.Cancel cheque");
             System.out.println(" 4.Check Deposit");
-            System.out.println(" 5.exit");
+            System.out.println(" 5.Back to Home Page");
             try {
                 System.out.print("Enter choice  : ");
                 choice = Integer.parseInt(sc.next());

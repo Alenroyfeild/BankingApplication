@@ -49,8 +49,8 @@ public class ATMTransactionsUI {
         System.out.println("\033[H\033[2J");
         do {
             choice = fundServicesPage();
-            if (choice != 2 || choice != 5 || choice != 7) {
-                System.out.println("\nChoose Source Account : ");
+            if (choice != 2 && choice != 5 && choice != 7) {
+                //System.out.println("\nChoose Source Account : ");
                 acc = UtilsUI.displayAccountNumber(mobileNo);
                 if (acc == null) {
                     System.out.println("No Accounts available");
@@ -98,7 +98,7 @@ public class ATMTransactionsUI {
             System.out.println(" 3.last 3 Months");
             System.out.println(" 4.last 6 Months");
             System.out.println(" 5.All transactions");
-            System.out.println(" 6.back to homePage");
+            System.out.println(" 6.Back to Fund Services Page");
             try {
                 System.out.print("Enter Choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -126,12 +126,13 @@ public class ATMTransactionsUI {
         } else if (choice == 5) {
             nMonthsBackDate = LocalDate.of(2021, 01, 01);
         } else {
-            System.out.println("\nThank you...");
+            System.out.println("\nBack to Fund Services Page");
+            nMonthsBackDate = null;
         }
         return nMonthsBackDate;
     }
 
-    public static int displayTransactions(String accNo, ArrayList<Transactions> alist, int x) {
+    public static void displayTransactions(String accNo, ArrayList<Transactions> alist, int x) {
         System.out.println("\033[H\033[2J");
         System.out.println("\nAccount No : 2*****" + accNo.substring(6));
         System.out.println(
@@ -158,9 +159,6 @@ public class ATMTransactionsUI {
         }
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.print("Enter 1 to continue or any integer to exit : ");
-        int y = sc.nextInt();
-        return y;
     }
 
     // this function is used to display transactions
@@ -168,13 +166,13 @@ public class ATMTransactionsUI {
         ArrayList<Transactions> alist = new ArrayList<>();
         String accNo = (accNum + "");
         alist = atm.getTenTransactions(accNum);
-        int x = displayTransactions(accNo, alist, y);
-        if (x == 1) {
-            alist = null;
-            LocalDate date = getMiniStatementsDate();
-            alist = atm.dominiStatement(accNum, date);
-            displayTransactions(accNo, alist, y);
-        }
+        displayTransactions(accNo, alist, y);
+        alist = null;
+        LocalDate date = getMiniStatementsDate();
+        if (date == null)
+            return;
+        alist = atm.dominiStatement(accNum, date);
+        displayTransactions(accNo, alist, y);
     }
 
     // this function is used to withdraw amount
@@ -247,7 +245,7 @@ public class ATMTransactionsUI {
 
     // this function is used to display account balance
     public static void doBalanceEnquiry(Account acc) {
-        double bal = atm.balanceEnquiry(acc);
+        double bal = acc.getAccountBalance();
         if (bal != -1) {
             System.out.println("\nAccount Balance : " + Math.round(bal));
         } else {
@@ -262,7 +260,7 @@ public class ATMTransactionsUI {
             System.out.println("\nChoose the Type of Transaction : ");
             System.out.println(" 1.NEFT");
             System.out.println(" 2.RTGS");
-            System.out.println(" 3.Back to homePage");
+            System.out.println(" 3.Back to Fund Services Page");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -291,7 +289,7 @@ public class ATMTransactionsUI {
         if (payeeAcc != null) {
             System.out.println("\n Receiver name  : " + utils.getUsername(payeeAcc.getCIFNumber()));
             System.out.println(" Receiver AccNo : " + payeeAcc.getAccNo());
-            System.out.print("Enter 1 to continue : ");
+            System.out.print("Enter 1 to continue or Any Integer to Exit: ");
             int x = sc.nextInt();
             if (x != 1)
                 return;

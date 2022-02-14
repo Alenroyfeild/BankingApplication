@@ -182,7 +182,7 @@ public class UtilsUI {
         int i, x;
         do {
             i = 0;
-            System.out.println("\n Choose Source Account Number \n");
+            System.out.println("\n Choose Account Number \n");
             for (Account obj : arrList) {
                 i++;
                 System.out

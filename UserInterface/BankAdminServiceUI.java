@@ -42,7 +42,8 @@ public class BankAdminServiceUI {
                                 "-------------------------------------------------------------------------------------------------------------------");
                 for (CIF cif : cifList) {
                         System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n",
-                                        cif.getCIFno(), cif.getCustomerFullname(), cif.getAadharNumber(), cif.getMobileNo(),
+                                        cif.getCIFno(), cif.getCustomerFullname(), cif.getAadharNumber(),
+                                        cif.getMobileNo(),
                                         cif.getAge());
                 }
                 System.out.println(
@@ -100,10 +101,11 @@ public class BankAdminServiceUI {
                 System.out.println(
                                 "--------------------------------------------------------------------------------------------------------");
                 for (Transactions tlist : allTransactions) {
-                        System.out.format("%1$-30s%2$-20s%3$-30s%4$-20s%5$-20s\n", tlist.getAccountNumber(),
-                                        tlist.getTransactionMode(),
-                                        tlist.getTransactionType(), tlist.getTransactionDate(),
-                                        Math.round(tlist.getAmount()));
+                        if (tlist.getAccountNumber() / 1000000000 != 8 && tlist.getAccountNumber() != 0)
+                                System.out.format("%1$-30s%2$-20s%3$-30s%4$-20s%5$-20s\n", tlist.getAccountNumber(),
+                                                tlist.getTransactionMode(),
+                                                tlist.getTransactionType(), tlist.getTransactionDate(),
+                                                Math.round(tlist.getAmount()));
                 }
                 System.out.println(
                                 "--------------------------------------------------------------------------------------------------------");
@@ -123,7 +125,8 @@ public class BankAdminServiceUI {
                         System.out.println(
                                         "-------------------------------------------------------------------------------------------------------------------");
                         System.out.format("%1$-30s%2$-20s%3$-20s%4$-20s%5$-20s\n",
-                                        cif.getCIFno(), cif.getCustomerFullname(), cif.getAadharNumber(), cif.getMobileNo(),
+                                        cif.getCIFno(), cif.getCustomerFullname(), cif.getAadharNumber(),
+                                        cif.getMobileNo(),
                                         cif.getAge());
                         System.out.println(
                                         "--------------------------------------------------------------------------------------------------------------------");
@@ -158,10 +161,10 @@ public class BankAdminServiceUI {
         public static void displaySelectedAccountTransactions() {
                 long accNo = UtilsUI.getAccNumber();
                 Account acc = utils.searchAccount(accNo);
-                if(acc!=null)
-                ATMTransactionsUI.doMiniStatementsUI(accNo,1);
+                if (acc != null)
+                        ATMTransactionsUI.doMiniStatementsUI(accNo, 1);
                 else
-                System.out.println("No account exist with this account Number");
+                        System.out.println("No account exist with this account Number");
         }
 
         // this function is used display selected loan account details

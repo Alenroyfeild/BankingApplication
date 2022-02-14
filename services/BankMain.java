@@ -2,8 +2,12 @@ package services;
 
 import entities.CIF;
 import entities.CurrentAccount;
+
+import java.time.LocalDate;
+
 import entities.Account;
 import entities.SavingsAccount;
+import entities.Transactions;
 import entities.Bank;
 
 public class BankMain {
@@ -66,8 +70,10 @@ public class BankMain {
         return null;
     }
 
-    public void closeAccount(Account ac) {
-
+    public void closeAccount(Account acc, Account acc2) {
+        acc2.setAccountBalance(acc.getAccountBalance() + acc2.getAccountBalance());
+        ba.transactions.get(acc2.getAccNo()).add(new Transactions(acc2.getAccNo(), "online", "ClosedAccBalance-Credit",
+                        LocalDate.now(), acc.getAccountBalance(), utils.generateTransactionID(), 0, acc2.getAccountBalance()));
     }
 
 }

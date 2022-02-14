@@ -158,7 +158,7 @@ public class BankMainUI {
             System.out.println(" 5.Fund Services");
             System.out.println(" 6.Cheque Services");
             System.out.println(" 7.User Profile");
-            System.out.println(" 8.Quit");
+            System.out.println(" 8.Log out");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -255,11 +255,11 @@ public class BankMainUI {
         if (acc2 == null) {
             System.out.println("\nSuccessfully available balance is withdrawn");
         } else {
-            acc2.setAccountBalance(acc.getAccountBalance() + acc2.getAccountBalance());
+            bm.closeAccount( acc,acc2);
             ArrayList<Account> arrList = utils.getAccNumbers(mobileNo);
             if (arrList.size() == 1)
                 System.out.println("\nOnly one Account is available.So,");
-            System.out.println("Available Balance : " + acc.getAccountBalance() + " is tranfered to selected Account");
+            System.out.println("Available Balance : " + acc2.getAccountBalance() + " is tranfered to selected Account");
         }
         System.out.println("\nSuccessfully Account is closed");
     }
@@ -289,7 +289,7 @@ public class BankMainUI {
             System.out.println(" 2.Passbook");
             System.out.println(" 3.Account statements");
             System.out.println(" 4.Close Account");
-            System.out.println(" 5.Quit");
+            System.out.println(" 5.Back to Home");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -347,7 +347,7 @@ public class BankMainUI {
         Console c = System.console();
         int button = 0;
         do {
-            button = loginPage();
+            button = 2;//loginPage();
             if (button == 1) {
                 int button4 = 0;
                 if (BankAdminServiceUI.login()) {
@@ -419,7 +419,7 @@ public class BankMainUI {
                                             Account ac = UtilsUI.displayAccountNumber(mobileNo);
                                             BankMainUI.closeAccount(ac, mobileNo);
                                         } else {
-                                            System.out.println("Back to Entrance Page");
+                                            System.out.println("Back to Home Page");
                                             x = 1;
                                         }
                                     } while (button3 < 1 || button3 > 5 || button3 != 5);
@@ -455,7 +455,7 @@ public class BankMainUI {
                     } else if (button2 == 4) {
                         UtilsUI.forgotMobileNo();
                     } else {
-                        System.out.println("\nBack to Login Page");
+                        System.out.println("\nBack to selection Page");
                     }
                 } while (button2 < 1 || button2 > 5 || button2 != 5);
             } else {
@@ -474,7 +474,7 @@ public class BankMainUI {
             System.out.println("Choose the Options : ");
             System.out.println(" 1.Fixed Deposits");
             System.out.println(" 2.Recurring Deposits ");
-            System.out.println(" 3.Quit");
+            System.out.println(" 3.Back to Home");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());

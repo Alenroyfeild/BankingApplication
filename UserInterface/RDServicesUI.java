@@ -30,7 +30,7 @@ public class RDServicesUI {
             System.out.println(" 5.RD Statements");
             System.out.println(" 6.RD Summary");
             System.out.println(" 7.RD Interest Details");
-            System.out.println(" 8.Exit");
+            System.out.println(" 8.Back to Deposit Selection");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());

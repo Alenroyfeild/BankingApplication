@@ -70,13 +70,6 @@ public class ATMTransaction {
         return -1;
     }
 
-    // this function is used to return account account balance
-    public double balanceEnquiry(Account acc) {
-        if (acc != null)
-            return acc.getAccountBalance();
-        return -1;
-    }
-
     // this function is used to return transactions list of an Account
     public ArrayList<Transactions> dominiStatement(long accNo, LocalDate date) {
         if (accNo != 0

@@ -33,7 +33,7 @@ public class LoanServicesUI {
             System.out.println(" 4.Loan Passbook");
             System.out.println(" 5.Loan Statements");
             System.out.println(" 6.Loan Interest Details");
-            System.out.println(" 7.Quit");
+            System.out.println(" 7.Back to Home");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
@@ -191,7 +191,7 @@ public class LoanServicesUI {
             System.out.println("\nchoose type of paying : ");
             System.out.println("1.EMI");
             System.out.println("2.Total pay");
-            System.out.println("3.Back");
+            System.out.println("3.Back to Loan Services");
             System.out.print("enter choice : ");
             try {
                 choice = Integer.parseInt(sc.next());
@@ -225,7 +225,7 @@ public class LoanServicesUI {
                     System.out.print("Enter 1 to continue or any number to exit : ");
                     int x = sc.nextInt();
                     if (x == 1) {
-                        System.out.println("Select the Account to withdraw for Loan EMI");
+                        System.out.println("\nSelect the Account to withdraw for Loan EMI");
                         Account acc = UtilsUI.displayAccountNumber(mobileNo);
                         double balance = acc.getAccountBalance();
                         if (amount <= balance) {
@@ -237,7 +237,7 @@ public class LoanServicesUI {
                                     System.out.println("Next due date  : " + utils.getLoanDueDate(loan));
                                 if (monsRemain == 0) {
                                     System.out
-                                            .println("Successfully You pay all Loan EMI's and loan Account is closed");
+                                            .println("\nSuccessfully You pay all Loan EMI's and loan Account is closed");
                                     loan.setAccountStatus(false);
                                 }
                             } else if (monsRemain == -1) {
@@ -250,7 +250,7 @@ public class LoanServicesUI {
                                     .println("\nInsufficient Balance\nAvailable Balance : " + acc.getAccountBalance());
                         }
                     } else {
-                        System.out.println("\nBack to LoanServices Page");
+                        System.out.println("\nBack to Loan Services Page");
                         choice = 3;
                     }
 
@@ -268,10 +268,10 @@ public class LoanServicesUI {
                         return;
                     }
                     System.out.println("\nTotal Remaining amount to pay : " + amount);
-                    System.out.print("Enter 1 to continue : ");
+                    System.out.print("Enter 1 to continue or any Integer to exit : ");
                     int x = sc.nextInt();
                     if (x == 1) {
-                        System.out.println("Select the Account to withdraw for loan");
+                        System.out.println("\nSelect the Account to withdraw for loan");
                         Account acc = UtilsUI.displayAccountNumber(mobileNo);
                         double balance = acc.getAccountBalance();
                         if (amount <= balance) {
@@ -280,10 +280,11 @@ public class LoanServicesUI {
                             System.out.println("You save upto : " + interestAmount);
                             System.out.println("Successfully Loan Account is closed");
                         } else {
-                            System.out.println("\nBack to Home page");
+                            System.out.println("Insufficient Balance\nAvailable Balance : "+acc.getAccountBalance());
+                            System.out.println("\nBack to Loan Services page");
                         }
                     } else {
-                        System.out.println("\nBack to Home Page");
+                        System.out.println("\nBack to Loan Services Page");
                         choice = 3;
                     }
 
@@ -397,7 +398,7 @@ public class LoanServicesUI {
             System.out.println("Choose the Loan Type : ");
             System.out.println(" 1.Personal loan");
             System.out.println(" 2.Home loan");
-            System.out.println(" 3.Quit");
+            System.out.println(" 3.Back to Loan Services");
             try {
                 System.out.print("Enter choice : ");
                 choice = Integer.parseInt(sc.next());
