@@ -55,6 +55,7 @@ public class LoanServices {
         }
     }
 
+    // this function is used to display loan details
     public ArrayList<Loan> displayLoanDetails(long mobileNo) {
         if (ba.loanList.containsKey(mobileNo)) {
             return ba.loanList.get(mobileNo);
@@ -102,18 +103,6 @@ public class LoanServices {
                 }
             }
         } while (ref == 0);
-    }
-
-    // this function is used to display loan details
-    public Loan displayLoanDetails(long mobileNo, long accNo) {
-        if (ba.loanList.containsKey(mobileNo)) {
-            for (Loan loan : ba.loanList.get(mobileNo)) {
-                if (loan.getLoanAccNo() == accNo) {
-                    return loan;
-                }
-            }
-        }
-        return null;
     }
 
     // this function is used to calculate the days
