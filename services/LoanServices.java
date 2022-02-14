@@ -139,7 +139,6 @@ public class LoanServices {
                     double balance = acc.getAccountBalance();
                     balance -= EMI;
                     acc.setAccountBalance(balance);
-                    //loan.setDueDate(LocalDate.now());
                     if (ba.transactions.containsKey(acc.getAccNo()))
                         ba.transactions.get(acc.getAccNo())
                                 .add(new Transactions(loan.getLoanAccNo(), "online", "LoanEMI-Dedit",

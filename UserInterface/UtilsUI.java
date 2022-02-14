@@ -309,7 +309,7 @@ public class UtilsUI {
         do {
             System.out.println("\nEnter Nominee Details : ");
             aadharNo = getAadharno();
-            acc1 = utils.validateAadhar(aadharNo);
+            acc1 = utils.searchCIF(aadharNo);
             if (acc1 == null) {
                 System.out.println("No account exist with this Aadhar No : " + aadharNo);
                 break;

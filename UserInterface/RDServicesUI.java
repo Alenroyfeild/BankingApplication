@@ -126,7 +126,7 @@ public class RDServicesUI {
                     "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (RecurringDeposit rd : RDList) {
                 LocalDate date = rd.getRDOpenDate().plusMonths(rd.getRDTenure());
-                double matureAmount = Math.round(rds.getMatureAmount(rd));
+                double matureAmount = (Math.round(rds.getMatureAmount(rd)*100))/100;
                 double interest = matureAmount - (rd.getRDAmount() * rd.getRDTenure());
                 String dueDate;
                 if (rd.getRDRemainingMonths() == 0)
@@ -164,7 +164,7 @@ public class RDServicesUI {
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         LocalDate date = rd.getRDOpenDate().plusMonths(rd.getRDTenure());
-        double matureAmount = Math.round(rds.getMatureAmount(rd));
+        double matureAmount = (Math.round(rds.getMatureAmount(rd)*100))*0.01;
         double interest = matureAmount - (rd.getRDAmount() * rd.getRDTenure());
         String dueDate;
         if (rd.getRDRemainingMonths() == 0)
@@ -265,13 +265,13 @@ public class RDServicesUI {
             if (rdAcc.getRDOpenDate().plusMonths(rdAcc.getRDTenure()).compareTo(LocalDate.now()) <= 0) {
                 System.out.println("Select the Source Account to deposit RD Amount :");
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
-                double amount = Math.round(rds.addRDAmount(acc, rdAcc));
+                double amount = Math.round(rds.addRDAmount(acc, rdAcc)*100)*0.01;
                 double interest = amount - (rdAcc.getRDAmount() * (rdAcc.getRDTenure()));
                 System.out.println("\nRD Total Amount : " + rdAcc.getRDAmount() * rdAcc.getRDTenure()
                         + "  RD Interest : " + interest);
                 System.out.println("\nMature Amount     : " + amount + " is added to your Account");
                 System.out.println("Successfully RD is closed");
-                System.out.println("Available Balance : " + Math.round(acc.getAccountBalance()));
+                System.out.println("Available Balance : " + acc.getAccountBalance());
                 return;
             }
         LocalDate eligibleDate = rds.validateRDdate(rdAcc);
@@ -279,13 +279,13 @@ public class RDServicesUI {
             if (eligibleDate == null) {
                 System.out.println("Select the Source Account to deposit RD Amount :");
                 Account acc = UtilsUI.displayAccountNumber(mobileNo);
-                double amount = Math.round(rds.addRDAmount(acc, rdAcc));
+                double amount = (Math.round(rds.addRDAmount(acc, rdAcc)*100))*0.01;
                 double interest = amount - (rdAcc.getRDAmount() * (rdAcc.getRDTenure() - rdAcc.getRDRemainingMonths()));
                 System.out.println("\nRD Total Amount : " + rdAcc.getRDAmount() * rdAcc.getRDTenure()
                         + "  RD Interest : " + interest);
                 System.out.println("\nMature Amount : " + Math.round(amount) + " is added to your Account");
                 System.out.println("Successfully RD is closed");
-                System.out.println("Available Balance : " + Math.round(acc.getAccountBalance()));
+                System.out.println("Available Balance : " +acc.getAccountBalance());
             } else {
                 System.out.println("\nYou are not eligible to withdraw wait for up to this date : " + eligibleDate);
             }
@@ -323,10 +323,10 @@ public class RDServicesUI {
         if (rd == null)
             return;
         System.out.println("\n    ~  Recurring Deposit Passbook  ~");
-        System.out.println(" RD Acc Holder Name   : " + utils.getHoldername(rd.getMobileNo()));
+        System.out.println(" RD Acc Holder Name   : " + utils.getUsername(rd.getMobileNo()));
         System.out.println(" RD Account No        : " + rd.getRDID());
         System.out.println(" RD Nominee Aadhar No : " + rd.getNomineeAadhar());
-        System.out.println(" Nominee Aadhar Name  : " + utils.getname(rd.getNomineeAadhar()));
+        System.out.println(" Nominee Aadhar Name  : " + utils.getUsername(rd.getNomineeAadhar()));
         System.out.println(" RD Mounthly AMount   : " + rd.getRDAmount());
         System.out.println(" RD Interest Rate(p.a): " + rd.getRDInterestRate());
         System.out.println(" RD Duration          : " + rd.getRDTenure());

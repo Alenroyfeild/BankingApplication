@@ -168,10 +168,10 @@ public class FDServicesUI {
         if (fd == null)
             return;
         System.out.println("\n  --  Fixed Deposit Passbook  -- ");
-        System.out.println(" FD Acc Holder Name   : " + utils.getHoldername(fd.getMobileNo()));
+        System.out.println(" FD Acc Holder Name   : " + utils.getUsername(fd.getMobileNo()));
         System.out.println(" FD Account No        : " + fd.getFDAccNo());
         System.out.println(" FD Nominee Aadhar No : " + fd.getNomineeAadhar());
-        System.out.println(" Nominee Aadhar Name  : " + utils.getname(fd.getNomineeAadhar()));
+        System.out.println(" Nominee Aadhar Name  : " + utils.getUsername(fd.getNomineeAadhar()));
         System.out.println(" FD Amount            : " + fd.getFDAmount());
         System.out.println(" FD Interest Rate     : " + fd.getFDinterestRate());
         System.out.println(" FD Duration in months: " + fd.getFDMonths());

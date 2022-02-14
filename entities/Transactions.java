@@ -78,7 +78,8 @@ public class Transactions {
     }
 
     public double getAmount() {
-        return this.amount;
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(this.amount));
     }
 
     public double getFee() {

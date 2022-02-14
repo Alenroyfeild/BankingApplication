@@ -123,8 +123,8 @@ public class CreditCardServicesUI {
             else
                 status = "UnPaid";
             System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s\n", cc.getCardNo(),
-                    cc.getBalanceLimit(), Math.round(cc.getUsedBalance()),
-                    Math.round(cc.getBalanceLimit() - cc.getUsedBalance()), cc.getFirstUsedDate().plusDays(43),
+                    cc.getBalanceLimit(), Math.round(cc.getUsedBalance()*100)*0.01,
+                    Math.round((cc.getBalanceLimit() - cc.getUsedBalance())*100)*0.01, cc.getFirstUsedDate().plusDays(43),
                     cc.getLastCardBillAmt(), status);
         }
         System.out.println(
@@ -148,6 +148,7 @@ public class CreditCardServicesUI {
     private static void applyCreditCard(Account acc, long mobileNo) {
         if (!acc.getAccountType().equals("CurrentAccount")) {
             System.out.println("Reference Account Must be a Current Account");
+            return;
         }
         Boolean bool = utils.validateCard(acc);
         if (bool) {
@@ -171,7 +172,7 @@ public class CreditCardServicesUI {
     private static void displayCC(CreditCard cc, long mobileNo) {
         if (cc == null)
             return;
-        CIF cif = utils.getCIFAccount(mobileNo);
+        CIF cif = utils.searchCIF(mobileNo);
         System.out.println("\n\n      ~ Credit Card Details ~");
         System.out.println(" User Name        : " + cif.getCustomerFullname());
         System.out.println(" Card No          : " + cc.getCardNo());

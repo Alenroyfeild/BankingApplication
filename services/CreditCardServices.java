@@ -113,7 +113,7 @@ public class CreditCardServices {
     }
 
     public double payCreditCardBill(CreditCard cc, double amount) {
-        Account acc = utils.getRefAccount(cc.getAccNo());
+        Account acc = utils.searchAccount(cc.getAccNo());
         if (acc.getAccountBalance() >= amount) {
             double balance = acc.getAccountBalance();
             balance -= amount;

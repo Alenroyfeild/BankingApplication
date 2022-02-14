@@ -1,5 +1,6 @@
 package entities;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -57,7 +58,8 @@ public abstract class Account {
     }
 
     public double getAccountBalance() {
-        return Math.round(this.accountBalance);
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(this.accountBalance));
     }
 
     public long getAccNo() {
@@ -73,11 +75,12 @@ public abstract class Account {
     }
 
     public void setAccountBalance(double balance) {
-        this.accountBalance = balance;
+        DecimalFormat df = new DecimalFormat("0.00");
+        this.accountBalance = Double.parseDouble(df.format(balance));
     }
 
     public String toString(String format) {
-        return String.format(format, accountNumber, accountType,Math.round(accountBalance));
+        return String.format(format, accountNumber, accountType, accountBalance);
 
     }
 

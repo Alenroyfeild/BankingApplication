@@ -117,13 +117,15 @@ public class utils {
     }
 
     // this function is used to return CIF deatils
-    public static CIF searchCIF(long mobileNo) {
-        return (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() == mobileNo);
+    public static CIF searchCIF(long number) {
+        return (CIF) search(ba.cifList,
+                value -> ((CIF) value).getMobileNo() == number || ((CIF) value).getAadharNumber() == number);
     }
 
     // this function is used to return Account deatils
-    public static Account searchAccount(long accountNumber) {
-        return (Account) search(ba.accountsList, value -> ((Account) value).getAccNo() == accountNumber);
+    public static Account searchAccount(long number) {
+        return (Account) search(ba.accountsList,
+                value -> ((Account) value).getAccNo() == number || ((Account) value).getMobileNo() == number);
     }
 
     // this function is used to return all account numbers
@@ -140,12 +142,6 @@ public class utils {
             return arrList;
         else
             return null;
-    }
-
-    // this function is used to return CIF no
-    public static long getCIF(long mobileNo) {
-        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() == mobileNo);
-        return cif.getCIFno();
     }
 
     // this function is used to return loan account numbers
@@ -198,11 +194,6 @@ public class utils {
             return false;
     }
 
-    // this function is used to return CIF details
-    public static CIF searchCIFAdharindex(long aadharNo) {
-        return (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber() == aadharNo);
-    }
-
     public static ArrayList<Loan> getUserLoanAcc(long mobileNo) {
         ArrayList<Loan> loanList = new ArrayList<>();
         int x = 0;
@@ -219,15 +210,10 @@ public class utils {
     }
 
     // this function is used to return user name
-    public static String getUsername(long cifNumber) {
-        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getCIFno() == cifNumber);
+    public static String getUsername(long number) {
+        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getCIFno() == number
+                || ((CIF) value).getAadharNumber() == number || ((CIF) value).getMobileNo() == number);
         return cif.getCustomerFullname();
-    }
-
-    // this function is used to validate aadhar number
-    public static CIF validateAadhar(long aadharNo) {
-        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber() == aadharNo);
-        return cif;
     }
 
     // this function is used to return all RD account numbers
@@ -247,11 +233,6 @@ public class utils {
         return null;
     }
 
-    public static Account getRefAccount(long accNo) {
-        Account acc = (Account) search(ba.accountsList, value -> ((Account) value).getAccNo() == accNo);
-        return acc;
-    }
-
     public static ArrayList<FixedDeposit> getUserAllFDAcc(long mobileNo) {
         ArrayList<FixedDeposit> FDList = new ArrayList<>();
         int x = 0;
@@ -267,17 +248,19 @@ public class utils {
             return null;
     }
 
-    // this function is used to return user name
-    public static String getname(long aadharNo) {
-        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber() == aadharNo);
-        return cif.getCustomerFullname();
-    }
+    // // this function is used to return user name
+    // public static String getname(long aadharNo) {
+    // CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getAadharNumber()
+    // == aadharNo);
+    // return cif.getCustomerFullname();
+    // }
 
-    public static Account getAccount(long mobileNo) {
-        Account acc = (Account) search(ba.accountsList,
-                value -> ((Account) value).getMobileNo() == mobileNo && ((Account) value).getAccStatus());
-        return acc;
-    }
+    // public static Account getAccount(long mobileNo) {
+    // Account acc = (Account) search(ba.accountsList,
+    // value -> ((Account) value).getMobileNo() == mobileNo && ((Account)
+    // value).getAccStatus());
+    // return acc;
+    // }
 
     public static ArrayList<RecurringDeposit> getUserAllRDAcc(long mobileNo) {
         ArrayList<RecurringDeposit> RDList = new ArrayList<>();
@@ -309,11 +292,12 @@ public class utils {
             return null;
     }
 
-    // this function is used to return user name
-    public static String getHoldername(long mobileNo) {
-        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() == mobileNo);
-        return cif.getCustomerFullname();
-    }
+    // // this function is used to return user name
+    // public static String getHoldername(long mobileNo) {
+    // CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() ==
+    // mobileNo);
+    // return cif.getCustomerFullname();
+    // }
 
     public static ArrayList<FixedDeposit> getUserFDAcc(long mobileNo) {
         ArrayList<FixedDeposit> FDList = new ArrayList<>();
@@ -365,10 +349,11 @@ public class utils {
         return date;
     }
 
-    public static CIF getCIFAccount(long mobileNo) {
-        CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() == mobileNo);
-        return cif;
-    }
+    // public static CIF getCIFAccount(long mobileNo) {
+    // CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getMobileNo() ==
+    // mobileNo);
+    // return cif;
+    // }
 
     public static CreditCard getCreditCard(long accNo) {
         if (ba.CCList.containsKey(accNo)) {

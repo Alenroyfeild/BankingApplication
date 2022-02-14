@@ -126,7 +126,7 @@ public class LoanServicesUI {
         double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
         System.out.format("%1$-20s%2$-20s%3$-20s%4$-20s%5$-20s%6$-20s%7$-20s%8$-15s\n", loan.getLoanAccNo(),
                 loan.getLoanType(), loan.getLoanAmount(), loan.getInterestRate(), loan.getnoofMonths(),
-                loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI));
+                loan.getMonthsRemain(), utils.getLoanDueDate(loan), Math.round(EMI*100)*0.01);
         System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
@@ -142,7 +142,7 @@ public class LoanServicesUI {
                 System.out.format("%1$-15s%2$-20s%3$-20s%4$-20s%5$-20s\n", tlist.getTransactionID(),
                         tlist.getTransactionMode(),
                         tlist.getTransactionType(), tlist.getTransactionDate(),
-                        Math.round(tlist.getAmount()));
+                        Math.round(tlist.getAmount()*100)*0.01);
             }
         System.out.println(
                 "--------------------------------------------------------------------------------------------------------");
@@ -171,7 +171,7 @@ public class LoanServicesUI {
         for (Loan loan : arr) {
             String dueDate = utils.getLoanDueDate(loan) + "";
             double EMI = ls.calculateEMI(loan.getnoofMonths(), loan.getInterestRate(), loan.getLoanAmount());
-            String amount = Math.round(EMI) + "";
+            String amount = Math.round(EMI*100)*0.01 + "";
             if (loan.getMonthsRemain() == 0) {
                 amount = "-";
                 dueDate = "-";
@@ -317,7 +317,7 @@ public class LoanServicesUI {
     public static void displayLoanPassbookDetailsUI(Loan acc) {
         if (acc != null) {
             System.out.println("\n ---  Loan Account Passbook  ---");
-            System.out.println("Loan Acc Holder Name       : "+utils.getHoldername(acc.getMobileNo()));
+            System.out.println("Loan Acc Holder Name       : "+utils.getUsername(acc.getMobileNo()));
             System.out.println("Loan Account Number        : " + acc.getLoanAccNo());
             System.out.println("Loan Account Type          : " + acc.getLoanType());
             System.out.println("Loan Amount                : " + acc.getLoanAmount());

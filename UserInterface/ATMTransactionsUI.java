@@ -50,7 +50,6 @@ public class ATMTransactionsUI {
         do {
             choice = fundServicesPage();
             if (choice != 2 && choice != 5 && choice != 7) {
-                //System.out.println("\nChoose Source Account : ");
                 acc = UtilsUI.displayAccountNumber(mobileNo);
                 if (acc == null) {
                     System.out.println("No Accounts available");
@@ -147,13 +146,13 @@ public class ATMTransactionsUI {
                 if (tlist.getAccountNumber() / 1000000000 != 8)
                     System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
                             tlist.getTransactionID(),
-                            tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
+                            tlist.getTransactionType(), tlist.getTransactionDate(), tlist.getAmount(),
                             tlist.getFee(), tlist.getBalance());
             } else if (x == 0) {
                 if (tlist.getAccountNumber() / 1000000000 == 8)
                     System.out.format("%1$-20s%2$-20s%3$-30s%4$-20s%5$-20s%6$-10s%7$-20s\n", tlist.getTransactionMode(),
                             tlist.getTransactionID(),
-                            tlist.getTransactionType(), tlist.getTransactionDate(), Math.round(tlist.getAmount()),
+                            tlist.getTransactionType(), tlist.getTransactionDate(), tlist.getAmount(),
                             tlist.getFee(), tlist.getBalance());
             }
         }
@@ -247,7 +246,7 @@ public class ATMTransactionsUI {
     public static void doBalanceEnquiry(Account acc) {
         double bal = acc.getAccountBalance();
         if (bal != -1) {
-            System.out.println("\nAccount Balance : " + Math.round(bal));
+            System.out.println("\nAccount Balance : " + bal);
         } else {
             System.out.println("\nTransaction Failure...");
         }

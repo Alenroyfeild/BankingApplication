@@ -269,7 +269,7 @@ public class BankMainUI {
         String details = bm.getUsername(mobileNo);
         int choice = 0;
         do {
-            Account acc = utils.getAccount(mobileNo);
+            Account acc = utils.searchAccount(mobileNo);
             System.out.println(
                     "\n\n-------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("                --- Welcome to Zoho Bank ---\n");
@@ -406,7 +406,7 @@ public class BankMainUI {
                                     do {
                                         button3 = userBankMenuPage(mobileNo);
                                         if (button3 == 1) {
-                                            long cifno = utils.getCIF(mobileNo);
+                                            long cifno = utils.searchCIF(mobileNo).getCIFno();
                                             AccountCreationUI.createAccountUI(cifno, mobileNo);
                                         } else if (button3 == 2) {
                                             System.out.println("\033[H\033[2J");

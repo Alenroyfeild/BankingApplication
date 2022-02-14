@@ -15,7 +15,7 @@ public class BankMain {
 
     // this function is used to validate adhar number
     public long validateAdharNumber(long aadharNo) {
-        CIF cif = utils.searchCIFAdharindex(aadharNo);
+        CIF cif = utils.searchCIF(aadharNo);
         long mobileNo = 0;
         if (cif != null) {
             mobileNo = cif.getMobileNo();
