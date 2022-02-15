@@ -78,6 +78,7 @@ public class UserProfileUI {
             System.out.println("\nPincode is not updated\n");
     }
 
+    // this function is used to update password
     private static void doUpdatePassword(long mobileno) {
         boolean noMatch;
         do {
@@ -98,6 +99,7 @@ public class UserProfileUI {
         } while (noMatch);
     }
 
+    // this function is used to update password
     private static void doUpdateName(long mobileno) {
         System.out.print("\nEnter New Username : ");
         String name = sc.next();

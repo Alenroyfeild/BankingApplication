@@ -13,6 +13,7 @@ import entities.Transactions;
 public class CreditCardServices {
     static Bank ba = Bank.getInstance();
 
+    // this function is used to apply credit card
     public CreditCard applyCC(Account acc, int cardPin) {
         if (acc.getAccountType().equals("CurrentAccount")) {
             long cardNo = utils.generateCCno();
@@ -36,7 +37,8 @@ public class CreditCardServices {
         return null;
     }
 
-    public void CCwithdraw( CreditCard cc, double amount) {
+    // this function is used for credit card withdraw
+    public void CCwithdraw(CreditCard cc, double amount) {
         if (cc.getUsedBalance() == 0) {
             cc.setFirstUsedDate(LocalDate.now());
         }
@@ -47,6 +49,7 @@ public class CreditCardServices {
                         (cc.getBalanceLimit() - cc.getUsedBalance())));
     }
 
+    // this function is used to return credit card bill amount
     public double getCreditCardBill(CreditCard cc) {
         ArrayList<Transactions> transList = getTransactions(cc, cc.getFirstUsedDate(), LocalDate.now());
         if (transList == null)
@@ -58,6 +61,7 @@ public class CreditCardServices {
             return 0;
     }
 
+    // this function is used to calculate total bill amount
     private double calcBillAmount(ArrayList<Transactions> transList) {
         double amount = 0;
         for (Transactions trans : transList) {
@@ -67,6 +71,7 @@ public class CreditCardServices {
         return amount;
     }
 
+    // this fuction is used to calculate bill amount for a transaction
     private double calcBill(double amount, LocalDate transactionDate, boolean billPaid) {
         if (!billPaid) {
             long days;
@@ -84,6 +89,7 @@ public class CreditCardServices {
         }
     }
 
+    //this function is used for auto paying credit card bill
     public void autoPayCCBill(CreditCard cc) {
         if (cc.getFirstUsedDate().until(LocalDate.now(), ChronoUnit.DAYS) >= 28) {
             ArrayList<Transactions> transList = getTransactions(cc, cc.getFirstUsedDate(), LocalDate.now());
@@ -96,6 +102,7 @@ public class CreditCardServices {
         }
     }
 
+    //this function is used to return transactions
     private ArrayList<Transactions> getTransactions(CreditCard cc, LocalDate firstUsedDate, LocalDate now) {
         if (ba.CCList.containsKey(cc.getAccNo())) {
             ArrayList<Transactions> transList = new ArrayList<>();
@@ -112,6 +119,7 @@ public class CreditCardServices {
         return null;
     }
 
+    //this function is used to pay the credit card bill amount
     public double payCreditCardBill(CreditCard cc, double amount) {
         Account acc = utils.searchAccount(cc.getAccNo());
         if (acc.getAccountBalance() >= amount) {
@@ -138,20 +146,7 @@ public class CreditCardServices {
         }
         return acc.getAccountBalance();
     }
-
-    public ArrayList<Transactions> getCCTransactions(CreditCard cc, long mobileNo) {
-        if (ba.CCList.containsKey(cc.getAccNo())) {
-            ArrayList<Transactions> transList = new ArrayList<>();
-            for (Transactions trans : ba.transactions.get(cc.getAccNo())) {
-                if (trans.getAccountNumber() == cc.getCardNo()) {
-                    transList.add(trans);
-                }
-            }
-            return transList;
-        }
-        return null;
-    }
-
+    //this function is used to update cvv code
     public Boolean updateCVV(CreditCard cc, int cvvCode, int newCardPin) {
         if (cc.validateCVV(cvvCode)) {
             cc.setPin(newCardPin);

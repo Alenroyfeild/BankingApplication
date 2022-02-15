@@ -42,8 +42,9 @@ public class FDServicesUI {
         return 0;
     }
 
+    //this function is used to display FD notification
     public static void FDNotification(long mobileNo) {
-        ArrayList<FixedDeposit> FDList = utils.getUserFDAcc(mobileNo);
+        ArrayList<FixedDeposit> FDList = utils.getFDAccNumbers(mobileNo);
         if (FDList == null)
             return;
         if (FDList != null) {
@@ -90,6 +91,7 @@ public class FDServicesUI {
         } while (choice < 1 || choice > 5 || choice != 5);
     }
 
+    //this function is used to display FD summary
     public static void displayFDSummary(long mobileNo) {
         ArrayList<FixedDeposit> FDList = null;
         FDList = utils.getUserAllFDAcc(mobileNo);

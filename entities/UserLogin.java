@@ -3,19 +3,21 @@ package entities;
 public class UserLogin {
     private long mobileNumber;
     private String password;
-    private long cifNumber=0;
+    private long cifNumber = 0;
 
     public UserLogin(long mobileNumber, String password) {
         this.mobileNumber = mobileNumber;
         this.password = password;
     }
 
-    public void setCIFno(long cifNumber){
-        this.cifNumber=cifNumber;
+    public void setCIFno(long cifNumber) {
+        this.cifNumber = cifNumber;
     }
-    public long getCIFno(){
+
+    public long getCIFno() {
         return this.cifNumber;
     }
+
     public long getMobileNumber() {
         return this.mobileNumber;
     }

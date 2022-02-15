@@ -286,6 +286,7 @@ public class UtilsUI {
         return arrList.get(--x);
     }
 
+    // this function is used to get Address
     public static String[] getAddress() {
         String[] address = new String[5];
         System.out.print("Enter Do.No/Street name  : ");
@@ -320,6 +321,7 @@ public class UtilsUI {
 
     static LoanServices ls = new LoanServices();
 
+    // this function is used to display All Accounts Summary of a mobile number
     public static void displayAccountsSummary(long mobileNo) {
         ArrayList<Account> accList = utils.getAccNumbers(mobileNo);
         System.out.println("\033[H\033[2J");
@@ -345,6 +347,7 @@ public class UtilsUI {
         sc.next();
     }
 
+    // this function is used to get credit card pin
     public static int getCardPin(String name, int length) {
         int number;
         do {

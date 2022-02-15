@@ -55,14 +55,6 @@ public class LoanServices {
         }
     }
 
-    // this function is used to display loan details
-    public ArrayList<Loan> displayLoanDetails(long mobileNo) {
-        if (ba.loanList.containsKey(mobileNo)) {
-            return ba.loanList.get(mobileNo);
-        }
-        return null;
-    }
-
     // this function is used to return loan amount
     public double getLoanAmount(Account acc) {
         double amt;
@@ -107,7 +99,7 @@ public class LoanServices {
 
     // this function is used to calculate the days
     public int countDays(LocalDate date) {
-        date=date.minusMonths(1);
+        date = date.minusMonths(1);
         long mons = date.until(LocalDate.now(), ChronoUnit.MONTHS);
         return (int) mons;
     }
@@ -142,7 +134,8 @@ public class LoanServices {
                     }
                     mons--;
 
-                }if(loan.getMonthsRemain()==0){
+                }
+                if (loan.getMonthsRemain() == 0) {
                     loan.setAccountStatus(false);
                 }
             }
@@ -161,7 +154,7 @@ public class LoanServices {
             double balance = acc.getAccountBalance();
             balance -= amount;
             acc.setAccountBalance(balance);
-            loan.setDueDate(LocalDate.now().plusDays(days+5));
+            loan.setDueDate(LocalDate.now().plusDays(days + 5));
             ba.transactions.get(acc.getAccNo())
                     .add(new Transactions(loan.getLoanAccNo(), "online", "LoanEMI-Dedit",
                             LocalDate.now(), -amount, utils.generateTransactionID(), 0,

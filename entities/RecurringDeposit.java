@@ -15,10 +15,11 @@ public class RecurringDeposit {
     private Boolean rdStatus;
     private long mobileNo;
 
-    public RecurringDeposit(long mobileNo,long accountNumber,long rdId, double rdAmount, double interestRate, long nomineeAadharNo, LocalDate rdOpenDate,
-            int rdTenure,int rdRemainingMonths,Boolean rdStatus) {
-                this.mobileNo=mobileNo;
-                this.accountNumber=accountNumber;
+    public RecurringDeposit(long mobileNo, long accountNumber, long rdId, double rdAmount, double interestRate,
+            long nomineeAadharNo, LocalDate rdOpenDate,
+            int rdTenure, int rdRemainingMonths, Boolean rdStatus) {
+        this.mobileNo = mobileNo;
+        this.accountNumber = accountNumber;
         this.rdID = rdId;
         this.rdAmount = rdAmount;
         this.interestRate = interestRate;
@@ -26,50 +27,63 @@ public class RecurringDeposit {
         this.rdOpenDate = rdOpenDate;
         this.rdTenure = rdTenure;
         this.rdRemainingMonths = rdRemainingMonths;
-        this.rdStatus=rdStatus;
-        this.totalRDAmount=0;
+        this.rdStatus = rdStatus;
+        this.totalRDAmount = 0;
     }
 
-    public long getMobileNo(){
+    public long getMobileNo() {
         return this.mobileNo;
     }
-    public double getTotalRDAmount(){
+
+    public double getTotalRDAmount() {
         return this.totalRDAmount;
     }
-    public void setTotalAmount(){
-        this.totalRDAmount+=rdAmount;
+
+    public void setTotalAmount() {
+        this.totalRDAmount += rdAmount;
     }
-    public long getAccNo(){
+
+    public long getAccNo() {
         return this.accountNumber;
     }
-    public long getRDID(){
+
+    public long getRDID() {
         return this.rdID;
     }
-    public double getRDAmount(){
+
+    public double getRDAmount() {
         return this.rdAmount;
     }
-    public double getRDInterestRate(){
+
+    public double getRDInterestRate() {
         return this.interestRate;
     }
-    public long getNomineeAadhar(){
+
+    public long getNomineeAadhar() {
         return this.nomineeAadhar;
     }
-    public LocalDate getRDOpenDate(){
+
+    public LocalDate getRDOpenDate() {
         return this.rdOpenDate;
     }
-    public int getRDTenure(){
+
+    public int getRDTenure() {
         return this.rdTenure;
     }
-    public int getRDRemainingMonths(){
+
+    public int getRDRemainingMonths() {
         return this.rdRemainingMonths;
     }
-    public void setRDremainingMonths(){
-        this.rdRemainingMonths-=1;
+
+    public void setRDremainingMonths() {
+        this.rdRemainingMonths -= 1;
     }
-    public void setRDStatus(Boolean bool){
-        this.rdStatus=bool;
+
+    public void setRDStatus(Boolean bool) {
+        this.rdStatus = bool;
     }
-    public Boolean getRDstatus(){
+
+    public Boolean getRDstatus() {
         return this.rdStatus;
     }
 }

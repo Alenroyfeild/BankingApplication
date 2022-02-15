@@ -10,7 +10,7 @@ import services.ChequeServices;
 import services.userProfile;
 import services.utils;
 
-public class CheckServicesUI {
+public class ChequeServicesUI {
     static userProfile up = new userProfile();
     static Scanner sc = new Scanner(System.in);
     static ChequeServices cs = new ChequeServices();
@@ -26,7 +26,7 @@ public class CheckServicesUI {
             System.out.println(" 1.Genarate Cheque");
             System.out.println(" 2.Cheques Summary");
             System.out.println(" 3.Cancel cheque");
-            System.out.println(" 4.Check Deposit");
+            System.out.println(" 4.Checque Deposit");
             System.out.println(" 5.Back to Home Page");
             try {
                 System.out.print("Enter choice  : ");

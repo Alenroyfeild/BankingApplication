@@ -48,7 +48,7 @@ public class RDServicesUI {
     }
 
     public static void RDNotification(long mobileNo) {
-        ArrayList<RecurringDeposit> RDList = utils.getUserRDAcc(mobileNo);
+        ArrayList<RecurringDeposit> RDList = utils.getRDAccNumbers(mobileNo);
         if (RDList != null) {
             System.out.println(
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -103,6 +103,7 @@ public class RDServicesUI {
         } while (choice < 1 || choice > 8 || choice != 8);
     }
 
+    //this function is used to display RD interest details
     private static void displayRDInterestDetails() {
         System.out.println("\nRecurring Deposit interest is based on duration ");
         System.out.println("    Months         interest rate ");
@@ -114,6 +115,7 @@ public class RDServicesUI {
         System.out.println("\n For age above 60 will get InterestRate + 0.5% ");
     }
 
+    //this function is used to display RD Summary
     public static void displayRDSummary(long mobileNo) {
         ArrayList<RecurringDeposit> RDList = null;
         RDList = utils.getUserAllRDAcc(mobileNo);

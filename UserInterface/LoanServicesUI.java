@@ -81,6 +81,7 @@ public class LoanServicesUI {
         } while (choice < 1 || choice > 7 || choice != 7);
     }
 
+    //this function is used to display loan interest details
     private static void displayLoanInterestDetails() {
         System.out.println("\nLoan Interest Details : \n");
         System.out.println("---------------------------------------");
@@ -90,8 +91,9 @@ public class LoanServicesUI {
         System.out.println("  Personal Loan    |       10.5");
     }
 
+    //this function is used to display loan interest details
     public static void loanNotifications(long mobileNo) {
-        ArrayList<Loan> loanList = utils.getUserLoanAcc(mobileNo);
+        ArrayList<Loan> loanList = utils.getLoanAccNumbers(mobileNo);
         if (loanList != null) {
             System.out.println(
                     "-------------------------------------------------------------------------------------------------------------------------------------------");
@@ -158,7 +160,7 @@ public class LoanServicesUI {
 
     // this function is used to display loan summary details
     public static void displayLoanSummary(long mobileNo) {
-        ArrayList<Loan> arr = ls.displayLoanDetails(mobileNo);
+        ArrayList<Loan> arr = utils.getLoanAccNumbers(mobileNo);
         if (arr == null)
             return;
         System.out.println(

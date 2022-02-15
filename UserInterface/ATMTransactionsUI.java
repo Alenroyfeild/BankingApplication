@@ -133,6 +133,7 @@ public class ATMTransactionsUI {
         return nMonthsBackDate;
     }
 
+    //this function is used to display transactions
     public static void displayTransactions(String accNo, ArrayList<Transactions> alist, int x) {
         System.out.println("\033[H\033[2J");
         System.out.println("\nAccount No : 2*****" + accNo.substring(6));

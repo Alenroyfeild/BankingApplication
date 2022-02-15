@@ -51,6 +51,7 @@ public class RDServices {
         return rdAcc;
     }
 
+    //this function is used to return interest rate based on months duration
     private double getInterestRate(int mons) {
         if (mons > 1 && mons <= 12) {
             return 6.1;

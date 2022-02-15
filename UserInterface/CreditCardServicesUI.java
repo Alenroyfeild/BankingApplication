@@ -47,6 +47,7 @@ public class CreditCardServicesUI {
 
     }
 
+    // this function is used to call particular method based on choice
     public static void CreditCardUI(long mobileNo) {
         int choice = 0;
         System.out.println("\033[H\033[2J");
@@ -82,6 +83,7 @@ public class CreditCardServicesUI {
         } while (choice < 1 || choice > 7 || choice != 7);
     }
 
+    // this function is used to update the credit card status
     private static void updateCardStatus(CreditCard cc, long mobileNo) {
         if (cc == null) {
             return;
@@ -107,6 +109,7 @@ public class CreditCardServicesUI {
         }
     }
 
+    // this function is used to display Credit card notification
     public static void CCNotification(long mobileNo) {
         ArrayList<CreditCard> ccList = utils.getAllCreditCards(mobileNo);
         if (ccList == null)
@@ -133,6 +136,7 @@ public class CreditCardServicesUI {
                 "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
+    //this function is used to update pin of credit card
     private static void updatePin(CreditCard cc) {
         if (cc == null)
             return;
@@ -147,6 +151,7 @@ public class CreditCardServicesUI {
         }
     }
 
+    //this function is used to apply credit card
     private static void applyCreditCard(Account acc, long mobileNo) {
         if (!acc.getAccountType().equals("CurrentAccount")) {
             System.out.println("Reference Account Must be a Current Account");
@@ -165,12 +170,14 @@ public class CreditCardServicesUI {
         }
     }
 
+    //this function is used to display credit card statements
     private static void displayCardStatements(CreditCard cc, long mobileNo) {
         if (cc == null)
             return;
         ATMTransactionsUI.doMiniStatementsUI(cc.getAccNo(), 0);
     }
 
+    //this function is used to display credit card details
     private static void displayCC(CreditCard cc, long mobileNo) {
         if (cc == null)
             return;
@@ -184,6 +191,7 @@ public class CreditCardServicesUI {
         System.out.println(" CC status        : " + cc.getCardStatus());
     }
 
+    //this function is used for credit card withdraw
     public static void ccWithdraw(long mobileNo) {
         CreditCard cc = UtilsUI.displayCredtCardNo(mobileNo);
         if (cc == null) {
@@ -211,6 +219,7 @@ public class CreditCardServicesUI {
         }
     }
 
+    //this function is used to pay the credit card bill amount
     public static void payCreditCardBill(CreditCard cc) {
         if (cc == null) {
             return;

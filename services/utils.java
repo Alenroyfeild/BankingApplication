@@ -128,7 +128,7 @@ public class utils {
                 value -> ((Account) value).getAccNo() == number || ((Account) value).getMobileNo() == number);
     }
 
-    // this function is used to return all account numbers
+    // this function is used to return all accounts of a mobile number
     public static ArrayList<Account> getAccNumbers(long mobileNo) {
         ArrayList<Account> arrList = new ArrayList<>();
         int x = 0;
@@ -144,7 +144,7 @@ public class utils {
             return null;
     }
 
-    // this function is used to return loan account numbers
+    // this function is used to return loan account of a mobile number
     public static ArrayList<Loan> getLoanAccNumbers(long mobileNo) {
         if (ba.loanList.containsKey(mobileNo)) {
             ArrayList<Loan> arrList = new ArrayList<>();
@@ -161,7 +161,7 @@ public class utils {
         return null;
     }
 
-    // this function is used to return FD account numbers
+    // this function is used to return FD accountof a mobile number
     public static ArrayList<FixedDeposit> getFDAccNumbers(long mobileNo) {
         if (ba.FDList.containsKey(mobileNo)) {
             ArrayList<FixedDeposit> arrList = new ArrayList<>();
@@ -194,21 +194,6 @@ public class utils {
             return false;
     }
 
-    public static ArrayList<Loan> getUserLoanAcc(long mobileNo) {
-        ArrayList<Loan> loanList = new ArrayList<>();
-        int x = 0;
-        if (ba.loanList.containsKey(mobileNo)) {
-            for (Loan loan : ba.loanList.get(mobileNo)) {
-                loanList.add(loan);
-                x = 1;
-            }
-        }
-        if (x == 1)
-            return loanList;
-        else
-            return null;
-    }
-
     // this function is used to return user name
     public static String getUsername(long number) {
         CIF cif = (CIF) search(ba.cifList, value -> ((CIF) value).getCIFno() == number
@@ -216,7 +201,7 @@ public class utils {
         return cif.getCustomerFullname();
     }
 
-    // this function is used to return all RD account numbers
+    // this function is used to return all RD account numbers of a mobile number
     public static ArrayList<RecurringDeposit> getRDAccNumbers(long mobileNo) {
         if (ba.RDList.containsKey(mobileNo)) {
             ArrayList<RecurringDeposit> arrList = new ArrayList<>();
@@ -233,6 +218,7 @@ public class utils {
         return null;
     }
 
+    // this function is used to return all FD accountsof a mobile number
     public static ArrayList<FixedDeposit> getUserAllFDAcc(long mobileNo) {
         ArrayList<FixedDeposit> FDList = new ArrayList<>();
         int x = 0;
@@ -248,6 +234,7 @@ public class utils {
             return null;
     }
 
+    // this function is used to return all RD Accounts of a mobile number
     public static ArrayList<RecurringDeposit> getUserAllRDAcc(long mobileNo) {
         ArrayList<RecurringDeposit> RDList = new ArrayList<>();
         int x = 0;
@@ -263,51 +250,7 @@ public class utils {
             return null;
     }
 
-    public static ArrayList<Loan> getUserAllLoanAcc(long mobileNo) {
-        ArrayList<Loan> loanList = new ArrayList<>();
-        int x = 0;
-        if (ba.loanList.containsKey(mobileNo)) {
-            for (Loan loan : ba.loanList.get(mobileNo)) {
-                loanList.add(loan);
-                x = 1;
-            }
-        }
-        if (x == 1)
-            return loanList;
-        else
-            return null;
-    }
-
-    public static ArrayList<FixedDeposit> getUserFDAcc(long mobileNo) {
-        ArrayList<FixedDeposit> FDList = new ArrayList<>();
-        int x = 0;
-        if (ba.FDList.containsKey(mobileNo)) {
-            for (FixedDeposit fd : ba.FDList.get(mobileNo)) {
-                FDList.add(fd);
-                x = 1;
-            }
-        }
-        if (x == 1)
-            return FDList;
-        else
-            return null;
-    }
-
-    public static ArrayList<RecurringDeposit> getUserRDAcc(long mobileNo) {
-        ArrayList<RecurringDeposit> RDList = new ArrayList<>();
-        int x = 0;
-        if (ba.RDList.containsKey(mobileNo)) {
-            for (RecurringDeposit rd : ba.RDList.get(mobileNo)) {
-                RDList.add(rd);
-                x = 1;
-            }
-        }
-        if (x == 1)
-            return RDList;
-        else
-            return null;
-    }
-
+    // this function is used to return loan due date
     public static LocalDate getLoanDueDate(Loan loan) {
         LocalDate date;
         date = loan.getLoanDate().plusMonths(loan.getnoofMonths() - loan.getMonthsRemain() + 1);
@@ -315,6 +258,7 @@ public class utils {
         return date;
     }
 
+    // this function is used to return RD due date
     public static LocalDate getRDDueDate(RecurringDeposit rd) {
         LocalDate date1, date;
         date1 = rd.getRDOpenDate().plusMonths(rd.getRDTenure() - rd.getRDRemainingMonths());
@@ -322,19 +266,14 @@ public class utils {
         return date;
     }
 
+    // this function is used to return FD Mature date
     public static LocalDate getFDMatureDate(FixedDeposit fd) {
         LocalDate date;
         date = fd.getFDDepositDate().plusMonths(fd.getFDMonths());
         return date;
     }
 
-    public static CreditCard getCreditCard(long accNo) {
-        if (ba.CCList.containsKey(accNo)) {
-            return ba.CCList.get(accNo);
-        }
-        return null;
-    }
-
+    // this function is used to return all credit cards fo a mobile number
     public static ArrayList<CreditCard> getCreditCardS(long mobileNo) {
         ArrayList<Account> accList = new ArrayList<>();
         accList = utils.getAccNumbers(mobileNo);
@@ -352,6 +291,7 @@ public class utils {
             return null;
     }
 
+    // this function is used to validate the credit card
     public static Boolean validateCard(Account acc) {
         if (ba.CCList.containsKey(acc.getAccNo())) {
             return false;
@@ -359,6 +299,7 @@ public class utils {
         return true;
     }
 
+    // this function is used to return all credit cards
     public static ArrayList<CreditCard> getAllCreditCards(long mobileNo) {
         ArrayList<CreditCard> ccList = new ArrayList<>();
         ArrayList<Account> accList = getAccNumbers(mobileNo);

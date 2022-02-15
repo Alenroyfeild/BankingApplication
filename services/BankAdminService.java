@@ -103,6 +103,7 @@ public class BankAdminService {
         return null;
     }
 
+    // this function is used to return FD Account details
     public FixedDeposit getFDAccDetails(long accNo) {
         for (Account acc : ba.accountsList) {
             if (ba.FDList.containsKey(acc.getAccNo()))
@@ -115,6 +116,7 @@ public class BankAdminService {
         return null;
     }
 
+    // this function is used to return RD Account details
     public RecurringDeposit getRDAccDetails(long accNo) {
         for (Account acc : ba.accountsList) {
             if (ba.RDList.containsKey(acc.getAccNo()))

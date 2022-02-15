@@ -141,6 +141,7 @@ public class ATMTransaction {
         return a;
     }
 
+    //this function is used to return last ten transactions
     public ArrayList<Transactions> getTenTransactions(long accNo) {
         if (accNo != 0
                 && ba.transactions.containsKey(accNo)) {

@@ -149,7 +149,7 @@ public class BankMainUI {
             System.out.println(
                     "\n\n\n--------------------------------------------------------------------------------------------");
             System.out.println("        --- User Bank Menu Page ---");
-            System.out.println("\n  Hi :) " + bm.getUsername(mobileNo));
+            System.out.println("\n  Hi :) " + utils.getUsername(mobileNo));
             System.out.println("\nChoose the Options : ");
             System.out.println(" 1.Accounts(Savings\\Current)");
             System.out.println(" 2.Loans");
@@ -248,6 +248,7 @@ public class BankMainUI {
         x = 0;
     }
 
+    //this function is used to close account
     public static void closeAccount(Account acc, long mobileNo) {
         acc.setAccStatus(false);
         System.out.println("Choose the Account to transfer balance : ");
@@ -266,7 +267,7 @@ public class BankMainUI {
 
     // this function is used to display Bank menu list
     public static int userBankMenuPage(long mobileNo) {
-        String details = bm.getUsername(mobileNo);
+        String details = utils.getUsername(mobileNo);
         int choice = 0;
         do {
             Account acc = utils.searchAccount(mobileNo);
@@ -442,7 +443,7 @@ public class BankMainUI {
                                 } else if (button5 == 5) {
                                     ATMTransactionsUI.fundServices(mobileNo);
                                 } else if (button5 == 6) {
-                                    CheckServicesUI.doChequeBook(mobileNo);
+                                    ChequeServicesUI.doChequeBook(mobileNo);
                                 } else if (button5 == 7) {
                                     UserProfileUI.userProfileMenuPage(mobileNo);
                                 } else if (button5 == 8) {
