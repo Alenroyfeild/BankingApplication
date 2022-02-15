@@ -294,7 +294,7 @@ public class UtilsUI {
         address[0] = sc.nextLine();
         System.out.print("Enter Village Name       : ");
         address[1] = sc.nextLine();
-        System.out.print("Enter District Name      :");
+        System.out.print("Enter District Name      : ");
         address[2] = sc.nextLine();
         System.out.print("Enter State Name         : ");
         address[3] = sc.nextLine();

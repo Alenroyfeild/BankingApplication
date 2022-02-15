@@ -21,12 +21,14 @@ public class AccountCreationUI {
         long mobileNo = UtilsUI.getMobileNo();
         if (uls.validateMoblieNo(mobileNo) != null) {
             System.out.println("This mobile number has already account exists");
-            System.out.println("Enter 1 to re-enter mobile number");
+            System.out.print("Enter 1 to re-enter mobile number or any integer to exit : ");
             int x = sc.nextInt();
             if (x == 1)
                 userSingin();
-            else
+            else {
+                System.out.println("Account Sign up is failed");
                 return;
+            }
         } else {
             Boolean noMatch = false;
             do {
@@ -51,15 +53,22 @@ public class AccountCreationUI {
     public static long createCIF(long mobileNo) {
         System.out.println("\nProvide the details for creating CIF : ");
         System.out.println("--------------------------------------------------------");
-        System.out.print("Enter Full Name          : ");
-        String customerFullname = sc.nextLine();
-        System.out.print("Enter Preferred Name     : ");
-        String displayname = sc.nextLine();
+        String name[] = getNames();
         long aadharNumber = UtilsUI.getAadharno();
         int age = getUserAge();
         String[] address = UtilsUI.getAddress();
-        CIF ci = bm.createCIF(customerFullname, displayname, aadharNumber, mobileNo, age, address);
+        CIF ci = bm.createCIF(name[0], name[1], aadharNumber, mobileNo, age, address);
         return ci.getCIFno();
+    }
+
+    // this function is used to get Names
+    private static String[] getNames() {
+        String name[] = new String[2];
+        System.out.print("Enter Full Name          : ");
+        name[0] = sc.nextLine();
+        System.out.print("Enter Preferred Name     : ");
+        name[1] = sc.nextLine();
+        return name;
     }
 
     // this function is used to get user Age above 9
